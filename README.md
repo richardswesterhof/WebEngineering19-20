@@ -26,7 +26,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET /all/name={artistName}&genre={genre}]
+### <a name="getArtists"></a> Get All Artists [GET /name={artistName}&genre={genre}]
 + Parameters
     + name (string) - name of the artist
     + genre (string) - genre of artist
@@ -41,7 +41,18 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "pageLink" : "/ARD7TVE1187B99BFB1"
             }
         ]
+        
+### <a name="getArtist"></a> Get Artist [GET /artistId={artistId}]
++ Parameters
+    + artistId (string) - id of the artist
 
++ Response 200 (application/json)
+
+        {
+            "id" : "ARD7TVE1187B99BFB1",
+            "name": "Sans",
+            "term" : "Country"
+        }
 
 ### <a name="getArtistStats"></a> Get Artist Statistics [GET /{artistId}/statistics?year={year}]
 
@@ -57,7 +68,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "standard_deviation" : 0.5
         }
 
-### <a name="getArtistPopularity"></a> Get Artist popularity [GET /popularity?pageSize={pageSize}&pageRank={?pageRank}]
+### <a name="getArtistHotness"></a> Get Artist hotness [GET /hotness?pageSize={pageSize}&pageRank={?pageRank}]
 
 + Parameters
     + pageSize (number) - number of artists per page
@@ -129,10 +140,11 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
-### <a name="getSongs"></a> Get All Songs [GET/{?artistId}{?year}{?artistTerm}]
+### <a name="getSongs"></a> Get All Songs [GET /all?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
 
 + Parameters 
-    + artistId (string) - ID of the artist
+    + artistId (string) - id of the artist
+    + artistName (string) - name of the artist
     + year (number) - The year of release
     + artistTerm (string) - The genre of the artist
 
@@ -140,14 +152,15 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
         [
             {
-                SONG DATA, EG
                 "title": "Baby I'm Yours",
-                "length": 420,
+                "artitsName" : "Breakbot",
+                "duration": 420,
+                "linkToSong" : "/SOMZWCG12A8C13C480"
             }
         ]
 
 
-### <a name="getSong"></a> Get Information About Song By Id [GET/{songId}]
+### <a name="getSong"></a> Get Information About Song By Id [GET /{songId}]
 
 + Parameters 
     + songId (string) - ID of the song
@@ -155,7 +168,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + Response 200 (application/json)
 
         {
-            SONG DATA, EG
             "title": "AllStar",
-            "length": 420,
+            "artitsName" : "Breakbot",
+            "duration": 420,
+            "year": 2012,
+            "linkToArtist" : "./artists/ARD7TVE1187B99BFB1"            
         }
