@@ -40,7 +40,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                         "title": "MEGALOVANIA",
                         "length" : "420",
                     }
-                ],
+                ]
             }
             ETC.
         ]
@@ -53,9 +53,11 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     
 + Response 200 (application/json)
 
-        [
-            SONGS
-        ]
+        {
+                "mean" : 0.5,
+                "median" : 0.5,
+                "standard_deviation" : 0.5
+        }
 
 ### <a name="addArtist"></a> Add Artist [POST/add]
 
@@ -63,7 +65,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
         {
             "name": "Joe Mama",
-            "terms": "classical",
+            "terms": "classical"
         }
 
 + Response 201 (application/json)
