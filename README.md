@@ -49,6 +49,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ### <a name="getArtistStats"></a> Get Artist Statistics [GET/{artistId}{?year}]
 
 + Parameters
+    + artistId (string) - ID of the artist
     + year (number) - The year of release
     
 + Response 200 (application/json)
