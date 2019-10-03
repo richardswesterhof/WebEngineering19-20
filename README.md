@@ -9,11 +9,24 @@ and can be found at https://think.cs.vt.edu/corgis/csv/music/.
 
 Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
+# Contents
+
+## [Artists Collection](#artistsCollection)
+
++ [Get All Artists](#getArtists)
++ [Get Artist Statistics](#getArtistStats)
++ [Add Artist](#addArtist)
++ [Remove Artist](#removeArtist)
++ [Update Artist](#updateArtist)
 
 
-## Artists Collection [/artists]
+## [Songs Collection](#songsCollection)
++ [Get All Song](#getSongs)
++ [Get Information About Song By Id](#getSong)
 
-### Get All Artists [GET]
+## <a name="artistsCollection"></a> Artists Collection [/artists]
+
+### <a name="getArtists"></a> Get All Artists [GET]
 
 + Response 200 (application/json)
 
@@ -33,7 +46,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         ]
 
 
-### Get Artist Statistics [GET/{artistId}{?year}]
+### <a name="getArtistStats"></a> Get Artist Statistics [GET/{artistId}{?year}]
 
 + Parameters
     + year (number) - The year of release
@@ -44,7 +57,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
             SONGS
         ]
 
-### Add Artist [POST/add]
+### <a name="addArtist"></a> Add Artist [POST/add]
 
 + Request (application/json)
 
@@ -70,7 +83,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 
-### Remove Artist [DELETE/{artistId}]
+### <a name="removeArtist"></a> Remove Artist [DELETE/{artistId}]
 
 + Parameters
     + artistId (string) - ID of the artist
@@ -80,10 +93,24 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + Response 403
 
 
+### <a name="updateArtist"></a> Update Artist [POST/{artistId}]
 
-## Songs Collection [/songs]
++ Parameters
+        + artistId (string) - ID of the artist
+        
++ Response 200
 
-### Get All Songs [GET/{?artistId}{?year}{?artistTerm}]
+        {
+             UPDATED ARTIST DETAILS
+        }
+        
++ Response 403
+
+
+
+## <a name="songsCollection"></a> Songs Collection [/songs]
+
+### <a name="getSongs"></a> Get All Songs [GET/{?artistId}{?year}{?artistTerm}]
 
 + Parameters 
     + artistId (string) - ID of the artist
@@ -101,7 +128,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         ]
 
 
-### Get Information About Song By Id [GET/{songId}]
+### <a name="getSong"></a> Get Information About Song By Id [GET/{songId}]
 
 + Parameters 
     + songId (string) - ID of the song
