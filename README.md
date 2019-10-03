@@ -51,7 +51,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         {
             "id" : "ARD7TVE1187B99BFB1",
             "name": "Sans",
-            "term" : "Country"
+            "term" : "Country",
+            "linkToArtistsSongs" : "?artistId=ARD7TVE1187B99BFB1&artistName=&year=&term="
         }
 
 ### <a name="getArtistStats"></a> Get Artist Statistics [GET /{artistId}/statistics?year={year}]
@@ -140,7 +141,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
-### <a name="getSongs"></a> Get All Songs [GET /all?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
+### <a name="getSongs"></a> Get All Songs [GET ?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
 
 + Parameters 
     + artistId (string) - id of the artist
