@@ -175,3 +175,23 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
             "year": 2012,
             "linkToArtist" : "./artists/ARD7TVE1187B99BFB1"            
         }
+        
+        
+### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={?pageRank}]
+
++ Parameters 
+    + year (number) - year of the song
+    + pageSize (number) - number of artists per page
+    + pageRank (number) - the number of page queried
+
++ Response 200 (application/json)
+
+        [
+            {
+                "title": "Baby I'm Yours",
+                "artitsName" : "Breakbot",
+                "duration": 420,
+                "linkToSong" : "/SOMZWCG12A8C13C480"
+            }
+        ]
+
