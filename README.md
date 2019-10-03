@@ -26,7 +26,10 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET]
+### <a name="getArtists"></a> Get All Artists [GET/{?artistName}{?genre}]
++ Parameters
+    + name (string) - name of the artist
+    + genre (string) - genre of artist
 
 + Response 200 (application/json)
 
