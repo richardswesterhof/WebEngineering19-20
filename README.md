@@ -35,17 +35,11 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
         [
             {
-                ARTIST DATA, EG
+                "id" : "ARD7TVE1187B99BFB1",
                 "name": "Sans",
-                "songs": [
-                    {
-                        SONG DATA, EG
-                        "title": "MEGALOVANIA",
-                        "length" : "420",
-                    }
-                ]
+                "term" : "Country"
+                
             }
-            ETC.
         ]
 
 
@@ -83,8 +77,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
             {
                 "name": "Joe Mama",
                 "id": "69PP",
-                "published_at": "2019-10-02T22:16:51.620Z",
-                "terms": "classical",
+                "terms": "classical"
             }
 
 
