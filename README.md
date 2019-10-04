@@ -150,7 +150,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 
-### <a name="addArtist"></a> Add Artist [POST/add]
+### <a name="addArtist"></a> Add Artist [POST]
 
 + Headers 
     + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
@@ -214,7 +214,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 
-### <a name="updateArtist"></a> Update Artist [POST/{artistId}]
+### <a name="updateArtist"></a> Update Artist [PUT /{artistId}]
 
 + Headers 
     + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
