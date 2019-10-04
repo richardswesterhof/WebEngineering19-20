@@ -25,6 +25,14 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + [Get All Song](#getSongs)
 + [Get Information About Song By Id](#getSong)
 + [Get Songs By Popularity](#songsByPopularity)
++ [Add Song](#addSong)
++ [Update Song](#updateSong)
+
+
+## [Supported Methods](#methods)
+
+
+
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
@@ -278,7 +286,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 
-
 ### <a name="getSong"></a> Get Information About Song By Id [GET /{songId}]
 
 + Headers 
@@ -348,5 +355,101 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
         
         
+ ### <a name="addSong"></a> Add Song [POST]
+
++ Headers 
+    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
++ Request (application/json)
+
+        {
+            "title": "Cowboy Jim",
+            "artistsName": "Jack",
+            "duration": 420,
+            "year": 2012
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /songs/SOMZWCG12A8C13C480
+
+    + Body
+
+            {
+                "title": "Cowboy Jim",
+                "artistsName": "Jack",
+                "duration": 420,
+                "year": 2012,
+                "linkToSong" : "/SOMZWCG12A8C13C480"
+            }
+            
+            
+            
+            
++ Response 201 (text/csv)
+
+    + Headers 
+    
+            Location: /songs/SOMZWCG12A8C13C480
+            
+    + Body
+    
+            "title", "artistsName", "duration", "year", "linkToSong"
+            "Cowboy Jim", "Jack", "420", "2012", "/SOMZWCG12A8C13C480"
+
+
+
+
+
+
+
+### <a name="updateSong"></a> Update Song [PUT /{songId}]
+
++ Headers 
+    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
         
++ Response 200 (application/json)
+
+        {
+            "title": "Cowboy Jim",
+            "artistsName": "Jack",
+            "duration": 420,
+            "year": 2012,
+            "linkToSong" : "/SOMZWCG12A8C13C480"
+        }
+        
+        
++ Response 200 (text/csv)
+
+        "title", "artistsName", "duration", "year", "linkToSong"
+        "Cowboy Jim", "Jack", "420", "2012", "/SOMZWCG12A8C13C480"
+        
+        
++ Response 403
+
+
+       
+
+
+
+## <a name="methods"></a> Supported Methods
+We decided to justify the CRUD methods supported here, instead of with each request.
+This because for most GETs it's quite similar.
+
+For searching in all artists, retrieving a single artist, artist statistics and the list of popular artists we decided to use GET. This because the goal is to retrieve data, and it is a safe request.
+For artist, we also implemented a DELETE, POST and PUT.
+These speak for themselves, but a quick explanation.
+The DELETE removes the artists resource from the dataset if they request to do so, because of privacy for example.
+The POST creates a new resource in the dataset.
+And the PUT updates a resource in the dataset, for example the therm most associated with them.
+These last 3 can only be succesfully handled by an administrator.
+
+For songs, we also allow GET, POST, DELETE and PUT.
+The GET methods are again safe, and only display the appropriate data.
+The POST will be used by an administrator if a new song is released and adds that resource to the dataset.
+The PUT can be used by administrators to update for example the hotness of a song.
+We didn't implement DELETE for songs because songs can't really be removed once published.
 
