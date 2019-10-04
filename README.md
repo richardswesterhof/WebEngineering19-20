@@ -15,6 +15,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 + [Get All Artists](#getArtists)
 + [Get Artist Statistics](#getArtistStats)
++ [Get Artist Hotness](#getAristHotness)
 + [Add Artist](#addArtist)
 + [Remove Artist](#removeArtist)
 + [Update Artist](#updateArtist)
@@ -26,7 +27,12 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET /name={artistName}&genre={genre}]
+### <a name="getArtists"></a> Get All Artists [GET ?name={artistName}&genre={genre}]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
+
 + Parameters
     + name (string) - name of the artist
     + genre (string) - genre of artist
@@ -43,6 +49,10 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         ]
         
 ### <a name="getArtist"></a> Get Artist [GET /artistId={artistId}]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
 + Parameters
     + artistId (string) - id of the artist
 
@@ -57,6 +67,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="getArtistStats"></a> Get Artist Statistics [GET /{artistId}/statistics?year={year}]
 
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
 + Parameters
     + artistId (string) - ID of the artist
     + year (number) - The year of release
@@ -69,7 +82,10 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "standard_deviation" : 0.5
         }
 
-### <a name="getArtistHotness"></a> Get Artist hotness [GET /hotness?pageSize={pageSize}&pageRank={?pageRank}]
+### <a name="getArtistHotness"></a> Get Artist Hotness [GET /hotness?pageSize={pageSize}&pageRank={?pageRank}]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters
     + pageSize (number) - number of artists per page
@@ -90,6 +106,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 ### <a name="addArtist"></a> Add Artist [POST/add]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Request (application/json)
 
@@ -126,6 +145,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="updateArtist"></a> Update Artist [POST/{artistId}]
 
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
 + Parameters
         + artistId (string) - ID of the artist
         
@@ -142,6 +164,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
 ### <a name="getSongs"></a> Get All Songs [GET ?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters 
     + artistId (string) - id of the artist
@@ -163,6 +188,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="getSong"></a> Get Information About Song By Id [GET /{songId}]
 
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
+
 + Parameters 
     + songId (string) - ID of the song
 
@@ -178,6 +206,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
         
 ### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={?pageRank}]
+
++ Headers 
+    + representation (json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters 
     + year (number) - year of the song
