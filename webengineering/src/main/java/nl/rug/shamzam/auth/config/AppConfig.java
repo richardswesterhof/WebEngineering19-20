@@ -1,4 +1,4 @@
-package nl.rug.comgrafic.auth.config;
+package nl.rug.shamzam.auth.config;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
