@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: Comgrafic
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: corne
+Implementation-Vendor-Id: nl.rug
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8
+Main-Class: ${start-class}
+
