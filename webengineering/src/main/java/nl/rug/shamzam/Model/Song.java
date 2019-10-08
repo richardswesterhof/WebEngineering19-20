@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 public class Song {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int dbId;
+
     private String id;
 
     private float artist_mbtags;
@@ -16,6 +19,8 @@ public class Song {
     private float duration;
     private float end_of_fade_in;
     private float hotttness;
+
+    @Column(name = "music_key")
     private float key;
     private float key_confidence;
     private float loudness;

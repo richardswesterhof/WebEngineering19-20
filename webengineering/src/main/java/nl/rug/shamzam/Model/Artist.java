@@ -5,6 +5,9 @@ import javax.persistence.*;
 @Entity
 public class Artist {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int dbId;
+
     private String id;
     private float familiarity;
     private float hottness;
