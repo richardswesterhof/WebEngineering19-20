@@ -82,7 +82,7 @@ This header can have the value "json" or "csv", it will default to json if an in
         
 
         
-### <a name="getArtist"></a> Get Artist [GET /artistId={artistId}]
+### <a name="getArtist"></a> Get Artist [GET /{artistId}]
 
 
 + Parameters
@@ -336,7 +336,7 @@ This header can have the value "json" or "csv", it will default to json if an in
         
         
         
-### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={?pageRank}]
+### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={pageRank}]
 
 
 + Parameters 
