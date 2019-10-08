@@ -18,3 +18,8 @@
 .idea
 .webengineering.idea
 .webengineering.target
+
+
+
+#Config file that contains password
+webengineering/src/main/java/nl/rug/shamzam/auth/config/AppConfig.java
