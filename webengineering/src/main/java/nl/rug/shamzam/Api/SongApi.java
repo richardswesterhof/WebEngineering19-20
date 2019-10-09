@@ -47,4 +47,30 @@ public class SongApi {
 
         return songService.getSongsByParams(title, artistId, artistName, year, genre);
     }
+
+
+    @GetMapping("/{songId}")
+    public Song getSongById(@PathVariable("songId") String songId, HttpServletResponse response) {
+        response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+        response.setStatus(200);
+        return songService.getSongById(songId);
+    }
+
+
+    //TODO: implement post method
+    @PostMapping("")
+    public Song postSong(HttpServletResponse response) {
+        response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+        response.setStatus(200);
+        return new Song();
+    }
+
+
+    //TODO: implement put method
+    @PutMapping("/{songId}")
+    public Song putSong(@PathVariable("songId") String songId, HttpServletResponse response) {
+        response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+        response.setStatus(200);
+        return new Song();
+    }
 }

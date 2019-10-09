@@ -17,4 +17,8 @@ public class SongService {
     public List<Song> getSongsByParams(String title, String aId, String aName, int year, String genre){
         return songRepository.getSongsByParams(title, aId, aName, year,genre);
     }
+
+    public Song getSongById(String id) {
+        return songRepository.getSongById(id);
+    }
 }
