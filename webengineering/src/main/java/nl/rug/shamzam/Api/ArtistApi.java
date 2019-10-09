@@ -25,14 +25,16 @@ public class ArtistApi {
     }
 
     @GetMapping("")
-    public List<Artist> getArtists(@RequestParam String artistName, @RequestParam String genre, HttpServletResponse response) {
+    public List<Artist> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
         response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
         response.setStatus(200);
-        return artistService.getArtistsByNameAndGenre(artistName,genre);
-    }
 
-    @GetMapping("")
-    public List<Artist> getAllArtists(){
-        return artistService.getArtistsByNameAndGenre("","");
+        if(artistName == null)
+            artistName = "";
+
+        if(genre == null)
+            genre = "";
+
+        return artistService.getArtistsByNameAndGenre(artistName,genre);
     }
 }
