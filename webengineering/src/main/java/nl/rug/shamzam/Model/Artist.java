@@ -19,7 +19,7 @@ public class Artist {
     private String terms;
 
     public String getName(){return this.name;}
-    public String getTerms(){return this.name;}
+    public String getTerms(){return this.terms;}
     public float getHottness(){return this.hottness;}
     public String getId(){return this.id;}
 }
