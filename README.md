@@ -43,7 +43,7 @@ This header can have the value "json" or "csv", it will default to json if an in
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET ?name={artistName}&genre={genre}]
+### <a name="getArtists"></a> Get All Artists [GET ?name={name}&genre={genre}]
 
 
 
