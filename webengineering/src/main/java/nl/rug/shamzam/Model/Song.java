@@ -32,6 +32,15 @@ public class Song {
     private float tempo;
     private float time_signature;
     private float time_signature_confidence;
-    private int title;
+    private String title;
     private int year;
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getYear() {
+        return year;
+    }
 }
