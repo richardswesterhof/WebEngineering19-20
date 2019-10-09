@@ -17,4 +17,9 @@ public class Artist {
     private String name;
     private float similar;
     private String terms;
+
+    public String getName(){return this.name;}
+    public String getTerms(){return this.name;}
+    public float getHottness(){return this.hottness;}
+    public String getId(){return this.id;}
 }
