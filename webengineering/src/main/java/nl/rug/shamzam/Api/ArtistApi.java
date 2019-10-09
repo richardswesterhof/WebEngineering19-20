@@ -30,4 +30,9 @@ public class ArtistApi {
         response.setStatus(200);
         return artistService.getArtistsByNameAndGenre(artistName,genre);
     }
+
+    @GetMapping("")
+    public List<Artist> getAllArtists(){
+        return artistService.getArtistsByNameAndGenre("","");
+    }
 }
