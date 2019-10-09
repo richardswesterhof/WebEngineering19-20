@@ -23,3 +23,8 @@
 
 #Config file that contains password
 webengineering/src/main/java/nl/rug/shamzam/auth/config/AppConfig.java
+webengineering/target/classes/application.properties
+webengineering/target/classes/images/logo.png
+webengineering/target/classes/static/css/style.css
+webengineering/target/classes/static/js/admin.js
+webengineering/target/classes/static/js/operator.js
