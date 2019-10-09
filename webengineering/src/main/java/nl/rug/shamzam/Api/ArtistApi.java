@@ -1,8 +1,7 @@
 package nl.rug.shamzam.Api;
 
-import nl.rug.shamzam.ArtistService;
+import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Model.Artist;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

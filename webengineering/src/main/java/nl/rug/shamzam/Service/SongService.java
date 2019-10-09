@@ -1,4 +1,4 @@
-package nl.rug.shamzam;
+package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Repository.SongRepository;

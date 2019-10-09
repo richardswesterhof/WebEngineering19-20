@@ -1,7 +1,7 @@
 package nl.rug.shamzam.Api;
 
 import nl.rug.shamzam.Model.Song;
-import nl.rug.shamzam.SongService;
+import nl.rug.shamzam.Service.SongService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
