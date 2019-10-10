@@ -21,4 +21,10 @@ public class SongService {
     public Song getSongById(String id) {
         return songRepository.getSongById(id);
     }
+
+
+    public Song addSong(Song song) {
+        //TODO: find way to prevent this from creating duplicates
+        return songRepository.saveAndFlush(song);
+    }
 }
