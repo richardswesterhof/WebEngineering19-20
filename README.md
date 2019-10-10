@@ -36,9 +36,12 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ## Remarks
 Note that every request that returns any data in the body of the response has an optional header for the representation of that data. It looks as follows
 
-+ representation (="json" OR "csv")
++ Accept (="application/json" OR "text/csv")
     
-This header can have the value "json" or "csv", it will default to json if an invalid value is given, or if the header is left out completely.
+This header can have the value "application/json" or "text/csv", it will default to json if an invalid value is given, or if the header is left out completely.
+The representation will be reflected in in the content type header of the response and looks as follows:
+
++ Content-Type (="application/json" OR "text/csv")
 
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
