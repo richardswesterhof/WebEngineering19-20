@@ -38,4 +38,11 @@ public class SongService {
             return songRepository.saveAndFlush(song);
         }
     }
+
+
+    public Song replaceSong(String songId, Song replacement) {
+        Song oldSong = songRepository.getSongById(songId);
+        oldSong.update(replacement);
+        return songRepository.saveAndFlush(oldSong);
+    }
 }

@@ -83,11 +83,14 @@ public class SongApi {
 
     //TODO: implement put method
     @PutMapping("/{songId}")
-    public Song putSong(@RequestHeader(required = false) String accept,
-                        @PathVariable("songId") String songId, HttpServletResponse response) {
+    public Song putSong(@PathVariable("songId") String songId,
+                        @RequestHeader(required = false) String accept, @RequestBody AddSong addSong,
+                        HttpServletResponse response) {
         response.setStatus(200);
 
-        HeaderSetter.setContentType(accept, response);
-        return new Song();
+        Song song = songService.replaceSong(songId, addSong.toSong());
+
+        HeaderSetter.setContentType("application/json", response);
+        return song;
     }
 }

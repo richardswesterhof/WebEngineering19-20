@@ -103,4 +103,11 @@ public class Song {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
+    public void update(Song s) {
+        this.title = s.getTitle();
+        this.duration = s.getDuration();
+        this.year = s.getYear();
+    }
 }
