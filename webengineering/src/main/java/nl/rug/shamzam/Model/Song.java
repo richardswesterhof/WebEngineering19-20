@@ -94,4 +94,13 @@ public class Song {
                 "\"" + year + "\"," +
                 "\"/" + id + "\"";
     }
+
+    @Override
+    public String toString() {
+        return title + ", " + duration + ", " + year + ", " + id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

@@ -2,9 +2,13 @@ package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Repository.SongRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service("SongService")
 public class SongService {
@@ -24,7 +28,14 @@ public class SongService {
 
 
     public Song addSong(Song song) {
-        //TODO: find way to prevent this from creating duplicates
-        return songRepository.saveAndFlush(song);
+        //Find the song if it exists
+        boolean exists = songRepository.existsSongByTitle(song.getTitle());
+        if(exists) {
+            System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
+            return getSongsByParams(song.getTitle(), null, null, 0, null).get(0);
+        }
+        else {
+            return songRepository.saveAndFlush(song);
+        }
     }
 }

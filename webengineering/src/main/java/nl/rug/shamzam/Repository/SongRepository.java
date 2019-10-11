@@ -14,6 +14,8 @@ public interface SongRepository extends JpaRepository<Song,String> {
     @Query("select s from Song s where s.id = :id")
     Song getSongById(String id);
 
+    boolean existsSongByTitle(String title);
+
 //    @Query("INSERT INTO person (id, first_name, last_name) VALUES (:title, :artistName, :duration, :year)")
 //    Song insertSong(String title, String artistName, Float duration, Integer year);
 }

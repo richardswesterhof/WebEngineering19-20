@@ -23,7 +23,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 ## [Songs Collection](#songsCollection)
-+ [Get All Song](#getSongs)
++ [Get All Songs](#getSongs)
 + [Get Information About Song By Id](#getSong)
 + [Get Songs By Popularity](#songsByPopularity)
 + [Add Song](#addSong)
@@ -262,10 +262,11 @@ The representation will be reflected in in the content type header of the respon
 
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
-### <a name="getSongs"></a> Get All Songs [GET ?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
+### <a name="getSongs"></a> Get All Songs [GET ?title={title}&artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
 
 
 + Parameters 
+	+ title (string) - title of the song
     + artistId (string) - id of the artist
     + artistName (string) - name of the artist
     + year (number) - The year of release
