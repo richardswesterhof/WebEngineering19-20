@@ -7,24 +7,25 @@ import nl.rug.shamzam.Utils.Unnullifier;
  */
 public class AddSong {
 
+    private int artistid;
     private String title;
     private Float duration;
-    private String artistName;
     private Integer year;
 
 
-    public Song toSong() {
-        return new Song(Unnullifier.unnullify(title), Unnullifier.unnullify(artistName),
+    public Song toSong(Artist artist) {
+        return new Song(Unnullifier.unnullify(title), artist,
                 Unnullifier.unnullify(duration), Unnullifier.unnullify(year));
     }
 
     @Override
     public String toString() {
-        return title + artistName + duration + year;
+        return title + artistid + duration + year;
     }
 
-    public void setArtistName(String artistName) {
-        this.artistName = artistName;
+
+    public int getArtistId() {
+        return artistid;
     }
 
     public void setDuration(Float duration) {
@@ -39,4 +40,7 @@ public class AddSong {
         this.year = year;
     }
 
+    public void setArtistid(int artistid) {
+        this.artistid = artistid;
+    }
 }

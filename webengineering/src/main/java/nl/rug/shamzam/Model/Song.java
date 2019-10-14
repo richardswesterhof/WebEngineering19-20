@@ -1,14 +1,24 @@
 package nl.rug.shamzam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int dbId;
+    private int songid;
 
     private String id;
+
+    @ManyToOne
+    @JoinColumn(name="artistid", nullable=false)
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Artist artist;
 
     private float artist_mbtags;
     private float artist_mbtags_count;
@@ -36,8 +46,9 @@ public class Song {
     private int year;
 
 
-    public Song(String title, String artistName, float duration, int year) {
+    public Song(String title, Artist artist, float duration, int year) {
         id = "MAKE CUSTOM IDS";
+        this.artist = artist;
         artist_mbtags = 0;
         artist_mbtags_count = 0;
         bars_confidence = 0;
@@ -62,10 +73,8 @@ public class Song {
         this.year = year;
     }
 
-
-    public Song() {
-        this("", "", 0, 0);
-    }
+    //default constructor is needed by spring
+    public Song() {}
 
 
     public String getTitle() {
@@ -84,8 +93,20 @@ public class Song {
         return id;
     }
 
+    public int getSongid() {
+        return songid;
+    }
+
     public String getLink() {
-        return "/" + id;
+        return "/" + songid;
+    }
+
+    public int getArtistId() {
+        return artist.getArtistid();
+    }
+
+    public String artistName() {
+        return artist.getName();
     }
 
     public String toCsv() {
@@ -109,5 +130,9 @@ public class Song {
         this.title = s.getTitle();
         this.duration = s.getDuration();
         this.year = s.getYear();
+    }
+
+    public Artist getArtist() {
+        return artist;
     }
 }

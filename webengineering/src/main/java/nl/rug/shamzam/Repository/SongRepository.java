@@ -11,9 +11,10 @@ public interface SongRepository extends JpaRepository<Song,String> {
     @Query("select s from Song s where s.title LIKE %?1%")
     List<Song> getSongsByParams(String title, String artistId, String artistName, Integer year, String terms);
 
-    @Query("select s from Song s where s.id = :id")
-    Song getSongById(String id);
+    @Query("select s from Song s where s.songid = :id")
+    Song getSongById(int id);
 
+    //gets automatically generated
     boolean existsSongByTitle(String title);
 
 //    @Query("INSERT INTO person (id, first_name, last_name) VALUES (:title, :artistName, :duration, :year)")

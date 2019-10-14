@@ -17,4 +17,8 @@ public class ArtistService {
     public List<Artist> getArtistsByNameAndGenre(String name, String genre){
         return artistRepository.getArtistsByNameAndGenre(name,genre);
     }
+
+    public Artist getArtistById(int id) {
+        return artistRepository.getArtistById(id);
+    }
 }

@@ -1,7 +1,9 @@
 package nl.rug.shamzam.Api;
 
 import nl.rug.shamzam.Model.AddSong;
+import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
+import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Service.SongService;
 import nl.rug.shamzam.Utils.HeaderSetter;
 import nl.rug.shamzam.Utils.Unnullifier;
@@ -20,9 +22,11 @@ import java.util.List;
 @RequestMapping("api/songs")
 public class SongApi {
     SongService songService;
+    ArtistService artistService;
 
-    public SongApi(SongService songService){
+    public SongApi(SongService songService, ArtistService artistService){
         this.songService = songService;
+        this.artistService = artistService;
     }
 
     @GetMapping("")
@@ -45,20 +49,11 @@ public class SongApi {
 
 
     @GetMapping(value = "/{songId}", consumes = "text/csv", produces = "text/csv")
-    public void getSongById(@PathVariable("songId") String songId, @RequestHeader String accept, HttpServletResponse response) {
+    public String getSongById(@PathVariable("songId") String songId, @RequestHeader String accept, HttpServletResponse response) {
         System.out.println("SERVING CSV");
-        Song song = songService.getSongById(songId);
+        Song song = songService.getSongById(Integer.parseInt(songId));
         HeaderSetter.setContentType("text/csv", response);
-        if(accept.toLowerCase().contains("text/csv")) {
-            try {
-                response.getWriter().write(song.toCsv());
-                System.out.println("Song data written to response");
-            } catch(IOException e) {
-                System.err.println("Exception occurred while handling get song by id request:");
-                e.printStackTrace();
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "The song data could not be written to the response body");
-            }
-        }
+        return song.toCsv();
     }
 
     @GetMapping(value = "/{songId}", produces = "application/json")
@@ -67,16 +62,24 @@ public class SongApi {
         response.setStatus(200);
 
 
-        return songService.getSongById(songId);
+        return songService.getSongById(Integer.parseInt(songId));
     }
 
 
     @PostMapping("")
     public Song postSong(@RequestBody AddSong addSong, HttpServletResponse response, HttpServletRequest request) {
-        Song song = songService.addSong(addSong.toSong());
-        response.setStatus(201);
         //TODO: only json for now, add csv later
         HeaderSetter.setContentType("application/json", response);
+
+
+        Artist artist = artistService.getArtistById(addSong.getArtistId());
+        if(artist == null) {
+            response.setStatus(500);
+            return null;
+        }
+        Song song = songService.addSong(addSong.toSong(artist));
+        response.setStatus(201);
+
         return song;
     }
 
@@ -88,7 +91,9 @@ public class SongApi {
                         HttpServletResponse response) {
         response.setStatus(200);
 
-        Song song = songService.replaceSong(songId, addSong.toSong());
+        Artist artist = artistService.getArtistById(addSong.getArtistId());
+
+        Song song = songService.replaceSong(Integer.parseInt(songId), addSong.toSong(artist));
 
         HeaderSetter.setContentType("application/json", response);
         return song;

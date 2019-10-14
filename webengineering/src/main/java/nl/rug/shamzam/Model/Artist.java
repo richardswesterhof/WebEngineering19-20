@@ -1,12 +1,13 @@
 package nl.rug.shamzam.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int dbId;
+    private int artistid;
 
     private String id;
     private float familiarity;
@@ -18,8 +19,14 @@ public class Artist {
     private float similar;
     private String terms;
 
+    @OneToMany(mappedBy="artist")
+    private List<Song> songs;
+
     public String getName(){return this.name;}
     public String getTerms(){return this.terms;}
     public float getHottness(){return this.hottness;}
     public String getId(){return this.id;}
+    public int getArtistid() {
+        return artistid;
+    }
 }

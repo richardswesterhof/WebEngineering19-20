@@ -1,5 +1,6 @@
 package nl.rug.shamzam.Service;
 
+import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Repository.SongRepository;
 import org.springframework.data.domain.Example;
@@ -22,7 +23,7 @@ public class SongService {
         return songRepository.getSongsByParams(title, aId, aName, year,genre);
     }
 
-    public Song getSongById(String id) {
+    public Song getSongById(int id) {
         return songRepository.getSongById(id);
     }
 
@@ -40,7 +41,7 @@ public class SongService {
     }
 
 
-    public Song replaceSong(String songId, Song replacement) {
+    public Song replaceSong(int songId, Song replacement) {
         Song oldSong = songRepository.getSongById(songId);
         oldSong.update(replacement);
         return songRepository.saveAndFlush(oldSong);

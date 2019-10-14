@@ -9,4 +9,7 @@ public interface ArtistRepository extends JpaRepository<Artist,String> {
     @Query("select a from Artist a where a.name LIKE %?1% AND a.terms LIKE %?2%")
     List<Artist> getArtistsByNameAndGenre(String name, String terms);
 
+    @Query("select a from Artist a where a.artistid = :id")
+    Artist getArtistById(int id);
+
 }
