@@ -105,8 +105,12 @@ public class Song {
         return artist.getArtistid();
     }
 
-    public String artistName() {
+    public String getArtistName() {
         return artist.getName();
+    }
+
+    public String getArtistLink() {
+        return "/api/artists/" + getArtistId();
     }
 
     public String toCsv() {
