@@ -45,9 +45,11 @@ public class Song {
     private String title;
     private int year;
 
+    public static final String columnNames = "";
+
 
     public Song(String title, Artist artist, float duration, int year) {
-        id = "MAKE CUSTOM IDS";
+        id = null;
         this.artist = artist;
         artist_mbtags = 0;
         artist_mbtags_count = 0;
@@ -111,6 +113,7 @@ public class Song {
 
     public String getArtistLink() {
         return "/api/artists/" + getArtistId();
+
     }
 
     public String toCsv() {

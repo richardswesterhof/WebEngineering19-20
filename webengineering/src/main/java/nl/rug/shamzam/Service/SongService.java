@@ -1,15 +1,11 @@
 package nl.rug.shamzam.Service;
 
-import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Repository.SongRepository;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service("SongService")
 public class SongService {
@@ -19,8 +15,8 @@ public class SongService {
         songRepository = arp;
     }
 
-    public List<Song> getSongsByParams(String title, String aId, String aName, int year, String genre){
-        return songRepository.getSongsByParams(title, aId, aName, year,genre);
+    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre){
+        return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre);
     }
 
     public Song getSongById(int id) {
@@ -30,13 +26,15 @@ public class SongService {
 
     public Song addSong(Song song) {
         //Find the song if it exists
-        boolean exists = songRepository.existsSongByTitle(song.getTitle());
-        if(exists) {
+        List<Song> queryResults = songRepository.getSongsByParamsFullMatch(
+                song.getTitle(), intToString(song.getArtistId()), song.getArtistName(),
+                intToString(song.getYear()), song.getArtist().getTerms());
+        if(!queryResults.isEmpty()) {
             System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
-            return getSongsByParams(song.getTitle(), null, null, 0, null).get(0);
+            return queryResults.get(0);
         }
         else {
-            return songRepository.saveAndFlush(song);
+            return songRepository.save(song);
         }
     }
 
@@ -44,6 +42,18 @@ public class SongService {
     public Song replaceSong(int songId, Song replacement) {
         Song oldSong = songRepository.getSongById(songId);
         oldSong.update(replacement);
-        return songRepository.saveAndFlush(oldSong);
+        return songRepository.save(oldSong);
+    }
+
+
+    /**
+     * a custom to string method for integers,
+     * that returns an empty string if i == 0
+     * @param i the integer
+     * @return a string containing i, or empty string if i == 0
+     */
+    private static String intToString(Integer i) {
+        if(i == 0) return "";
+        return i.toString();
     }
 }

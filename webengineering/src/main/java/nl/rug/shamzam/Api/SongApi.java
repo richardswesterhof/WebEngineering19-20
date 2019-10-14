@@ -5,12 +5,10 @@ import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Service.SongService;
-import nl.rug.shamzam.Utils.HeaderSetter;
 import nl.rug.shamzam.Utils.Unnullifier;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,19 +22,30 @@ public class SongApi {
     SongService songService;
     ArtistService artistService;
 
+    private static final String json = "application/json";
+    private static final String csv = "text/csv";
+
     public SongApi(SongService songService, ArtistService artistService){
         this.songService = songService;
         this.artistService = artistService;
     }
 
-    @GetMapping("")
-    public List<Song> getSongs(@RequestHeader(required = false) String accept,
-                               @RequestParam(required = false) String title, @RequestParam(required = false) String artistId,
-                               @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
-                               @RequestParam(required = false) String genre, HttpServletResponse response) {
-        response.setStatus(200);
+    @GetMapping(value = "", produces = "text/csv")
+    public String getSongsCsv(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
+                              @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
+                              @RequestParam(required = false) String genre, HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
 
-        HeaderSetter.setContentType(accept, response);
+        return "CSV NOT SUPPORTED YET";
+    }
+
+    @GetMapping("") //produces application/json, but we don't specify it so it defaults here even if another representation was requested
+    public List<Song> getSongsJson(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
+                                   @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
+                                   @RequestParam(required = false) String genre, HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader(HttpHeaders.CONTENT_TYPE, json);
 
         title = Unnullifier.unnullify(title);
         artistId = Unnullifier.unnullify(artistId);
@@ -44,58 +53,109 @@ public class SongApi {
         year = Unnullifier.unnullify(year);
         genre = Unnullifier.unnullify(genre);
 
-        return songService.getSongsByParams(title, artistId, artistName, year, genre);
+        List<Song> queryResults = songService.getSongsByParams(title, artistId, artistName, year, genre);
+        if(queryResults == null || queryResults.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
+
+        return queryResults;
     }
 
 
-    @GetMapping(value = "/{songId}", consumes = "text/csv", produces = "text/csv")
-    public String getSongById(@PathVariable("songId") String songId, @RequestHeader String accept, HttpServletResponse response) {
-        System.out.println("SERVING CSV");
+    @GetMapping(value = "/{songId}", produces = "text/csv")
+    public String getSongByIdCsv(@PathVariable("songId") String songId, HttpServletResponse response) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
+        response.setStatus(HttpServletResponse.SC_OK);
+
         Song song = songService.getSongById(Integer.parseInt(songId));
-        HeaderSetter.setContentType("text/csv", response);
+        if(song == null) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return "";
+        }
+
         return song.toCsv();
     }
 
-    @GetMapping(value = "/{songId}", produces = "application/json")
-    public Song getSongById(@PathVariable("songId") String songId, HttpServletResponse response) {
-        System.out.println("SERVING JSON");
-        response.setStatus(200);
 
+    @GetMapping("/{songId}")
+    public Song getSongByIdJson(@PathVariable("songId") String songId, HttpServletResponse response) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, json);
+        response.setStatus(HttpServletResponse.SC_OK);
 
-        return songService.getSongById(Integer.parseInt(songId));
+        Song queryResult = songService.getSongById(Integer.parseInt(songId));
+        if(queryResult == null) {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
+
+        return queryResult;
     }
 
 
-    @PostMapping("")
-    public Song postSong(@RequestBody AddSong addSong, HttpServletResponse response, HttpServletRequest request) {
-        //TODO: only json for now, add csv later
-        HeaderSetter.setContentType("application/json", response);
+    @PostMapping(value = "", consumes = "application/json", produces = "text/csv")
+    public String postSongCsv(@RequestBody AddSong addSong, HttpServletResponse response, HttpServletRequest request) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
+        response.setHeader(HttpHeaders.LOCATION, "NOWHERE");
+        response.setStatus(HttpServletResponse.SC_OK);
 
+        return "CSV NOT SUPPORTED YET, NO CHANGES MADE";
+    }
+
+
+    @PostMapping(value = "", consumes = "application/json")
+    public Song postSongJson(@RequestBody AddSong addSong, HttpServletResponse response, HttpServletRequest request) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, json);
+        response.setStatus(HttpServletResponse.SC_CREATED);
 
         Artist artist = artistService.getArtistById(addSong.getArtistId());
         if(artist == null) {
-            response.setStatus(500);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
+
         Song song = songService.addSong(addSong.toSong(artist));
-        response.setStatus(201);
+        if(song == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        else {
+            response.setHeader(HttpHeaders.LOCATION, "/api/songs/" + song.getSongid());
+        }
 
         return song;
     }
 
 
-    //TODO: implement put method
-    @PutMapping("/{songId}")
-    public Song putSong(@PathVariable("songId") String songId,
-                        @RequestHeader(required = false) String accept, @RequestBody AddSong addSong,
-                        HttpServletResponse response) {
-        response.setStatus(200);
+    @PutMapping(value = "/{songId}", consumes = "application/json", produces = "text/csv")
+    public String putSongCsv(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
+        response.setStatus(HttpServletResponse.SC_OK);
 
+        return "CSV NOT SUPPORTED YET, NO CHANGES MADE";
+    }
+
+
+    @PutMapping(value = "/{songId}", consumes = "application/json")
+    public Song putSongJson(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
+        response.setHeader(HttpHeaders.CONTENT_TYPE, json);
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        //find the artist in the database by their given id
         Artist artist = artistService.getArtistById(addSong.getArtistId());
+        if(artist == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                response.getWriter().write("{\n\t\"error\": \"Internal Server Error: No artist was found for id: " + addSong.getArtistId() +
+                        ". Therefore no changes were made to the database\"\n}");
+            } catch(IOException e) {
+                System.err.println("IOException occurred when failed to get artist while putting song");
+            }
+            return null;
+        }
 
         Song song = songService.replaceSong(Integer.parseInt(songId), addSong.toSong(artist));
+        if(song == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 
-        HeaderSetter.setContentType("application/json", response);
         return song;
     }
 }

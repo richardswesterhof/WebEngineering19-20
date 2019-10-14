@@ -7,7 +7,7 @@ import nl.rug.shamzam.Utils.Unnullifier;
  */
 public class AddSong {
 
-    private int artistid;
+    private Integer artistid;
     private String title;
     private Float duration;
     private Integer year;
@@ -40,7 +40,7 @@ public class AddSong {
         this.year = year;
     }
 
-    public void setArtistid(int artistid) {
+    public void setArtistid(Integer artistid) {
         this.artistid = artistid;
     }
 }
