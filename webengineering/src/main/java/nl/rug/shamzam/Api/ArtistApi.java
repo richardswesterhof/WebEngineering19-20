@@ -1,7 +1,8 @@
 package nl.rug.shamzam.Api;
 
-import nl.rug.shamzam.ArtistService;
+import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Model.Artist;
+import nl.rug.shamzam.Model.returnTypes.ArtistHotness;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,4 +48,21 @@ public class ArtistApi {
 
         return artistService.getArtistsByNameAndGenre(artistName,genre);
     }
+
+    @GetMapping(value = "/hotness", consumes = {"application/json"})
+    public List<ArtistHotness> getArtistsHotness(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+        response.setHeader("Content-Type", "application/json");
+        response.setStatus(200);
+
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
+        return artistService.getArtistsByHotness(pageSize,pageRank);
+    }
+
+    //ALLE CSV REQUESTS!!
+
 }

@@ -1,4 +1,4 @@
-package nl.rug.shamzam;
+package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.returnTypes.ArtistHotness;
@@ -47,7 +47,7 @@ public class ArtistService {
         System.err.println("size of artists=="+artists.size());
         ArrayList<ArtistHotness> hotnesses = new ArrayList<>();
         for (Artist a: artists) {
-            hotnesses.add(new ArtistHotness(a.getDbId(),a.getName(),a.getTerms()));
+            hotnesses.add(new ArtistHotness(a.getArtistid(),a.getName(),a.getTerms()));
         }
 
         return hotnesses;

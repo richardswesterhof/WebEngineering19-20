@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -156,9 +157,9 @@ public class SongApi {
      * @return the full Song object if it was added successfully, else null
      */
     private Song addSong(AddSong addSong) {
-        Artist a = artistService.getArtistById(addSong.getArtistId());
-        if(a == null) return null;
-        return songService.addSong(addSong.toSong(a));
+        Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
+        if(!a.isPresent()) return null;
+        return songService.addSong(addSong.toSong(a.get()));
     }
 
 

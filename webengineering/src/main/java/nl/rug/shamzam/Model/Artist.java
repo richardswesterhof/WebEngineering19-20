@@ -1,6 +1,7 @@
 package nl.rug.shamzam.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Artist {
