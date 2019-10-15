@@ -29,4 +29,5 @@ public class Artist {
     public int getArtistid() {
         return artistid;
     }
+    public List<Song> getSongs(){return this.songs;}
 }
