@@ -23,7 +23,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 ## [Songs Collection](#songsCollection)
-+ [Get All Song](#getSongs)
++ [Get All Songs](#getSongs)
 + [Get Information About Song By Id](#getSong)
 + [Get Songs By Popularity](#songsByPopularity)
 + [Add Song](#addSong)
@@ -36,14 +36,17 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ## Remarks
 Note that every request that returns any data in the body of the response has an optional header for the representation of that data. It looks as follows
 
-+ representation (="json" OR "csv")
++ Accept (="application/json" OR "text/csv")
     
-This header can have the value "json" or "csv", it will default to json if an invalid value is given, or if the header is left out completely.
+This header can have the value "application/json" or "text/csv", it will default to json if an invalid value is given, or if the header is left out completely.
+The representation will be reflected in in the content type header of the response and looks as follows:
+
++ Content-Type (="application/json" OR "text/csv")
 
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET ?name={artistName}&genre={genre}]
+### <a name="getArtists"></a> Get All Artists [GET ?name={name}&genre={genre}]
 
 
 
@@ -259,10 +262,11 @@ This header can have the value "json" or "csv", it will default to json if an in
 
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
-### <a name="getSongs"></a> Get All Songs [GET ?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
+### <a name="getSongs"></a> Get All Songs [GET ?title={title}&artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
 
 
 + Parameters 
+	+ title (string) - title of the song
     + artistId (string) - id of the artist
     + artistName (string) - name of the artist
     + year (number) - The year of release

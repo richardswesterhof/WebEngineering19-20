@@ -2,7 +2,6 @@ package nl.rug.shamzam.Api;
 
 import nl.rug.shamzam.ArtistService;
 import nl.rug.shamzam.Model.Artist;
-import nl.rug.shamzam.Model.returnTypes.ArtistHotness;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

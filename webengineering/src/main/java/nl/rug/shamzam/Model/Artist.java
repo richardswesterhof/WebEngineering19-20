@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int dbId;
+    private int artistid;
 
     private String id;
     private float familiarity;
@@ -18,9 +18,14 @@ public class Artist {
     private float similar;
     private String terms;
 
+    @OneToMany(mappedBy="artist")
+    private List<Song> songs;
+
     public String getName(){return this.name;}
     public String getTerms(){return this.terms;}
-    public float getHottness(){return this.hotness;}
+    public float getHotness(){return this.hotness;}
     public String getId(){return this.id;}
-    public int getDbId(){return this.dbId;}
+    public int getArtistid() {
+        return artistid;
+    }
 }
