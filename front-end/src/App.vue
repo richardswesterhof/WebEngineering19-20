@@ -3,17 +3,25 @@
     <Header ref="header"></Header>
     <Navigation ref="navigation"></Navigation>
     <router-view/>
+
+    <Footer ref="footer"></Footer>
   </div>
 </template>
 
 <script>
+import Header from './components/Header.vue'
+import Navigation from './components/Navigation.vue'
+import Footer from "./components/Footer";
+
+
 export default {
   name: 'App',
 
   components: {
     Header,
     Navigation,
-  }
+    Footer,
+  },
 }
 </script>
 
