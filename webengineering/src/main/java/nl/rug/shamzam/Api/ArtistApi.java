@@ -2,11 +2,13 @@ package nl.rug.shamzam.Api;
 
 import nl.rug.shamzam.ArtistService;
 import nl.rug.shamzam.Model.Artist;
+import nl.rug.shamzam.Model.returnTypes.ArtistHotness;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/artists")
@@ -17,16 +19,25 @@ public class ArtistApi {
         artistService = ars;
     }
 
-    @GetMapping("/http-servlet-response")
-    public String usingHttpServletResponse(HttpServletResponse response) {
-        response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+    @GetMapping(value = "/{artistId}", consumes = {"application/json"})
+    public Artist getArtist(@PathVariable int artistId,  HttpServletResponse response) {
+
+        Optional<Artist> a = artistService.getArtistById(artistId);
+        if(!a.isPresent()){
+            response.setStatus(404);
+            return null;
+        }
+
+
+        response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
-        return "Response with header using HttpServletResponse";
+
+        return a.get();
     }
 
-    @GetMapping("")
+    @GetMapping(value = "", consumes = {"application/json"})
     public List<Artist> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
-        response.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+        response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
 
         if(artistName == null)

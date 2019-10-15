@@ -10,7 +10,7 @@ public class Artist {
 
     private String id;
     private float familiarity;
-    private float hottness;
+    private float hotness;
     private float latitude;
     private int location;
     private float longitude;
@@ -20,6 +20,7 @@ public class Artist {
 
     public String getName(){return this.name;}
     public String getTerms(){return this.terms;}
-    public float getHottness(){return this.hottness;}
+    public float getHottness(){return this.hotness;}
     public String getId(){return this.id;}
+    public int getDbId(){return this.dbId;}
 }
