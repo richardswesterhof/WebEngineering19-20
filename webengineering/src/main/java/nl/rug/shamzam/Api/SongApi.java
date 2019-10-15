@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -216,8 +217,8 @@ public class SongApi {
      */
     private Song replaceSong(int songId, AddSong addSong) {
         //find the artist in the database by their given id
-        Artist a = artistService.getArtistById(addSong.getArtistId());
-        if(a == null) return null;
-        return songService.replaceSong(songId, addSong.toSong(a));
+        Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
+        if(!a.isPresent()) return null;
+        return songService.replaceSong(songId, addSong.toSong(a.get()));
     }
 }
