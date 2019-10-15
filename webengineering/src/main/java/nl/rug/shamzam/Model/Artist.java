@@ -22,6 +22,8 @@ public class Artist {
     private float similar;
     private String terms;
 
+    public static String columnames = "\"artistid\", \"id\", \"familiarity\", \"hotness\", \"latitude\", \"location\", \"longitude\", \"link\"";
+
     @OneToMany(mappedBy="artist")
     private List<Song> songs;
 

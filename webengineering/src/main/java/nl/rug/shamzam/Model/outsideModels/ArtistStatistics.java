@@ -5,6 +5,8 @@ public class ArtistStatistics {
     private float median;
     private float std;
 
+    public static String columnames = "\"mean\", \"median\", \"standardeviation\"\n";
+
     public float getMean(){return this.mean;}
     public float getMedian(){return this.median;}
     public float getStandardDeveation(){return this.std;}
@@ -13,5 +15,11 @@ public class ArtistStatistics {
         this.mean = mean;
         this.median = median;
         this.std = std;
+    }
+
+    public String toCsvLine(){
+        return  mean + "," +
+                median + "," +
+                std + "\n";
     }
 }

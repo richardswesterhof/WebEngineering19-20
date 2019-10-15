@@ -25,9 +25,9 @@ public class ArtistApi {
         artistService = ars;
     }
 
-    @GetMapping(value = "/{artistId}", consumes = {"application/json"})
-    public Artist getArtist(@PathVariable int artistId,  HttpServletResponse response) {
-
+    @GetMapping(value = "/{artistId}", produces = {"application/json"})
+    public ArtistHotness getArtist(@PathVariable int artistId,  HttpServletResponse response) {
+        System.out.println("in getArtist");
         Optional<Artist> a = artistService.getArtistById(artistId);
         if(!a.isPresent()){
             response.setStatus(404);
@@ -38,11 +38,11 @@ public class ArtistApi {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
 
-        return a.get();
+        return new ArtistHotness(a.get());
     }
 
-    @GetMapping(value = "", consumes = {"application/json"})
-    public List<Artist> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
+    @GetMapping(value = "", produces = "application/json")
+    public List<ArtistHotness> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
 
@@ -52,10 +52,17 @@ public class ArtistApi {
         if(genre == null)
             genre = "";
 
-        return artistService.getArtistsByNameAndGenre(artistName,genre);
+        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre);
+        List<ArtistHotness> artistHotnesses = new ArrayList<>();
+
+        for (Artist a: artists) {
+            artistHotnesses.add(new ArtistHotness(a));
+        }
+
+        return artistHotnesses;
     }
 
-    @GetMapping(value = "/{artistId}/statistics", consumes = {"application/json"})
+    @GetMapping(value = "/{artistId}/statistics", produces = "application/json")
     public ArtistStatistics getArtistStatistics(@PathVariable int artistId, @RequestParam(required = false) Integer year, HttpServletResponse response) {
 
         Optional<Artist> a = artistService.getArtistById(artistId);
@@ -65,7 +72,9 @@ public class ArtistApi {
         }
 
         List<Song> songs = a.get().getSongs();
-
+        if(songs.size() == 0){
+            return new ArtistStatistics(0,0,0);
+        }
         if(year != null) {
             for (Song s: songs) {
                 if(s.getYear() != year)
@@ -157,5 +166,88 @@ public class ArtistApi {
 
 
     //ALLE CSV REQUESTS!!
+    @GetMapping(value = "/{artistId}", produces = {"text/csv"})
+    public String getArtistCsv(@PathVariable int artistId,  HttpServletResponse response) {
 
+        System.out.println("in getArtistCsv");
+
+        Optional<Artist> a = artistService.getArtistById(artistId);
+        if(!a.isPresent()){
+            response.setStatus(404);
+            return null;
+        }
+
+
+        response.setHeader("Content-Type", "text/csv");
+        response.setStatus(200);
+
+        return ArtistHotness.columnames + new ArtistHotness(a.get()).toCsvLine();
+    }
+
+    @GetMapping(value = "", produces = "text/csv")
+    public String getArtistsCsv(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
+        response.setHeader("Content-Type", "text/csv");
+        response.setStatus(200);
+
+        if(artistName == null)
+            artistName = "";
+
+        if(genre == null)
+            genre = "";
+
+        String s = ArtistHotness.columnames;
+
+        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre);
+
+        for (Artist a: artists) {
+            s +=  new ArtistHotness(a).toCsvLine();
+        }
+
+        return s;
+    }
+
+    @GetMapping(value = "/{artistId}/statistics", produces = "text/csv")
+    public String getArtistStatisticsCsv(@PathVariable int artistId, @RequestParam(required = false) Integer year, HttpServletResponse response) {
+
+        Optional<Artist> a = artistService.getArtistById(artistId);
+        if(!a.isPresent()){
+            response.setStatus(404);
+            return null;
+        }
+
+        List<Song> songs = a.get().getSongs();
+
+        if(songs.size() == 0){
+            return ArtistStatistics.columnames + new ArtistStatistics(0,0,0).toCsvLine();
+        }
+
+        if(year != null) {
+            for (Song s: songs) {
+                if(s.getYear() != year)
+                    songs.remove(s);
+            }
+        }
+
+        DescriptiveStatistics ds = new DescriptiveStatistics();
+        ArrayList<Float> floats = new ArrayList<>();
+        for (Song s: songs) {
+            ds.addValue(s.getHotness());
+            floats.add(s.getHotness());
+        }
+
+        Arrays.sort(floats.toArray());
+        float median;
+        if (floats.size() % 2 == 0)
+            median = (floats.get(floats.size()/2) + floats.get(floats.size()/2 - 1))/2;
+        else
+            median = floats.get(floats.size()/2);
+
+        ArtistStatistics as = new ArtistStatistics((float) ds.getMean(), median,(float)ds.getStandardDeviation());
+
+
+
+        response.setStatus(200);
+        response.setHeader("Content-Type", "text/csv");
+        return ArtistStatistics.columnames +  as.toCsvLine();
+    }
 }
