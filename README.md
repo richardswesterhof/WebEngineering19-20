@@ -227,7 +227,7 @@ The representation will be reflected in in the content type header of the respon
     + artistId (string) - ID of the artist
 
 + Response 204
-+ Response 500
++ Response 404
 
 
 
