@@ -211,8 +211,8 @@ The representation will be reflected in in the content type header of the respon
             
     + Body
     
-            "name", "id", "terms"
-            "Jack", "ARD7TVE1187B99BFB1", "Country"
+            "name", "id", "artistID" , "terms"
+            "Jack", "ARD7TVE1187B99BFB1", 1, "Country"
 
 
 
