@@ -244,15 +244,15 @@ The representation will be reflected in in the content type header of the respon
 
         {
             "name": "Jack",
-            "id": "ARD7TVE1187B99BFB1",
+            "artistId": 1,
             "terms": "Country"
         }
         
         
 + Response 200 (text/csv)
 
-        "name", "id", "terms"
-        "Jack", "ARD7TVE1187B99BFB1", "Country"
+        "name", "artistId", "terms"
+        "Jack", 1, "Country"
         
         
 + Response 403
