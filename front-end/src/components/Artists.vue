@@ -1,12 +1,12 @@
 <template>
     <div>
-      <p>this is the header</p>
+      <p>this will display all artists</p>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Header",
+        name: "Artists",
     }
 </script>
 

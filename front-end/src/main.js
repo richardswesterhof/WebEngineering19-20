@@ -7,6 +7,10 @@ import router from './router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
+import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:8080';
+
+
 Vue.use(Buefy, {
   defaultIconPack: 'fas',
 });

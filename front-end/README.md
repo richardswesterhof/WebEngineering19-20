@@ -5,10 +5,12 @@
 ## Build Setup
 
 ``` bash
+# open the terminal in the folder of this file
+
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8080, or next free port
 npm run dev
 
 # build for production with minification
