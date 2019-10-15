@@ -44,4 +44,6 @@ public class Artist {
         this.hotness = artistPut.getHotness();
         this.terms = artistPut.getTerms();
     }
+
+    public Artist(){}
 }

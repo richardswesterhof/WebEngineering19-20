@@ -5,12 +5,14 @@ import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
 import nl.rug.shamzam.Model.outsideModels.ArtistPut;
 import nl.rug.shamzam.Repository.ArtistRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service("ArtistService")
+@Transactional
 public class ArtistService {
     ArtistRepository artistRepository;
 

@@ -20,4 +20,5 @@ public class ArtistPut {
         this.terms = a.getTerms();
         this.hotness = a.getHotness();
     }
+    public ArtistPut(){}
 }

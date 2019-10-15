@@ -15,4 +15,6 @@ public class ArtistPost {
         this.name = n;
         this.terms = t;
     }
+
+    public ArtistPost(){}
 }
