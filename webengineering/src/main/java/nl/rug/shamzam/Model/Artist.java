@@ -1,5 +1,8 @@
 package nl.rug.shamzam.Model;
 
+import nl.rug.shamzam.Model.outsideModels.ArtistPost;
+import nl.rug.shamzam.Model.outsideModels.ArtistPut;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -30,4 +33,15 @@ public class Artist {
         return artistid;
     }
     public List<Song> getSongs(){return this.songs;}
+
+    public Artist(ArtistPost ap){
+        this.name = ap.getName();
+        this.terms = ap.getTerms();
+    }
+
+    public void update(ArtistPut artistPut){
+        this.name = artistPut.getName();
+        this.hotness = artistPut.getHotness();
+        this.terms = artistPut.getTerms();
+    }
 }

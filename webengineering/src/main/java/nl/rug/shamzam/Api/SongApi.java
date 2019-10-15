@@ -1,6 +1,6 @@
 package nl.rug.shamzam.Api;
 
-import nl.rug.shamzam.Model.AddSong;
+import nl.rug.shamzam.Model.outsideModels.AddSong;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Service.ArtistService;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

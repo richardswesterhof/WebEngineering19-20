@@ -1,7 +1,8 @@
 package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Artist;
-import nl.rug.shamzam.Model.returnTypes.ArtistHotness;
+import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
+import nl.rug.shamzam.Model.outsideModels.ArtistPut;
 import nl.rug.shamzam.Repository.ArtistRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,20 @@ public class ArtistService {
         artistRepository = arp;
     }
 
+    public Artist save(Artist a){
+        return artistRepository.saveAndFlush(a);
+    }
+
+    public boolean delete(int i){
+        return artistRepository.deleteByArtistid(i) > 0;
+    }
+
     public List<Artist> getArtistsByNameAndGenre(String name, String genre){
         return artistRepository.getArtistsByNameAndGenre(name,genre);
     }
 
     public Optional<Artist> getArtistById(int id){
-        return artistRepository.getArtistByDbId(id);
+        return artistRepository.getArtistByArtistid(id);
     }
 
     public List<ArtistHotness> getArtistsByHotness(int limit, int pagerank){
@@ -52,4 +61,5 @@ public class ArtistService {
 
         return hotnesses;
     }
+
 }

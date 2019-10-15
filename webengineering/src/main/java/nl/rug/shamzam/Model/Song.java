@@ -28,7 +28,7 @@ public class Song {
     private float beats_start;
     private float duration;
     private float end_of_fade_in;
-    private float hotttness;
+    private float hotness;
 
     @Column(name = "music_key")
     private float key;
@@ -59,7 +59,7 @@ public class Song {
         beats_start = 0;
         this.duration = duration;
         end_of_fade_in = 0;
-        hotttness = 0;
+        hotness = 0;
         key = 0;
         key_confidence = 0;
         loudness = 0;
@@ -113,8 +113,9 @@ public class Song {
 
     public String getArtistLink() {
         return "/api/artists/" + getArtistId();
-
     }
+
+    public float getHotness(){return this.hotness;}
 
     public String toCsvLine() {
         return "\"" + title + "\"," +

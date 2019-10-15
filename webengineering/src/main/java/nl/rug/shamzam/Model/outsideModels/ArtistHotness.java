@@ -1,4 +1,4 @@
-package nl.rug.shamzam.Model.returnTypes;
+package nl.rug.shamzam.Model.outsideModels;
 
 public class ArtistHotness {
     private int id;

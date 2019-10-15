@@ -1,5 +1,7 @@
-package nl.rug.shamzam.Model;
+package nl.rug.shamzam.Model.outsideModels;
 
+import nl.rug.shamzam.Model.Artist;
+import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Utils.Unnullifier;
 
 /**
