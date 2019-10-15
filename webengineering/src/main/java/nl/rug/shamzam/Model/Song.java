@@ -45,7 +45,7 @@ public class Song {
     private String title;
     private int year;
 
-    public static final String columnNames = "";
+    public static final String columnNames = "\"title\", \"artistName\", \"duration\", \"year\", \"id\", \"songid\", \"artistid\", \"link\", \"artistLink\"";
 
 
     public Song(String title, Artist artist, float duration, int year) {
@@ -116,11 +116,16 @@ public class Song {
 
     }
 
-    public String toCsv() {
+    public String toCsvLine() {
         return "\"" + title + "\"," +
-                "\"" + duration + "\"," +
-                "\"" + year + "\"," +
-                "\"/" + id + "\"";
+               "\"" + getArtistName() + "\"," +
+               "\"" + duration + "\"," +
+               "\"" + year + "\"," +
+               "\"" + id + "\"," +
+               "\"" + songid + "\"," +
+               "\"" + getArtistId() + "\"," +
+               "\"" + getLink() + "\"," +
+               "\"" + getArtistLink() + "\"";
     }
 
     @Override
