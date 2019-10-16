@@ -105,7 +105,7 @@ public class ArtistApi {
         return as;
     }
 
-    @GetMapping(value = "/hotness", consumes = {"application/json"})
+    @GetMapping(value = "/hotness", consumes = "application/json")
     public List<ArtistHotness> getArtistsHotness(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
@@ -249,5 +249,58 @@ public class ArtistApi {
         response.setStatus(200);
         response.setHeader("Content-Type", "text/csv");
         return ArtistStatistics.columnames +  as.toCsvLine();
+    }
+
+    @GetMapping(value = "/hotness", consumes = "text/csv")
+    public String getArtistsHotnessCsv(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+        response.setHeader("Content-Type", "text/csv");
+        response.setStatus(200);
+
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
+        String s = ArtistHotness.columnames;
+        List<ArtistHotness> artistHotnesses = artistService.getArtistsByHotness(pageSize,pageRank);
+
+        for (ArtistHotness a: artistHotnesses) {
+            s +=  a.toCsvLine();
+        }
+        return s;
+    }
+
+    @PostMapping(value = "", produces = "application/json")
+    public String postArtistCsv(@RequestBody ArtistPost addArtist, HttpServletResponse response) {
+
+        Artist a = artistService.save(new Artist(addArtist));
+        if(a == null) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+        else {
+            response.setHeader(HttpHeaders.LOCATION, "/api/artists/" + a.getArtistid());
+        }
+        response.setStatus(201);
+        return ArtistReturnPost.columnames + new ArtistReturnPost(a).toCsv();
+    }
+
+    @PutMapping(value = "/{artistId}", produces = "text/csv")
+    public String updateArtistCsv(@PathVariable int artistId, @NotNull @RequestBody ArtistPut artistPut, HttpServletResponse response){
+        Optional<Artist> a = artistService.getArtistById(artistId);
+
+        if(!a.isPresent()){
+            response.setStatus(404);
+            return null;
+        }
+
+        Artist artist = a.get();
+        artist.update(artistPut);
+        artistService.save(artist);
+
+        response.setStatus(200);
+        response.setHeader(HttpHeaders.LOCATION, "/api/artists/" + artistId);
+        return ArtistPut.columnames + artistPut.toCsv();
     }
 }

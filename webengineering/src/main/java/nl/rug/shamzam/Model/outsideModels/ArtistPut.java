@@ -7,6 +7,8 @@ public class ArtistPut {
     private String terms;
     private float hotness;
 
+    public static String columnames = "\"name\", \"terms\", \"hotness\"\n";
+
     public String getName() {
         return name;
     }
@@ -21,4 +23,10 @@ public class ArtistPut {
         this.hotness = a.getHotness();
     }
     public ArtistPut(){}
+
+    public String toCsv(){
+        return "\"" + name + "\",\"" +
+                terms + "\"," +
+                hotness + "\n";
+    }
 }

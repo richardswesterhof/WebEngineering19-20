@@ -8,6 +8,8 @@ public class ArtistReturnPost {
     private String name;
     private String terms;
 
+    public static String columnames = "\"artistId\", \"id\", \"name\", \"terms\"\n";
+
     public String getName() {
         return name;
     }
@@ -22,6 +24,13 @@ public class ArtistReturnPost {
         this.id = a.getId();
         this.name = a.getName();
         this.terms = a.getTerms();
+    }
+
+    public String toCsv(){
+        return artistId + ",\"" +
+                id + "\",\"" +
+                name + ",\"" +
+                terms + "\"\n";
     }
 
 }
