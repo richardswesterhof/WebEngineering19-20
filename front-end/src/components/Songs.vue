@@ -1,21 +1,37 @@
 <template>
-  <div>
-    <FilterManager ref="filter-manager"
-                   :available-filters="availableFilters"
-                   v-on:filter-update="refreshSongs"
-    ></FilterManager>
+  <div class="tile is-ancestor">
+    <div class="tile is-3" style="display: block;">
+      <b-menu style="margin-left: 2em;">
+        <b-menu-list label="Songs">
+          <b-menu-item label="Browse all songs"></b-menu-item>
+          <b-menu-item label="Browse individual songs"></b-menu-item>
+        </b-menu-list>
+      </b-menu>
+    </div>
 
-    <div class="separator-line"></div>
 
-    <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
-    <template v-for="song in songs">
-      <Song :songData="song"></Song>
-    </template>
+    <div class="tile is-6" style="display:inline-block; text-align: center;">
+      <div>
 
-    <template v-if="!this.isLoading && songs.length === 0">
-      <p>There are no songs matching those filters in the database :(</p>
-      <p>Try making your filters more broad and make sure they don't contain any typos</p>
-    </template>
+        <FilterManager ref="filter-manager"
+                       :available-filters="availableFilters"
+                       v-on:filter-update="refreshSongs"
+        ></FilterManager>
+
+        <div class="separator-line"></div>
+
+        <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
+        <template v-for="song in songs">
+          <Song :songData="song"></Song>
+        </template>
+
+        <template v-if="!this.isLoading && songs.length === 0">
+          <p>There are no songs matching those filters in the database :(</p>
+          <p>Try making your filters more broad and make sure they don't contain any typos</p>
+        </template>
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,6 +80,11 @@
     width: 36em;
     border-bottom: 2px solid darkgray;
     margin-left: auto;
+    margin-right: auto;
+  }
+
+  .is-slightly-offset-left {
+    margin-left: 8em;
     margin-right: auto;
   }
 </style>

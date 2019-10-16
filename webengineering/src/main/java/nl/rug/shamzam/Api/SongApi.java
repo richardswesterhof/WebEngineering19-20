@@ -41,7 +41,7 @@ public class SongApi {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
 
-        List<Song> queryResults = getSongList   (title, artistId, artistName, year, genre);
+        List<Song> queryResults = getSongList(title, artistId, artistName, year, genre);
         StringBuilder fullCsv = new StringBuilder(Song.columnNames);
         fullCsv.append('\n');
         for(int i = 0; i < queryResults.size(); i++) {
@@ -89,11 +89,11 @@ public class SongApi {
 
 
     @GetMapping(value = "/{songId}", produces = "text/csv")
-    public String getSongByIdCsv(@PathVariable("songId") String songId, HttpServletResponse response) {
+    public String getSongByIdCsv(@PathVariable("songId") int songId, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Song song = songService.getSongById(Integer.parseInt(songId));
+        Song song = songService.getSongById(songId);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return "";
@@ -104,11 +104,11 @@ public class SongApi {
 
 
     @GetMapping("/{songId}")
-    public Song getSongByIdJson(@PathVariable("songId") String songId, HttpServletResponse response) {
+    public Song getSongByIdJson(@PathVariable("songId") int songId, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Song queryResult = songService.getSongById(Integer.parseInt(songId));
+        Song queryResult = songService.getSongById(songId);
         if(queryResult == null) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }

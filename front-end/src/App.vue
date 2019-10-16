@@ -3,7 +3,7 @@
     <div class="everythingExceptFooter">
       <Header ref="header"></Header>
       <Navigation ref="navigation"></Navigation>
-      <router-view/>
+      <router-view style="text-align:left"/>
     </div>
 
     <div class="spacer"></div>
@@ -35,7 +35,7 @@ export default {
   text-align: center;
   color: #2c3e50;
 
-  margin-top: 1em;
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
   min-height: 91vh;
