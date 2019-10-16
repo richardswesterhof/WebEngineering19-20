@@ -64,7 +64,7 @@
         let newFilter = {};
         newFilter[this.selectedFilter.value] = this.filterValue;
         for(let i = 0; i < this.filters.length; i++) {
-          if(Object.keys(this.filters[i])[0] === this.selectedFilter.displayName) {
+          if(Object.keys(this.filters[i])[0] === this.selectedFilter.value) {
             this.filters.splice(i, 1);
             i--;
           }

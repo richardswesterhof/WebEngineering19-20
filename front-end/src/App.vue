@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Navigation from './components/Navigation.vue'
-import Footer from "./components/Footer";
+import Navigation from './components/page-addons/Navigation.vue'
+import Footer from "./components/page-addons/Footer";
 
 
 export default {

@@ -11,7 +11,7 @@ export default {
 
   getArtists(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
-    console.log('making query with: ' + queryParameters);
+    console.log('making query to artists with: ' + queryParameters);
     return axios.get('/api/artists' + queryParameters).then((response) => {
       return response.data;
     },
@@ -20,9 +20,21 @@ export default {
     });
   },
 
+  getArtist(artistid) {
+    if(!artistid) return new Promise(function(resolve) {
+      resolve({error: 'no artistid given'});
+    });
+    return axios.get('/api/artists/' + artistid).then((response) => {
+      return response.data;
+    },
+      (error) => {
+        return {};
+      });
+  },
+
   getSongs(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
-    console.log('making query with:' + queryParameters);
+    console.log('making query to songs with: ' + queryParameters);
     return axios.get('/api/songs' + queryParameters).then((response) => {
       return response.data;
     },

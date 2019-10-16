@@ -3,7 +3,7 @@
     <template slot="brand">
       <b-navbar-item tag="router-link" :to="'/'">
         <img
-          src="../assets/shamzamLogo2.png"
+          src="../../assets/shamzamLogo2.png"
           alt="Homepage"
         >
       </b-navbar-item>
