@@ -25,7 +25,7 @@ public class ArtistApi {
         artistService = ars;
     }
 
-    @GetMapping(value = "/{artistId}", produces = {"application/json"})
+    @GetMapping(value = "/{artistId}")
     public ArtistHotness getArtist(@PathVariable int artistId,  HttpServletResponse response) {
         System.out.println("in getArtist");
         Optional<Artist> a = artistService.getArtistById(artistId);
@@ -41,7 +41,7 @@ public class ArtistApi {
         return new ArtistHotness(a.get());
     }
 
-    @GetMapping(value = "", produces = "application/json")
+    @GetMapping(value = "")
     public List<ArtistHotness> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
@@ -62,7 +62,7 @@ public class ArtistApi {
         return artistHotnesses;
     }
 
-    @GetMapping(value = "/{artistId}/statistics", produces = "application/json")
+    @GetMapping(value = "/{artistId}/statistics")
     public ArtistStatistics getArtistStatistics(@PathVariable int artistId, @RequestParam(required = false) Integer year, HttpServletResponse response) {
 
         Optional<Artist> a = artistService.getArtistById(artistId);
@@ -105,7 +105,7 @@ public class ArtistApi {
         return as;
     }
 
-    @GetMapping(value = "/hotness", consumes = "application/json")
+    @GetMapping(value = "/hotness")
     public List<ArtistHotness> getArtistsHotness(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(200);
@@ -119,7 +119,7 @@ public class ArtistApi {
         return artistService.getArtistsByHotness(pageSize,pageRank);
     }
 
-    @PostMapping(value = "", produces = "application/json")
+    @PostMapping(value = "")
     public ArtistReturnPost postArtist(@RequestBody ArtistPost addArtist, HttpServletResponse response) {
 
         Artist a = artistService.save(new Artist(addArtist));
@@ -145,7 +145,7 @@ public class ArtistApi {
         return;
     }
 
-    @PutMapping(value = "/{artistId}", produces = "application/json")
+    @PutMapping(value = "/{artistId}")
     public ArtistPut updateArtist(@PathVariable int artistId, @NotNull @RequestBody ArtistPut artistPut, HttpServletResponse response){
         Optional<Artist> a = artistService.getArtistById(artistId);
 
