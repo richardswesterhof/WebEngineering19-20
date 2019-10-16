@@ -273,7 +273,7 @@ public class ArtistApi {
         return s;
     }
 
-    @PostMapping(value = "", produces = "application/json")
+    @PostMapping(value = "", produces = "text/csv")
     public String postArtistCsv(@RequestBody ArtistPost addArtist, HttpServletResponse response) {
 
         Artist a = artistService.save(new Artist(addArtist));
