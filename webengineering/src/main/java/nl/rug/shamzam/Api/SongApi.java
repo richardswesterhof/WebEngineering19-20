@@ -59,12 +59,7 @@ public class SongApi {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
 
-        List<Song> queryResults = getSongList(title,artistId,artistName,year,genre);
-        if(queryResults == null || queryResults.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return queryResults;
+        return getSongList(title,artistId,artistName,year,genre);
     }
 
 
@@ -95,7 +90,6 @@ public class SongApi {
 
         Song song = songService.getSongById(songId);
         if(song == null) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return "";
         }
 
@@ -108,12 +102,7 @@ public class SongApi {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Song queryResult = songService.getSongById(songId);
-        if(queryResult == null) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-        }
-
-        return queryResult;
+        return songService.getSongById(songId);
     }
 
 

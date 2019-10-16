@@ -32,13 +32,13 @@ public class ArtistApi {
         System.out.println("in getArtist");
         Optional<Artist> a = artistService.getArtistById(artistId);
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
 
         response.setHeader("Content-Type", "application/json");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         return new ArtistHotness(a.get());
     }
@@ -46,7 +46,7 @@ public class ArtistApi {
     @GetMapping(value = "")
     public List<ArtistHotness> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         if(artistName == null)
             artistName = "";
@@ -69,7 +69,7 @@ public class ArtistApi {
 
         Optional<Artist> a = artistService.getArtistById(artistId);
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
@@ -102,7 +102,7 @@ public class ArtistApi {
 
 
 
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Content-Type", "application/json");
         return as;
     }
@@ -110,7 +110,7 @@ public class ArtistApi {
     @GetMapping(value = "/hotness")
     public List<ArtistHotness> getArtistsHotness(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         if(pageRank == null)
             pageRank = 0;
@@ -139,11 +139,11 @@ public class ArtistApi {
     @DeleteMapping(value = "/{artistId}")
     public void deleteArtist(@PathVariable int artistId, HttpServletResponse response){
         if(!artistService.delete(artistId)){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        response.setStatus(204);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         return;
     }
 
@@ -152,7 +152,7 @@ public class ArtistApi {
         Optional<Artist> a = artistService.getArtistById(artistId);
 
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
@@ -160,7 +160,7 @@ public class ArtistApi {
         artist.update(artistPut);
         artistService.save(artist);
 
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.LOCATION, "/api/artists/" + artistId);
         return artistPut;
     }
@@ -175,13 +175,13 @@ public class ArtistApi {
 
         Optional<Artist> a = artistService.getArtistById(artistId);
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
 
         response.setHeader("Content-Type", "text/csv");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         return ArtistHotness.columnames + new ArtistHotness(a.get()).toCsvLine();
     }
@@ -189,7 +189,7 @@ public class ArtistApi {
     @GetMapping(value = "", produces = "text/csv")
     public String getArtistsCsv(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
         response.setHeader("Content-Type", "text/csv");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         if(artistName == null)
             artistName = "";
@@ -213,7 +213,7 @@ public class ArtistApi {
 
         Optional<Artist> a = artistService.getArtistById(artistId);
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
@@ -248,7 +248,7 @@ public class ArtistApi {
 
 
 
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader("Content-Type", "text/csv");
         return ArtistStatistics.columnames +  as.toCsvLine();
     }
@@ -256,7 +256,7 @@ public class ArtistApi {
     @GetMapping(value = "/hotness", consumes = "text/csv")
     public String getArtistsHotnessCsv(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "text/csv");
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         if(pageRank == null)
             pageRank = 0;
@@ -293,7 +293,7 @@ public class ArtistApi {
         Optional<Artist> a = artistService.getArtistById(artistId);
 
         if(!a.isPresent()){
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
@@ -301,7 +301,7 @@ public class ArtistApi {
         artist.update(artistPut);
         artistService.save(artist);
 
-        response.setStatus(200);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.LOCATION, "/api/artists/" + artistId);
         return ArtistPut.columnames + artistPut.toCsv();
     }

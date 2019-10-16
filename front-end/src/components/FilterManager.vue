@@ -2,10 +2,9 @@
   <div>
     <label><b>Add a filter</b></label>
     <b-field grouped style="width: 36em; margin-left: auto; margin-right: auto;">
-      <b-dropdown v-model="selectedFilter">
+      <b-dropdown v-model="selectedFilter" @input="updateFieldType">
         <button class="button" slot="trigger">
           <span>{{selectedFilter ? selectedFilter.displayName : '(select filter)'}}</span>
-          <b-icon icon="menu-down"></b-icon>
         </button>
         <template v-for="filter in availableFilters">
           <b-dropdown-item
@@ -16,7 +15,11 @@
         </template>
       </b-dropdown>
       <span style="width: 2em; margin-top:0.5em;">=</span>
-      <b-input v-model="filterValue" expanded></b-input>
+      <b-input v-model="filterValue"
+               placeholder="filter value..."
+               ref="filterValueInput"
+               expanded>
+      </b-input>
       <b-button class="button is-primary" @click="addFilter">add filter</b-button>
     </b-field>
 
@@ -51,7 +54,13 @@
 
     methods: {
       addFilter() {
-        if(!this.selectedFilter) return;
+        if(!this.selectedFilter){
+          this.$buefy.toast.open({
+            message: 'filter could not be added: please select a filter first',
+            type: 'is-danger',
+          });
+          return;
+        }
         let newFilter = {};
         newFilter[this.selectedFilter.value] = this.filterValue;
         for(let i = 0; i < this.filters.length; i++) {
@@ -61,12 +70,18 @@
           }
         }
         this.filters.push(newFilter);
+        this.filterValue = '';
         this.$emit('filter-update');
       },
 
       removeFilter(filter) {
         this.filters.splice(this.filters.indexOf(filter), 1);
         this.$emit('filter-update');
+      },
+
+      updateFieldType() {
+        this.filterValue = '';
+        this.$refs['filterValueInput'].$refs.input.setAttribute('type', this.selectedFilter.type);
       },
     }
   }

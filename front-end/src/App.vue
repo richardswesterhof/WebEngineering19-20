@@ -38,7 +38,7 @@ export default {
   margin-top: 2em;
   display: flex;
   flex-direction: column;
-  min-height: 91vh;
+  min-height: 89vh;
 }
 
 .spacer {
@@ -83,4 +83,5 @@ export default {
 
   @import "~bulma";
   @import "~buefy/src/scss/buefy";
+  @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 </style>

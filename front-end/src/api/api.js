@@ -14,6 +14,9 @@ export default {
     console.log('making query with: ' + queryParameters);
     return axios.get('/api/artists' + queryParameters).then((response) => {
       return response.data;
+    },
+      (error) => {
+        return [];
     });
   },
 
@@ -22,7 +25,10 @@ export default {
     console.log('making query with:' + queryParameters);
     return axios.get('/api/songs' + queryParameters).then((response) => {
       return response.data;
-    });
+    },
+      (error) => {
+        return [];
+      });
   },
 
   getSong(songid) {
@@ -31,7 +37,10 @@ export default {
     });
     return axios.get('/api/songs/' + songid).then((response) => {
       return response.data;
-    });
+    },
+      (error) => {
+        return {};
+      });
   },
 
   convertFilterArrayToParametersString(filters) {

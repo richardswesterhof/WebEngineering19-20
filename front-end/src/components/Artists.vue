@@ -1,23 +1,45 @@
 <template>
-  <div>
-    <FilterManager ref="filter-manager"
-                   :available-filters="availableFilters"
-                   v-on:filter-update="refreshArtists"
-    ></FilterManager>
+  <div class="tile is-ancestor">
+    <div class="tile is-3" style="display: block;">
+      <b-menu style="margin-left: 2em;">
+        <b-menu-list label="Artists">
+          <b-menu-item label="Browse all artists"></b-menu-item>
+          <b-menu-item label="Browse individual artists"></b-menu-item>
+        </b-menu-list>
+      </b-menu>
+    </div>
+
+    <div class="tile is-6" style="display:inline-block; text-align: center;">
+      <FilterManager ref="filter-manager"
+                     :available-filters="availableFilters"
+                     v-on:filter-update="refreshArtists"
+      ></FilterManager>
 
 
-    <div class="separator-line"></div>
+      <div class="separator-line"></div>
 
-    <template v-for="artist in artists">
-      <Artist :artist-data="artist"></Artist>
-    </template>
+      <b-table :data="artists" style="max-width:40em; margin-left:auto; margin-right:auto;">
+        <template slot-scope="props">
+          <b-table-column field="id" label="ID" width="40" numeric>
+            {{ props.row.id }}
+          </b-table-column>
+
+          <b-table-column field="name" label="Name">
+            {{ props.row.name }}
+          </b-table-column>
+
+          <b-table-column field="term" label="Genre">
+            {{ props.row.term }}
+          </b-table-column>
+        </template>
+      </b-table>
 
 
-    <template v-if="!this.isLoading && artists.length === 0">
-      <p>There are no artists matching those filters in the database :(</p>
-      <p>Try making your filters more broad and make sure they don't contain any typos</p>
-    </template>
-
+      <template v-if="!this.isLoading && artists.length === 0">
+        <p>There are no artists matching those filters in the database :(</p>
+        <p>Try making your filters more broad and make sure they don't contain any typos</p>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -35,8 +57,8 @@
         isLoading: true,
 
         availableFilters: [
-          {displayName: 'name', value: 'name'},
-          {displayName: 'genre', value: 'genre'},
+          {displayName: 'name', value: 'name', type: 'text'},
+          {displayName: 'genre', value: 'genre', type: 'number'},
         ],
       }
     },

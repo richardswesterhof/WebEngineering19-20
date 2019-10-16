@@ -1,7 +1,7 @@
 <template>
   <div class="tile is-ancestor">
     <div class="tile is-3" style="display: block;">
-      <b-menu style="margin-left: 2em;">
+      <b-menu style="margin-left: 2em; max-width:16em;">
         <b-menu-list label="Songs">
           <b-menu-item label="Browse all songs"></b-menu-item>
           <b-menu-item label="Browse individual songs"></b-menu-item>
@@ -21,9 +21,23 @@
         <div class="separator-line"></div>
 
         <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
-        <template v-for="song in songs">
-          <Song :songData="song"></Song>
-        </template>
+
+
+        <b-table :data="songs" style="max-width:40em; margin-left:auto; margin-right:auto;">
+          <template slot-scope="props">
+            <b-table-column field="id" label="ID" width="40" numeric>
+              {{ props.row.songid }}
+            </b-table-column>
+
+            <b-table-column field="title" label="Title">
+              {{ props.row.title }}
+            </b-table-column>
+
+            <b-table-column field="artistName" label="Artist Name">
+              {{ props.row.artistName }}
+            </b-table-column>
+          </template>
+        </b-table>
 
         <template v-if="!this.isLoading && songs.length === 0">
           <p>There are no songs matching those filters in the database :(</p>
@@ -49,11 +63,11 @@
         isLoading: true,
 
         availableFilters: [
-          {displayName: 'title', value: 'title'},
-          {displayName: 'artist id', value: 'artistId'},
-          {displayName: 'artist name', value: 'artistName'},
-          {displayName: 'year of release', value: 'year'},
-          {displayName: 'genre', value: 'genre'},
+          {displayName: 'title', value: 'title', type: 'text'},
+          {displayName: 'artist id', value: 'artistId', type: 'number'},
+          {displayName: 'artist name', value: 'artistName', type: 'text'},
+          {displayName: 'year of release', value: 'year', type: 'number'},
+          {displayName: 'genre', value: 'genre', type: 'text'},
         ],
       }
     },
@@ -80,11 +94,6 @@
     width: 36em;
     border-bottom: 2px solid darkgray;
     margin-left: auto;
-    margin-right: auto;
-  }
-
-  .is-slightly-offset-left {
-    margin-left: 8em;
     margin-right: auto;
   }
 </style>
