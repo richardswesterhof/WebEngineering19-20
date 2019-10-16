@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/songs")
 public class SongApi {
@@ -40,7 +41,7 @@ public class SongApi {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
 
-        List<Song> queryResults = getSongList(title, artistId, artistName, year, genre);
+        List<Song> queryResults = getSongList   (title, artistId, artistName, year, genre);
         StringBuilder fullCsv = new StringBuilder(Song.columnNames);
         fullCsv.append('\n');
         for(int i = 0; i < queryResults.size(); i++) {
