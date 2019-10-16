@@ -14,6 +14,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ## [Artists Collection](#artistsCollection)
 
 + [Get All Artists](#getArtists)
++ [Get Artist](#getArtist)
 + [Get Artist Statistics](#getArtistStats)
 + [Get Artist Hotness](#getArtistHotness)
 + [Add Artist](#addArtist)
@@ -22,7 +23,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 ## [Songs Collection](#songsCollection)
-+ [Get All Song](#getSongs)
++ [Get All Songs](#getSongs)
 + [Get Information About Song By Id](#getSong)
 + [Get Songs By Popularity](#songsByPopularity)
 + [Add Song](#addSong)
@@ -32,14 +33,21 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 ## [Supported Methods](#methods)
 
 
+## Remarks
+Note that every request that returns any data in the body of the response has an optional header for the representation of that data. It looks as follows
+
++ Accept (="application/json" OR "text/csv")
+    
+This header can have the value "application/json" or "text/csv", it will default to json if an invalid value is given, or if the header is left out completely.
+The representation will be reflected in in the content type header of the response and looks as follows:
+
++ Content-Type (="application/json" OR "text/csv")
 
 
 ## <a name="artistsCollection"></a> Artists Collection [/artists]
 
-### <a name="getArtists"></a> Get All Artists [GET ?name={artistName}&genre={genre}]
+### <a name="getArtists"></a> Get All Artists [GET ?name={name}&genre={genre}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 
 + Parameters
@@ -54,13 +62,22 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "name": "Jack",
                 "term" : "Country"
                 "pageLink" : "/ARD7TVE1187B99BFB1"
-            }
+            },
+            {
+                "id" : "ABCDEFGHIJK1234567",
+                "name": "Bob",
+                "term" : "Pop"
+                "pageLink" : "/ABCDEFGHIJK1234567"
+            },
+            etc.
         ]
         
 + Response 200 (text/csv)
 
         "id", "name", "term", "pageLink"
         "ARD7TVE1187B99BFB1", "Jack", "Country", "/ARD7TVE1187B99BFB1"
+        "ABCDEFGHIJK1234567", "Bob", "Pop", "/ABCDEFGHIJK1234567"
+        etc.
         
         
         
@@ -68,10 +85,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
 
         
-### <a name="getArtist"></a> Get Artist [GET /artistId={artistId}]
+### <a name="getArtist"></a> Get Artist [GET /{artistId}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters
     + artistId (string) - id of the artist
@@ -97,8 +112,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="getArtistStats"></a> Get Artist Statistics [GET /{artistId}/statistics?year={year}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters
     + artistId (string) - ID of the artist
@@ -123,10 +136,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
         
 
-### <a name="getArtistHotness"></a> Get Artist Hotness [GET /hotness?pageSize={pageSize}&pageRank={?pageRank}]
+### <a name="getArtistHotness"></a> Get Artist Hotness [GET /hotness?pageSize={pageSize}&pageRank={pageRank}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters
     + pageSize (number) - number of artists per page
@@ -134,22 +145,29 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     
 + Response 200 (application/json)
 
-        {
-                [
-                    {
-                        "id" : "ARD7TVE1187B99BFB1",
-                        "name": "Jack",
-                        "term" : "Country"
-                        "pageLink" : "/ARD7TVE1187B99BFB1"
-                    }
-                ]
-        }
+            [
+                {
+                    "id" : "ARD7TVE1187B99BFB1",
+                    "name": "Jack",
+                    "term" : "Country"
+                    "pageLink" : "/ARD7TVE1187B99BFB1"
+                },
+                {
+                    "id" : "ABCDEFGHIJK1234567",
+                    "name": "Bob",
+                    "term" : "Pop"
+                    "pageLink" : "/ABCDEFGHIJK1234567"
+                },
+                etc.
+            ]
         
         
 + Response 200 (text/csv)
 
         "id", "name", "term", "pageLink"
         "ARD7TVE1187B99BFB1", "Jack", "Country", "/ARD7TVE1187B99BFB1"
+        "ABCDEFGHIJK1234567", "Bob", "Pop", "/ABCDEFGHIJK1234567"
+        etc.
         
         
         
@@ -160,8 +178,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="addArtist"></a> Add Artist [POST]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Request (application/json)
 
@@ -195,8 +211,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
             
     + Body
     
-            "name", "id", "terms"
-            "Jack", "ARD7TVE1187B99BFB1", "Country"
+            "name", "id", "artistID" , "terms"
+            "Jack", "ARD7TVE1187B99BFB1", 1, "Country"
 
 
 
@@ -211,8 +227,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     + artistId (string) - ID of the artist
 
 + Response 204
-
-+ Response 403
++ Response 404
 
 
 
@@ -224,23 +239,20 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="updateArtist"></a> Update Artist [PUT /{artistId}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
-
         
 + Response 200 (application/json)
 
         {
             "name": "Jack",
-            "id": "ARD7TVE1187B99BFB1",
+            "artistId": 1,
             "terms": "Country"
         }
         
         
 + Response 200 (text/csv)
 
-        "name", "id", "terms"
-        "Jack", "ARD7TVE1187B99BFB1", "Country"
+        "name", "artistId", "terms"
+        "Jack", 1, "Country"
         
         
 + Response 403
@@ -249,12 +261,11 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ## <a name="songsCollection"></a> Songs Collection [/songs]
 
-### <a name="getSongs"></a> Get All Songs [GET ?artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
+### <a name="getSongs"></a> Get All Songs [GET ?title={title}&artistId={artistId}&artistName={artistName}&year={year}&term={artistTerm}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters 
+	+ title (string) - title of the song
     + artistId (string) - id of the artist
     + artistName (string) - name of the artist
     + year (number) - The year of release
@@ -270,7 +281,16 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "year": 2012
                 "linkToSong" : "/SOMZWCG12A8C13C480"
                 "linkToArtist" : "ourserver.com/artists/ARD7TVE1187B99BFB1"
-            }
+            },
+            {
+                "title": "Red Roses",
+                "artistsName" : "Bob",
+                "duration": 666,
+                "year": 2008
+                "linkToSong" : "/QWERTYUIOP12345678"
+                "linkToArtist" : "ourserver.com/artists/ABCDEFGHIJK1234567"
+            },
+            etc.
         ]
 
 
@@ -278,6 +298,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
         "title", "artistsName", "duration", "year", "linkToSong", "linkToArtist"
         "Cowboy Jim", "Jack", "420", "2012", "/SOMZWCG12A8C13C480", "ourserver.com/artists/ARD7TVE1187B99BFB1"
+        "Red Roses", "Bob", "666", "2008", "/QWERTYUIOP12345678", "ourserver.com/artists/ABCDEFGHIJK1234567"
+        etc.
 
 
 
@@ -288,8 +310,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 ### <a name="getSong"></a> Get Information About Song By Id [GET /{songId}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters 
     + songId (string) - ID of the song
@@ -319,10 +339,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
         
         
-### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={?pageRank}]
+### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={pageRank}]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Parameters 
     + year (number) - year of the song
@@ -339,13 +357,24 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
                 "year": 2012,
                 "linkToSong" : "/SOMZWCG12A8C13C480"
                 "linkToArtist" : "ourserver.com/artists/ARD7TVE1187B99BFB1"           
-            }
+            },
+            {
+                "title": "Red Roses",
+                "artistsName" : "Bob",
+                "duration": 666,
+                "year": 2008
+                "linkToSong" : "/QWERTYUIOP12345678"
+                "linkToArtist" : "ourserver.com/artists/ABCDEFGHIJK1234567"
+            },
+            etc.
         ]
         
 + Response 200 (text/csv)
 
         "title", "artistsName", "duration", "year", "linkToSong", "linkToArtist"
         "Cowboy Jim", "Jack", "420", "2012", "/SOMZWCG12A8C13C480", "ourserver.com/artists/ARD7TVE1187B99BFB1"
+        "Red Roses", "Bob", "666", "2008", "/QWERTYUIOP12345678", "ourserver.com/artists/ABCDEFGHIJK1234567"
+        etc.
         
         
         
@@ -357,8 +386,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
  ### <a name="addSong"></a> Add Song [POST]
 
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
 + Request (application/json)
 
@@ -406,9 +433,6 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 ### <a name="updateSong"></a> Update Song [PUT /{songId}]
-
-+ Headers 
-    + representation (=json OR csv) - specifies the desired representation of the repsonse, if none is specified or an invalid value is given, json is used as the default
 
         
 + Response 200 (application/json)
