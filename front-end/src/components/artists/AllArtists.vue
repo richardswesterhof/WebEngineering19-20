@@ -53,22 +53,30 @@
 
     data() {
       return {
+        cacheValid: true,
+
         artists: [],
         isLoading: true,
       }
     },
 
     mounted() {
-      this.refreshArtists();
+      this.refreshArtists('-f');
     },
 
     methods: {
-      refreshArtists() {
+      refreshArtists(force) {
+        if(this.cacheValid && force !== '-f') return;
         this.isLoading = true;
         api.getArtists(this.$refs['filter-manager'].filters).then((response) => {
           this.artists = response;
           this.isLoading= false;
+          this.cacheValid = true;
         });
+      },
+
+      invalidateCache() {
+        this.cacheValid = false;
       },
     },
   }

@@ -14,13 +14,41 @@
             @click="toggleSubpage('individual')">
           </b-menu-item>
         </b-menu-list>
+
+        <b-menu-list label="Add song">
+          <b-menu-item
+            label="Add one song"
+            :active="$props.subpage === 'add'"
+            @click="toggleSubpage('add')">
+          </b-menu-item>
+          <b-menu-item
+            label="Import from csv file"
+            :active="$props.subpage === 'import'"
+            @click="toggleSubpage('import')">
+          </b-menu-item>
+        </b-menu-list>
+
+        <b-menu-list label="Replace song">
+          <b-menu-item
+            label="Replace a song"
+            :active="$props.subpage === 'replace'"
+            @click="toggleSubpage('replace')">
+          </b-menu-item>
+<!--          <b-menu-item-->
+<!--            label="Import from csv file"-->
+<!--            :active="$props.subpage === 'import'"-->
+<!--            @click="toggleSubpage('import')">-->
+<!--          </b-menu-item>-->
+        </b-menu-list>
       </b-menu>
     </div>
 
 
     <div class="tile is-6" style="display:inline-block; text-align: center;">
-      <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'"></AllSongs>
+      <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="songList"></AllSongs>
       <IndividualSong v-show="$props.subpage === 'individual'"></IndividualSong>
+
+      <AddSong v-show="$props.subpage === 'add'" v-on:song-addition="invalidateSongCache"></AddSong>
     </div>
   </div>
 </template>
@@ -29,10 +57,11 @@
   import FilterManager from "../FilterManager";
   import AllSongs from "./AllSongs";
   import IndividualSong from "./IndividualSong";
+  import AddSong from "./AddSong";
 
   export default {
     name: "Songs",
-    components: {IndividualSong, AllSongs, FilterManager},
+    components: {AddSong, IndividualSong, AllSongs, FilterManager},
     props: {
       subpage: {
         type: String,
@@ -42,6 +71,7 @@
 
     data() {
       return {
+        cacheValid: true,
         availableFilters: [
           {displayName: 'title', value: 'title', type: 'text'},
           {displayName: 'artist id', value: 'artistId', type: 'number'},
@@ -50,6 +80,15 @@
           {displayName: 'genre', value: 'genre', type: 'text'},
         ],
       }
+    },
+
+    beforeRouteUpdate(to, from, next) {
+      //if we open the list of songs, refresh the song list
+      if(to.params.subpage === 'all') {
+        this.$refs.songList.refreshSongs();
+      }
+      //always call next in beforeRouteUpdate, otherwise the actual re-routing will never happen
+      next();
     },
 
     methods: {
@@ -62,6 +101,10 @@
         else {
           this.$router.push('/songs/' + name);
         }
+      },
+
+      invalidateSongCache() {
+        this.$refs['songList'].invalidateCache();
       },
     },
   }

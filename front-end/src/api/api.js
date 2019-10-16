@@ -9,6 +9,7 @@ export default {
     });
   },
 
+
   getArtists(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to artists with: ' + queryParameters);
@@ -19,6 +20,7 @@ export default {
         return [];
     });
   },
+
 
   getArtist(artistid) {
     if(!artistid) return new Promise(function(resolve) {
@@ -32,6 +34,7 @@ export default {
       });
   },
 
+
   getSongs(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to songs with: ' + queryParameters);
@@ -42,6 +45,7 @@ export default {
         return [];
       });
   },
+
 
   getSong(songid) {
     if(!songid) return new Promise(function(resolve) {
@@ -54,6 +58,23 @@ export default {
         return {};
       });
   },
+
+
+  postArtist(name, terms) {
+    let requestBody = {name: name, terms: terms};
+    return axios.post('/api/artists', requestBody).then((response) => {
+      return response.data;
+    });
+  },
+
+
+  postSong(artistid, title, duration, year) {
+    let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
+    return axios.post('api/songs', requestBody).then((response) => {
+      return response.data;
+    });
+  },
+
 
   convertFilterArrayToParametersString(filters) {
     let queryParameters = '?';
@@ -68,6 +89,4 @@ export default {
 
     return queryParameters;
   },
-
-
 }

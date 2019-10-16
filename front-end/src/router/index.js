@@ -17,8 +17,7 @@ export default new Router({
     },
     {
       path: '/artists',
-      //space is important
-      redirect: '/artists/ ',
+      redirect: '/artists/all',
     },
     {
       path: '/artists/:subpage',
@@ -28,8 +27,7 @@ export default new Router({
     },
     {
       path: '/songs',
-      //space is important
-      redirect: '/songs/ ',
+      redirect: '/songs/all',
 
     },
     {

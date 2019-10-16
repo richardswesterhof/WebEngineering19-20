@@ -52,24 +52,33 @@
 
     data() {
       return {
+        cacheValid: true,
         songs: [],
         isLoading: true,
       }
     },
 
     mounted() {
-      this.refreshSongs();
+      this.refreshSongs('-f');
     },
 
     methods: {
-      refreshSongs() {
+      refreshSongs(force) {
+        //if the cache is still valid, there is no need to refresh
+        //unless the '-f' flag is given, then always refresh
+        if(this.cacheValid && force !== '-f') return;
         this.isLoading = true;
         api.getSongs(this.$refs['filter-manager'].filters).then((response) => {
           this.songs = response;
           this.isLoading = false;
+          this.cacheValid = true;
         });
       },
-    }
+
+      invalidateCache() {
+        this.cacheValid = false;
+      },
+    },
   }
 </script>
 

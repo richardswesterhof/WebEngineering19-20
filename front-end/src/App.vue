@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <div class="everythingExceptFooter">
-      <Header ref="header"></Header>
+    <div>
       <Navigation ref="navigation"></Navigation>
       <router-view style="text-align:left"/>
     </div>
@@ -42,10 +41,11 @@ export default {
 }
 
 .spacer {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 .footer {
+  margin-top:1em;
   height: 2em;
 }
 </style>
