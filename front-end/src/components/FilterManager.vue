@@ -1,7 +1,7 @@
 <template>
   <div>
     <label><b>Add a filter</b></label>
-    <b-field grouped style="width: 36em; margin-left: auto; margin-right: auto;">
+    <b-field grouped style="width: 40em; margin-left: auto; margin-right: auto;">
       <b-dropdown v-model="selectedFilter" @input="updateFieldType">
         <button class="button" slot="trigger">
           <span>{{selectedFilter ? selectedFilter.displayName : '(select filter)'}}</span>
@@ -24,7 +24,7 @@
     </b-field>
 
 
-    <b-taglist style="width:36em; margin-left: auto; margin-right:auto;">
+    <b-taglist class="custom-centered" style="width:40em;">
       <template v-for="filter in filters">
         <b-tag type="is-primary" closable @close="removeFilter(filter)">
           {{filter.displayName}} = {{filter.filterValue}}</b-tag>

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from "../components/page-addons/Home";
 import ArtistsPage from "../components/artists/ArtistsPage";
 import SongsPage from "../components/songs/SongsPage";
+import ImportPage from "../components/ImportPage";
+import NotFoundPage from "../components/page-addons/NotFoundPage";
 
 Vue.use(Router);
 
@@ -35,6 +37,16 @@ export default new Router({
       name: 'Songs',
       component: SongsPage,
       props: true,
+    },
+    {
+      path: '/import',
+      name: 'Import',
+      component : ImportPage,
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFoundPage,
     }
-  ]
-})
+  ],
+});

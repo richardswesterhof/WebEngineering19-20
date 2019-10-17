@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <section>
+    <h2 class=is-subpage-title>Browse Individual Songs</h2>
+
     <label><b>Enter ID</b></label>
     <b-field grouped style="width:16em; margin-left: auto; margin-right:auto;">
       <b-input v-model="songId"
@@ -10,7 +12,7 @@
       <b-button class="button is-primary" @click="getSongById">retrieve</b-button>
     </b-field>
 
-    <b-table :data="song ? [song] : [{}]" style="max-width:40em; margin-left:auto; margin-right:auto;">
+    <b-table :data="song ? [song] : [{}]" class="is-table custom-centered">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>
           {{ props.row.songid }}
@@ -27,7 +29,7 @@
     </b-table>
 
     {{song === '' ? 'No song found with id = ' + requestedId + ' :(' : ''}}
-  </div>
+  </section>
 </template>
 
 <script>

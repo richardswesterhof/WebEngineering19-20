@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <section>
+    <h2 class=is-subpage-title>Browse All Songs</h2>
+
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
                    v-on:requirements-met="refreshSongs()"
@@ -12,7 +14,7 @@
     <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 
-    <b-table :data="songs" style="max-width:40em; margin-left:auto; margin-right:auto;">
+    <b-table :data="songs" class="is-table custom-centered">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>
           {{ props.row.songid }}
@@ -32,7 +34,7 @@
       <p>There are no songs matching those filters in the database :(</p>
       <p>Try making your filters more broad and make sure they don't contain any typos</p>
     </template>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -79,10 +81,5 @@
 </script>
 
 <style scoped>
-  .separator-line {
-    width: 36em;
-    border-bottom: 2px solid darkgray;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
 </style>

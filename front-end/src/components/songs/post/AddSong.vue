@@ -1,29 +1,31 @@
 <template>
   <section>
+    <h2 class="is-subpage-title">Add Song</h2>
+
     <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 
-    <b-field label="Artist ID" horizontal style="width: 36em; margin: 1.5em auto 0.5em;">
+    <b-field class="is-input is-first" label="Artist ID" horizontal>
       <b-input v-model="artistId" type="number" min="1" placeholder="artist id...">
       </b-input>
     </b-field>
 
-    <b-field label="Title" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Title" horizontal>
       <b-input v-model="title" placeholder="title...">
       </b-input>
     </b-field>
 
-    <b-field label="Duration" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Duration" horizontal>
       <b-input v-model="duration" type="number" min="0" placeholder="duration in seconds...">
       </b-input>
     </b-field>
 
-    <b-field label="Year" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Year" horizontal>
       <b-input v-model="year" type="number" min="0" placeholder="year...">
       </b-input>
     </b-field>
 
-    <b-button class="button is-primary" @click="submitSong" style="margin-left: 29em;">submit song</b-button>
+    <b-button class="button is-primary is-submit-button" @click="submitSong">submit song</b-button>
   </section>
 </template>
 
