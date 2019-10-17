@@ -59,7 +59,13 @@
     },
 
     methods: {
+      //provides and alias for refreshStats
+      refreshArtists() {
+        this.refreshStats();
+      },
+
       refreshStats() {
+        if(!this.artistId || this.artistId < 1) return;
         this.isLoading = true;
         let filters = this.$refs['filter-manager'].filters;
         let artistid;

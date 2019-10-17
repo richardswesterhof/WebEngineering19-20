@@ -54,7 +54,6 @@
             message: 'song is now in the database',
             type: 'is-success',
           });
-          this.$emit('song-addition');
         });
       },
     },

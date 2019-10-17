@@ -1,6 +1,10 @@
 import axios from 'axios';
 import unnullifier from '../utils/unnullifier.js';
 
+
+/**
+ * this class provides a wrapper around the actual back end for ease of use in the front end
+ */
 export default {
 
   getTestObject() {

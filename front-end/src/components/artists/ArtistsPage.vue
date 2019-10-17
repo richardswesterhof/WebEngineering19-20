@@ -58,11 +58,11 @@
 
     <div class="tile is-6" style="display:inline-block; text-align: center;">
 
-      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="artistList"></AllArtists>
-      <IndividualArtist v-show="$props.subpage === 'individual'"></IndividualArtist>
-      <ArtistStatistics v-show="$props.subpage === 'stats'"></ArtistStatistics>
+      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllArtists>
+      <IndividualArtist v-show="$props.subpage === 'individual'" ref="individual"></IndividualArtist>
+      <ArtistStatistics v-show="$props.subpage === 'stats'" ref="stats"></ArtistStatistics>
 
-      <AddArtist v-show="$props.subpage === 'add'" v-on:artist-addition="invalidateArtistCache"></AddArtist>
+      <AddArtist v-show="$props.subpage === 'add'" ref="add"></AddArtist>
 
     </div>
   </div>
@@ -91,14 +91,28 @@
           {displayName: 'name', value: 'artistName', type: 'text'},
           {displayName: 'genre', value: 'genre', type: 'text'},
         ],
+
+        dataContainingRefs: ['all', 'individual', 'stats'],
       }
     },
 
     beforeRouteUpdate(to, from, next) {
-      //if we open the list of artists, refresh the artist list
-      if(to.params.subpage === 'all') {
-        this.$refs.artistList.refreshArtists();
+      //if the page we are routing to doesn't contain data, it doesn't need to refresh
+      let subpage = to.params.subpage;
+      if(!this.dataContainingRefs.includes(subpage)) {
+        next();
+        return;
       }
+
+      //refresh the song list, if possible
+      if(this.$refs[subpage] && this.$refs[subpage].refreshArtists) {
+        this.$refs[subpage].refreshArtists();
+      }
+      //if not give a warning
+      else {
+        console.warn('The following reference could not be found or did not have method refreshArtists: ' + subpage);
+      }
+
       //always call next in beforeRouteUpdate, otherwise the actual re-routing will never happen
       next();
     },
@@ -114,10 +128,6 @@
           this.$router.push('/artists/' + name);
         }
       },
-
-      invalidateArtistCache() {
-        this.$refs['artistList'].invalidateCache();
-      }
     },
   }
 </script>

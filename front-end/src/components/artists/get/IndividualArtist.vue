@@ -52,7 +52,12 @@
     },
 
     methods: {
+      refreshArtists() {
+        this.getArtistById()
+      },
+
       getArtistById() {
+        if(!this.artistId || this.artistId < 1) return;
         this.isLoading = true;
         this.requestedId = this.artistId;
         api.getArtist(this.artistId).then((response) => {

@@ -47,7 +47,13 @@
     },
 
     methods: {
+      //provides an alias for getSongById
+      refreshSongs() {
+        this.getSongById();
+      },
+
       getSongById() {
+        if(!this.songId || this.songId < 1) return;
         this.isLoading = true;
         this.requestedId = this.songId;
         api.getSong(this.songId).then((response) => {

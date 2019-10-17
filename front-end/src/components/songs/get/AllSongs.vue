@@ -2,7 +2,7 @@
   <div>
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:requirements-met="refreshSongs('-f')"
+                   v-on:requirements-met="refreshSongs()"
                    style="margin-bottom:0.5em;"
     ></FilterManager>
 
@@ -24,6 +24,10 @@
 
         <b-table-column field="artistName" label="Artist Name">
           {{ props.row.artistName }}
+        </b-table-column>
+
+        <b-table-column label="Delete">
+          <b-button class="button is-danger is-small" @click="deleteSong(props.row.songid)">delete</b-button>
         </b-table-column>
       </template>
     </b-table>
@@ -52,32 +56,29 @@
 
     data() {
       return {
-        cacheValid: true,
         songs: [],
         isLoading: true,
       }
     },
 
     mounted() {
-      this.refreshSongs('-f');
+      this.refreshSongs();
     },
 
     methods: {
-      refreshSongs(force) {
-        //if the cache is still valid, there is no need to refresh
-        //unless the '-f' flag is given, then always refresh
-        if(this.cacheValid && force !== '-f') return;
+      refreshSongs() {
         this.isLoading = true;
         api.getSongs(this.$refs['filter-manager'].filters).then((response) => {
           this.songs = response;
           this.isLoading = false;
-          this.cacheValid = true;
         });
       },
 
-      invalidateCache() {
-        this.cacheValid = false;
-      },
+      deleteSong(songid) {
+        api.deleteSong(songid).then((response) => {
+          this.refreshSongs();
+        })
+      }
     },
   }
 </script>

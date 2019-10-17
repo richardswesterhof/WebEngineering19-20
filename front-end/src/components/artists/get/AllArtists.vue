@@ -2,7 +2,7 @@
   <div>
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:requirements-met="refreshArtists('-f')"
+                   v-on:requirements-met="refreshArtists()"
                    style="margin-bottom:0.5em;"
     ></FilterManager>
 
@@ -53,30 +53,22 @@
 
     data() {
       return {
-        cacheValid: true,
-
         artists: [],
         isLoading: true,
       }
     },
 
     mounted() {
-      this.refreshArtists('-f');
+      this.refreshArtists();
     },
 
     methods: {
-      refreshArtists(force) {
-        if(this.cacheValid && force !== '-f') return;
+      refreshArtists() {
         this.isLoading = true;
         api.getArtists(this.$refs['filter-manager'].filters).then((response) => {
           this.artists = response;
           this.isLoading= false;
-          this.cacheValid = true;
         });
-      },
-
-      invalidateCache() {
-        this.cacheValid = false;
       },
     },
   }

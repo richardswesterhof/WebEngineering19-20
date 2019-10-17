@@ -45,10 +45,10 @@
 
 
     <div class="tile is-6" style="display:inline-block; text-align: center;">
-      <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="songList"></AllSongs>
-      <IndividualSong v-show="$props.subpage === 'individual'"></IndividualSong>
+      <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllSongs>
+      <IndividualSong v-show="$props.subpage === 'individual'" ref="individual"></IndividualSong>
 
-      <AddSong v-show="$props.subpage === 'add'" v-on:song-addition="invalidateSongCache"></AddSong>
+      <AddSong v-show="$props.subpage === 'add'" ref="add"></AddSong>
     </div>
   </div>
 </template>
@@ -71,7 +71,6 @@
 
     data() {
       return {
-        cacheValid: true,
         availableFilters: [
           {displayName: 'title', value: 'title', type: 'text'},
           {displayName: 'artist id', value: 'artistId', type: 'number'},
@@ -79,14 +78,28 @@
           {displayName: 'year of release', value: 'year', type: 'number'},
           {displayName: 'genre', value: 'genre', type: 'text'},
         ],
+
+        dataContainingRefs: ['all', 'individual'],
       }
     },
 
     beforeRouteUpdate(to, from, next) {
-      //if we open the list of songs, refresh the song list
-      if(to.params.subpage === 'all') {
-        this.$refs.songList.refreshSongs();
+      //if the page we are routing to doesn't contain data, it doesn't need to refresh
+      let subpage = to.params.subpage;
+      if(!this.dataContainingRefs.includes(subpage)) {
+        next();
+        return;
       }
+
+      //refresh the song list, if possible
+      if(this.$refs[subpage] && this.$refs[subpage].refreshSongs) {
+        this.$refs[subpage].refreshSongs();
+      }
+      //if not give a warning
+      else {
+        console.warn('The following reference could not be found or did not have method refreshSongs: ' + subpage);
+      }
+
       //always call next in beforeRouteUpdate, otherwise the actual re-routing will never happen
       next();
     },
@@ -101,10 +114,6 @@
         else {
           this.$router.push('/songs/' + name);
         }
-      },
-
-      invalidateSongCache() {
-        this.$refs['songList'].invalidateCache();
       },
     },
   }

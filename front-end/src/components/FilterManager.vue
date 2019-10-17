@@ -27,7 +27,7 @@
     <b-taglist style="width:36em; margin-left: auto; margin-right:auto;">
       <template v-for="filter in filters">
         <b-tag type="is-primary" closable @close="removeFilter(filter)">
-          {{filter.filterName}} = {{filter.filterValue}}</b-tag>
+          {{filter.displayName}} = {{filter.filterValue}}</b-tag>
       </template>
     </b-taglist>
   </div>
@@ -61,7 +61,7 @@
           });
           return;
         }
-        let newFilter = {filterName: this.selectedFilter.value, filterValue: this.filterValue};
+        let newFilter = {filterName: this.selectedFilter.value, filterValue: this.filterValue, displayName: this.selectedFilter.displayName};
         for(let i = 0; i < this.filters.length; i++) {
           if(this.filters[i].filterName === this.selectedFilter.value) {
             this.filters.splice(i, 1);
