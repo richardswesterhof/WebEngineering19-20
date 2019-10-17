@@ -58,13 +58,19 @@
 
     <div class="tile is-6" style="display:inline-block; text-align: center;">
 
+      <!-- get requests -->
       <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllArtists>
       <IndividualArtist v-show="$props.subpage === 'individual'" ref="individual"></IndividualArtist>
       <ArtistStatistics v-show="$props.subpage === 'stats'" ref="stats"></ArtistStatistics>
 
+      <!-- post requests -->
       <AddArtist v-show="$props.subpage === 'add'" ref="add"></AddArtist>
 
+      <!-- put requests -->
       <UpdateArtist v-show="$props.subpage === 'replace'" ref="replace"></UpdateArtist>
+
+      <!-- delete requests -->
+      <RemoveArtist v-show="$props.subpage === 'remove'" ref="remove"></RemoveArtist>
 
     </div>
   </div>
@@ -77,9 +83,10 @@
   import AddArtist from "./post/AddArtist";
   import ArtistStatistics from "./get/ArtistStatistics";
   import UpdateArtist from "./put/UpdateArtist";
+  import RemoveArtist from "./delete/RemoveArtist";
   export default {
     name: "Artists",
-    components: {UpdateArtist, ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
+    components: {RemoveArtist, UpdateArtist, ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
 
     props: {
       subpage: {

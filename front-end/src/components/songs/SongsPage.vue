@@ -45,11 +45,15 @@
 
 
     <div class="tile is-6" style="display:inline-block; text-align: center;">
+
+      <!-- get requests -->
       <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllSongs>
       <IndividualSong v-show="$props.subpage === 'individual'" ref="individual"></IndividualSong>
 
+      <!-- post requests -->
       <AddSong v-show="$props.subpage === 'add'" ref="add"></AddSong>
 
+      <!-- put requests -->
       <UpdateSong v-show="$props.subpage === 'replace'" ref="replace"></UpdateSong>
     </div>
   </div>

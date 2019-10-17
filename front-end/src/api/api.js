@@ -19,9 +19,8 @@ export default {
     console.log('making query to artists with: ' + queryParameters);
     return axios.get('/api/artists' + queryParameters).then((response) => {
       return response;
-    },
-      (error) => {
-        return [];
+    }, (error) => {
+      return [];
     });
   },
 
@@ -32,10 +31,9 @@ export default {
     });
     return axios.get('/api/artists/' + artistid).then((response) => {
       return response;
-    },
-      (error) => {
-        return {};
-      });
+    }, (error) => {
+      return {};
+    });
   },
 
 
@@ -45,10 +43,9 @@ export default {
     });
     return axios.get('/api/artists/' + artistid + '/statistics?year=' + (year ? year : '')).then((response) => {
       return response;
-    },
-      (error) => {
-        return {};
-      });
+    }, (error) => {
+      return {};
+    });
   },
 
 
@@ -57,10 +54,9 @@ export default {
     console.log('making query to songs with: ' + queryParameters);
     return axios.get('/api/songs' + queryParameters).then((response) => {
       return response;
-    },
-      (error) => {
-        return [];
-      });
+    }, (error) => {
+      return [];
+    });
   },
 
 
@@ -70,10 +66,9 @@ export default {
     });
     return axios.get('/api/songs/' + songid).then((response) => {
       return response;
-    },
-      (error) => {
-        return {};
-      });
+    }, (error) => {
+      return error;
+    });
   },
 
 
@@ -97,10 +92,9 @@ export default {
     let requestBody = {name: name, terms: terms};
     return axios.put('/api/artists/' + artistid, requestBody).then((response) => {
       return response;
-    },
-      (error) => {
-        return error;
-      });
+    }, (error) => {
+      return error;
+    });
   },
 
 
@@ -108,9 +102,17 @@ export default {
     let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
     return axios.put('/api/songs/' + songid, requestBody).then((response) => {
       return response;
-    },
-      (error) => {
-        return error;
+    }, (error) => {
+      return error;
+    });
+  },
+
+
+  deleteArtist(artistid) {
+    return axios.delete('/api/artists/' + artistid).then((response) => {
+      return response;
+    }, (error) => {
+      return error;
     });
   },
 
