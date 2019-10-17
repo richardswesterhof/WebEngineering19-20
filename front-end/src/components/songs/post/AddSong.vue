@@ -38,7 +38,7 @@
         isLoading: false,
 
         artistId: null,
-        title: '',
+        title: null,
         duration: null,
         year: null,
       }
@@ -46,16 +46,32 @@
 
     methods: {
       submitSong() {
+        if(!(this.artistId && this.title && this.duration && this.year)) {
+          this.$buefy.toast.open({message: 'please fill in all fields', type: 'is-primary'});
+          return;
+        }
         this.isLoading = true;
         api.postSong(this.artistId, this.title, this.duration, this.year).then((response) => {
-          console.log(response);
+          if(response.status === 201) {
+            this.$buefy.toast.open({
+              message: 'song is now in the database',
+              type: 'is-success',
+            });
+            this.clearFields();
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading = false;
-          this.$buefy.toast.open({
-            message: 'song is now in the database',
-            type: 'is-success',
-          });
         });
       },
+
+      clearFields() {
+        this.artistId = null;
+        this.title = null;
+        this.duration = null;
+        this.year = null;
+      }
     },
   }
 </script>

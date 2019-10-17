@@ -161,13 +161,13 @@ public class SongApi {
         try {
             id = Integer.parseInt(songId);
         } catch(NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "";
         }
 
         Song song = replaceSong(id, addSong);
         if(song == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "";
         }
 
@@ -184,13 +184,13 @@ public class SongApi {
         try {
             id = Integer.parseInt(songId);
         } catch(NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
 
         Song song = replaceSong(id, addSong);
         if(song == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
 
         return song;

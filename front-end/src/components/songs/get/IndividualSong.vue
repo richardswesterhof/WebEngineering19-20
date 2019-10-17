@@ -57,7 +57,12 @@
         this.isLoading = true;
         this.requestedId = this.songId;
         api.getSong(this.songId).then((response) => {
-          this.song = response;
+          if(response.status === 200) {
+            this.song = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading = false;
         });
       },

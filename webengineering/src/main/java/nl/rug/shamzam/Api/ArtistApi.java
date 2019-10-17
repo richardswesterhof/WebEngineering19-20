@@ -127,7 +127,7 @@ public class ArtistApi {
         else {
             response.setHeader(HttpHeaders.LOCATION, "/api/artists/" + a.getArtistid());
         }
-        response.setStatus(201);
+        response.setStatus(HttpServletResponse.SC_CREATED);
         return new ArtistReturnPost(a);
     }
 
@@ -162,7 +162,7 @@ public class ArtistApi {
 
 
 
-    //ALLE CSV REQUESTS!!
+    //ALL CSV REQUESTS!!
     @GetMapping(value = "/{artistId}", produces = {"text/csv"})
     public String getArtistCsv(@PathVariable int artistId,  HttpServletResponse response) {
 

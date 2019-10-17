@@ -41,6 +41,9 @@ public class SongService {
 
     public Song replaceSong(int songId, Song replacement) {
         Song oldSong = songRepository.getSongById(songId);
+        if(oldSong == null) {
+            return null;
+        }
         oldSong.update(replacement);
         return songRepository.save(oldSong);
     }

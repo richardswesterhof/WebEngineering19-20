@@ -61,7 +61,12 @@
         this.isLoading = true;
         this.requestedId = this.artistId;
         api.getArtist(this.artistId).then((response) => {
-          this.artist = response;
+          if(response.status === 200) {
+            this.artist = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading = false;
         });
       },

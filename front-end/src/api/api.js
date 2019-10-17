@@ -18,7 +18,7 @@ export default {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to artists with: ' + queryParameters);
     return axios.get('/api/artists' + queryParameters).then((response) => {
-      return response.data;
+      return response;
     },
       (error) => {
         return [];
@@ -31,7 +31,7 @@ export default {
       resolve({error: 'no artistid given'});
     });
     return axios.get('/api/artists/' + artistid).then((response) => {
-      return response.data;
+      return response;
     },
       (error) => {
         return {};
@@ -44,7 +44,7 @@ export default {
       resolve({error: 'no artistid given'});
     });
     return axios.get('/api/artists/' + artistid + '/statistics?year=' + (year ? year : '')).then((response) => {
-      return response.data;
+      return response;
     },
       (error) => {
         return {};
@@ -56,7 +56,7 @@ export default {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to songs with: ' + queryParameters);
     return axios.get('/api/songs' + queryParameters).then((response) => {
-      return response.data;
+      return response;
     },
       (error) => {
         return [];
@@ -69,7 +69,7 @@ export default {
       resolve({error: 'no songid given'});
     });
     return axios.get('/api/songs/' + songid).then((response) => {
-      return response.data;
+      return response;
     },
       (error) => {
         return {};
@@ -80,15 +80,37 @@ export default {
   postArtist(name, terms) {
     let requestBody = {name: name, terms: terms};
     return axios.post('/api/artists', requestBody).then((response) => {
-      return response.data;
+      return response;
     });
   },
 
 
   postSong(artistid, title, duration, year) {
     let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
-    return axios.post('api/songs', requestBody).then((response) => {
-      return response.data;
+    return axios.post('/api/songs', requestBody).then((response) => {
+      return response;
+    });
+  },
+
+
+  putArtist(artistid, name, terms) {
+    let requestBody = {name: name, terms: terms};
+    return axios.put('/api/artists/' + artistid, requestBody).then((response) => {
+      return response;
+    },
+      (error) => {
+        return error;
+      });
+  },
+
+
+  putSong(songid, artistid, title, duration, year) {
+    let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
+    return axios.put('/api/songs/' + songid, requestBody).then((response) => {
+      return response;
+    },
+      (error) => {
+        return error;
     });
   },
 

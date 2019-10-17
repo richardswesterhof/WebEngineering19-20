@@ -49,6 +49,8 @@
       <IndividualSong v-show="$props.subpage === 'individual'" ref="individual"></IndividualSong>
 
       <AddSong v-show="$props.subpage === 'add'" ref="add"></AddSong>
+
+      <UpdateSong v-show="$props.subpage === 'replace'" ref="replace"></UpdateSong>
     </div>
   </div>
 </template>
@@ -58,10 +60,11 @@
   import AllSongs from "./get/AllSongs";
   import IndividualSong from "./get/IndividualSong";
   import AddSong from "./post/AddSong";
+  import UpdateSong from "./put/UpdateSong";
 
   export default {
     name: "Songs",
-    components: {AddSong, IndividualSong, AllSongs, FilterManager},
+    components: {UpdateSong, AddSong, IndividualSong, AllSongs, FilterManager},
     props: {
       subpage: {
         type: String,

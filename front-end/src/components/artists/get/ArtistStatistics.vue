@@ -80,11 +80,16 @@
         }
 
         api.getArtistStats(artistid, year).then((response) => {
-          this.requestedId = artistid;
-          this.stats = response;
+          if(response.status === 200) {
+            this.requestedId = artistid;
+            this.stats = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading = false;
         });
-      }
+      },
     },
   }
 </script>

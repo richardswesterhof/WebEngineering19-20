@@ -25,10 +25,6 @@
         <b-table-column field="artistName" label="Artist Name">
           {{ props.row.artistName }}
         </b-table-column>
-
-        <b-table-column label="Delete">
-          <b-button class="button is-danger is-small" @click="deleteSong(props.row.songid)">delete</b-button>
-        </b-table-column>
       </template>
     </b-table>
 
@@ -69,16 +65,15 @@
       refreshSongs() {
         this.isLoading = true;
         api.getSongs(this.$refs['filter-manager'].filters).then((response) => {
-          this.songs = response;
+          if(response.status === 200) {
+            this.songs = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading = false;
         });
       },
-
-      deleteSong(songid) {
-        api.deleteSong(songid).then((response) => {
-          this.refreshSongs();
-        })
-      }
     },
   }
 </script>

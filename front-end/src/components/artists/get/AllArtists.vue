@@ -66,7 +66,12 @@
       refreshArtists() {
         this.isLoading = true;
         api.getArtists(this.$refs['filter-manager'].filters).then((response) => {
-          this.artists = response;
+          if(response.status === 200) {
+            this.artists = response.data;
+          }
+          else {
+            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+          }
           this.isLoading= false;
         });
       },

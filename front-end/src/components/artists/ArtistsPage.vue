@@ -64,6 +64,8 @@
 
       <AddArtist v-show="$props.subpage === 'add'" ref="add"></AddArtist>
 
+      <UpdateArtist v-show="$props.subpage === 'replace'" ref="replace"></UpdateArtist>
+
     </div>
   </div>
 </template>
@@ -74,9 +76,10 @@
   import IndividualArtist from "./get/IndividualArtist";
   import AddArtist from "./post/AddArtist";
   import ArtistStatistics from "./get/ArtistStatistics";
+  import UpdateArtist from "./put/UpdateArtist";
   export default {
     name: "Artists",
-    components: {ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
+    components: {UpdateArtist, ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
 
     props: {
       subpage: {
