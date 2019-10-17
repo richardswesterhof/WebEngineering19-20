@@ -13,6 +13,11 @@
             :active="$props.subpage === 'individual'"
             @click="toggleSubpage('individual')">
           </b-menu-item>
+          <b-menu-item
+            label="Browse artist statistics"
+            :active="$props.subpage === 'stats'"
+            @click="toggleSubpage('stats')">
+          </b-menu-item>
         </b-menu-list>
 
         <b-menu-list label="Add artist">
@@ -55,6 +60,7 @@
 
       <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="artistList"></AllArtists>
       <IndividualArtist v-show="$props.subpage === 'individual'"></IndividualArtist>
+      <ArtistStatistics v-show="$props.subpage === 'stats'"></ArtistStatistics>
 
       <AddArtist v-show="$props.subpage === 'add'" v-on:artist-addition="invalidateArtistCache"></AddArtist>
 
@@ -64,12 +70,13 @@
 
 <script>
   import FilterManager from "../FilterManager";
-  import AllArtists from "./AllArtists";
-  import IndividualArtist from "./IndividualArtist";
-  import AddArtist from "./AddArtist";
+  import AllArtists from "./get/AllArtists";
+  import IndividualArtist from "./get/IndividualArtist";
+  import AddArtist from "./post/AddArtist";
+  import ArtistStatistics from "./get/ArtistStatistics";
   export default {
     name: "Artists",
-    components: {AddArtist, IndividualArtist, AllArtists, FilterManager},
+    components: {ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
 
     props: {
       subpage: {

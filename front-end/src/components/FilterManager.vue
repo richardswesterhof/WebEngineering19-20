@@ -11,7 +11,7 @@
             aria-role="listitem"
             :key="filter.displayName"
             :value="filter">
-            {{filter.displayName}}</b-dropdown-item>
+            {{filter.displayName}} <strong>{{filter.required ? ' (required)' : ''}}</strong></b-dropdown-item>
         </template>
       </b-dropdown>
       <span style="width: 2em; margin-top:0.5em;">=</span>
@@ -27,7 +27,7 @@
     <b-taglist style="width:36em; margin-left: auto; margin-right:auto;">
       <template v-for="filter in filters">
         <b-tag type="is-primary" closable @close="removeFilter(filter)">
-          {{Object.keys(filter)[0]}} = {{filter[Object.keys(filter)[0]]}}</b-tag>
+          {{filter.filterName}} = {{filter.filterValue}}</b-tag>
       </template>
     </b-taglist>
   </div>
@@ -61,10 +61,9 @@
           });
           return;
         }
-        let newFilter = {};
-        newFilter[this.selectedFilter.value] = this.filterValue;
+        let newFilter = {filterName: this.selectedFilter.value, filterValue: this.filterValue};
         for(let i = 0; i < this.filters.length; i++) {
-          if(Object.keys(this.filters[i])[0] === this.selectedFilter.value) {
+          if(this.filters[i].filterName === this.selectedFilter.value) {
             this.filters.splice(i, 1);
             i--;
           }
@@ -72,11 +71,34 @@
         this.filters.push(newFilter);
         this.filterValue = '';
         this.$emit('filter-update');
+        if(this.allRequiredAreFilled()) {
+          this.$emit('requirements-met');
+        }
+      },
+
+      allRequiredAreFilled() {
+        for(let i = 0; i < this.$props.availableFilters.length; i++) {
+          if(this.$props.availableFilters[i].required) {
+            let isPresent = false;
+            for(let j = 0; j < this.filters.length; j++) {
+              if(this.filters[j].filterName === this.$props.availableFilters[i].value) {
+                isPresent = true;
+              }
+            }
+            if(!isPresent) {
+              return false;
+            }
+          }
+        }
+        return true;
       },
 
       removeFilter(filter) {
         this.filters.splice(this.filters.indexOf(filter), 1);
         this.$emit('filter-update');
+        if(this.allRequiredAreFilled()) {
+          this.$emit('requirements-met');
+        }
       },
 
       updateFieldType() {

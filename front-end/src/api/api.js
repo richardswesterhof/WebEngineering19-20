@@ -35,6 +35,19 @@ export default {
   },
 
 
+  getArtistStats(artistid, year) {
+    if(!artistid) return new Promise(function(resolve) {
+      resolve({error: 'no artistid given'});
+    });
+    return axios.get('/api/artists/' + artistid + '/statistics?year=' + (year ? year : '')).then((response) => {
+      return response.data;
+    },
+      (error) => {
+        return {};
+      });
+  },
+
+
   getSongs(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to songs with: ' + queryParameters);
@@ -82,8 +95,8 @@ export default {
       //extracts all fields from the objects in the filters array
       for(let i = 0; i < filters.length; i++) {
         if(i !== 0) queryParameters += '&';
-        let param = Object.keys(filters[i])[0];
-        queryParameters += param + '=' + unnullifier.toNNS(filters[i][param]);
+        let param = filters[i].filterName;
+        queryParameters += param + '=' + unnullifier.toNNS(filters[i].filterValue);
       }
     }
 

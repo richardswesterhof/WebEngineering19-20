@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @CrossOrigin
@@ -78,10 +75,8 @@ public class ArtistApi {
             return new ArtistStatistics(0,0,0);
         }
         if(year != null) {
-            for (Song s: songs) {
-                if(s.getYear() != year)
-                    songs.remove(s);
-            }
+            //removing the songs this way prevents a ConcurrentModificationException
+            songs.removeIf((Song song) -> song.getYear() != year);
         }
 
         DescriptiveStatistics ds = new DescriptiveStatistics();

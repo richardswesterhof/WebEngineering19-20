@@ -2,7 +2,7 @@
   <div>
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:filter-update="refreshSongs"
+                   v-on:requirements-met="refreshSongs('-f')"
                    style="margin-bottom:0.5em;"
     ></FilterManager>
 
@@ -36,8 +36,8 @@
 </template>
 
 <script>
-  import api from "../../api/api";
-  import FilterManager from "../FilterManager";
+  import api from "../../../api/api";
+  import FilterManager from "../../FilterManager";
 
   export default {
     name: "AllSongs",

@@ -55,9 +55,9 @@
 
 <script>
   import FilterManager from "../FilterManager";
-  import AllSongs from "./AllSongs";
-  import IndividualSong from "./IndividualSong";
-  import AddSong from "./AddSong";
+  import AllSongs from "./get/AllSongs";
+  import IndividualSong from "./get/IndividualSong";
+  import AddSong from "./post/AddSong";
 
   export default {
     name: "Songs",

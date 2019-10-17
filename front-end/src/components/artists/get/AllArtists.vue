@@ -2,7 +2,7 @@
   <div>
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:filter-update="refreshArtists"
+                   v-on:requirements-met="refreshArtists('-f')"
                    style="margin-bottom:0.5em;"
     ></FilterManager>
 
@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import api from "../../api/api";
-  import FilterManager from "../FilterManager";
+  import api from "../../../api/api";
+  import FilterManager from "../../FilterManager";
 
   export default {
     name: "AllArtists",
