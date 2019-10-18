@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <b-field label="Artist ID" horizontal style="width: 36em; margin: 1.5em auto 0.5em;">
+  <section>
+    <h2 class=is-subpage-title>Replace Artist</h2>
+
+    <b-field class="is-input is-first" label="Artist ID" horizontal>
       <b-input v-model="artistId" type="number" min="1" placeholder="artist id...">
       </b-input>
     </b-field>
 
-    <b-field label="Name" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Name" horizontal>
       <b-input v-model="name" placeholder="name...">
       </b-input>
     </b-field>
 
-    <b-field label="Genre" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Genre" horizontal>
       <b-input v-model="terms" placeholder="genre...">
       </b-input>
     </b-field>
 
-    <b-button class="button is-primary" @click="updateArtist" style="margin-left: 29em;">replace artist</b-button>
-  </div>
+    <b-button class="button is-primary is-submit-button" @click="updateArtist">replace artist</b-button>
+  </section>
 </template>
 
 <script>

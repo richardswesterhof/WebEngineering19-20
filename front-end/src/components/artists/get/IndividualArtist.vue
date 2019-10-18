@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <section>
+    <h2 class=is-subpage-title>Browse Individual Artists</h2>
+
     <label><b>Enter ID</b></label>
     <b-field grouped style="width:16em; margin-left: auto; margin-right:auto;">
       <b-input v-model="artistId"
@@ -15,7 +17,7 @@
     <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 
-    <b-table :data="artist ? [artist] : [{}]" style="max-width:40em; margin-left:auto; margin-right:auto;">
+    <b-table :data="artist ? [artist] : [{}]" class="is-table custom-centered">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>
           {{ props.row.id }}
@@ -32,7 +34,7 @@
     </b-table>
 
     {{artist === '' ? 'No artist found with id = ' + requestedId + ' :(' : ''}}
-  </div>
+  </section>
 </template>
 
 <script>
@@ -75,10 +77,5 @@
 </script>
 
 <style scoped>
-  .separator-line {
-    width: 36em;
-    border-bottom: 2px solid darkgray;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
 </style>

@@ -1,19 +1,21 @@
 <template>
   <section>
+    <h2 class=is-subpage-title>Add Artist</h2>
+
     <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 
-    <b-field label="Name" horizontal style="width: 36em; margin: 1.5em auto 0.5em;">
+    <b-field class="is-input is-first" label="Name" horizontal>
       <b-input v-model="name" placeholder="name...">
       </b-input>
     </b-field>
 
-    <b-field label="Genre" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
+    <b-field class="is-input" label="Genre" horizontal>
       <b-input v-model="terms" placeholder="genre...">
       </b-input>
     </b-field>
 
-    <b-button class="button is-primary" @click="submitArtist" style="margin-left: 29em;">submit artist</b-button>
+    <b-button class="button is-primary is-submit-button" @click="submitArtist">submit artist</b-button>
   </section>
 </template>
 

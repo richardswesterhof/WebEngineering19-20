@@ -1,0 +1,61 @@
+:root {
+  --primaryColor: #267bad;
+  --darkGrey: #38434C;
+  --lightGrey: #FaFaFa;
+  --backgroundColor: #f0f0f0;
+}
+
+.is-primaryColor {
+  color: var(--primaryColor)!important;
+}
+
+.is-darkGrey {
+  color: var(--darkGrey)!important;
+}
+
+.is-lightGrey {
+  color: var(--lightGrey)!important;
+}
+
+.is-table {
+  max-width: 40em !important;
+}
+
+.custom-centered {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.is-input {
+  max-width: 40em;
+  margin: 0.5em auto 0.5em;
+}
+
+.is-first {
+  margin: 1.5em auto 0.5em;
+}
+
+.separator-line {
+  width: 40em;
+  border-bottom: 2px solid darkgray;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  font-size: 3em !important;
+}
+
+h2 {
+  font-size: 2em !important;
+  font-weight: 200 !important;
+  color: var(--primaryColor);
+}
+
+h2.is-subpage-title {
+  text-align: left !important;
+}
+
+.is-submit-button {
+  margin-left:33em !important;
+}

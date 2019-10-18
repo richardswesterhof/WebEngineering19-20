@@ -1,31 +1,33 @@
 <template>
-    <div>
-      <b-field label="Song ID" horizontal style="width: 36em; margin: 1.5em auto 0.5em;">
-        <b-input v-model="songId" type="Number" min="1" placeholder="song id..."></b-input>
-      </b-field>
+  <section>
+    <h2 class=is-subpage-title>Replace Song</h2>
 
-      <b-field label="Artist ID" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
-        <b-input v-model="artistId" type="number" min="1" placeholder="artist id...">
-        </b-input>
-      </b-field>
+    <b-field class="is-input is-first" label="Song ID" horizontal>
+      <b-input v-model="songId" type="Number" min="1" placeholder="song id..."></b-input>
+    </b-field>
 
-      <b-field label="Title" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
-        <b-input v-model="title" placeholder="title...">
-        </b-input>
-      </b-field>
+    <b-field class="is-input" label="Artist ID" horizontal>
+      <b-input v-model="artistId" type="number" min="1" placeholder="artist id...">
+      </b-input>
+    </b-field>
 
-      <b-field label="Duration" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
-        <b-input v-model="duration" type="number" min="0" placeholder="duration in seconds...">
-        </b-input>
-      </b-field>
+    <b-field class="is-input" label="Title" horizontal>
+      <b-input v-model="title" placeholder="title...">
+      </b-input>
+    </b-field>
 
-      <b-field label="Year" horizontal style="width: 36em; margin: 0.5em auto 0.5em;">
-        <b-input v-model="year" type="number" min="0" placeholder="year...">
-        </b-input>
-      </b-field>
+    <b-field class="is-input" label="Duration" horizontal>
+      <b-input v-model="duration" type="number" min="0" placeholder="duration in seconds...">
+      </b-input>
+    </b-field>
 
-      <b-button class="button is-primary" @click="updateSong" style="margin-left: 29em;">replace song</b-button>
-    </div>
+    <b-field class="is-input" label="Year" horizontal>
+      <b-input v-model="year" type="number" min="0" placeholder="year...">
+      </b-input>
+    </b-field>
+
+    <b-button class="button is-primary is-submit-button" @click="updateSong">replace song</b-button>
+  </section>
 </template>
 
 <script>

@@ -1,14 +1,16 @@
 <template>
   <section>
+    <h2 class=is-subpage-title>Delete Artist</h2>
+
     <b-loading :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 
-    <b-field label="Artist ID" horizontal style="width: 36em; margin: 1.5em auto 0.5em;">
+    <b-field label="Artist ID" horizontal style="width: 40em; margin: 1.5em auto 0.5em;">
       <b-input v-model="artistid" type="number" min="1" placeholder="artist id...">
       </b-input>
     </b-field>
 
-    <b-button class="button is-primary" @click="deleteArtist" style="margin-left: 29em;">delete artist</b-button>
+    <b-button class="button is-primary is-submit-button" @click="deleteArtist">delete artist</b-button>
   </section>
 </template>
 
