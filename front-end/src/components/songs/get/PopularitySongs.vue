@@ -1,12 +1,12 @@
 <template>
   <section>
-    <h2 class=is-subpage-title>Browse All Songs</h2>
+    <h2 class=is-subpage-title>Browse Songs By Popularity</h2>
 
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
                    v-on:requirements-met="refreshSongs()"
-                   style="margin-bottom:0.5em;"
-    ></FilterManager>
+                   style="margin-bottom:0.5em;">
+    </FilterManager>
 
 
     <div class="separator-line"></div>
@@ -42,28 +42,30 @@
   import FilterManager from "../../FilterManager";
 
   export default {
-    name: "AllSongs",
+    name: "PopularitySongs",
     components: {FilterManager},
 
     data() {
       return {
+        isLoading: false,
         songs: [],
-        isLoading: true,
 
         availableFilters: [
-          {displayName: 'title', value: 'title', type: 'text', required: false},
-          {displayName: 'artist id', value: 'artistId', type: 'number', required: false},
-          {displayName: 'artist name', value: 'artistName', type: 'text', required: false},
-          {displayName: 'year of release', value: 'year', type: 'number', required: false},
-          {displayName: 'genre', value: 'genre', type: 'text', required: false},
+          {displayName: 'year', value: 'year', type: 'number', required: false},
+          {displayName: 'page size', value: 'pageSize', type: 'number', required: false},
+          {displayName: 'page rank', value: 'pageRank', type: 'number', required: false},
         ],
       }
+    },
+
+    mounted() {
+      this.refreshSongs();
     },
 
     methods: {
       refreshSongs() {
         this.isLoading = true;
-        api.getSongs(this.$refs['filter-manager'].filters).then((response) => {
+        api.getSongsByPopularity(this.$refs['filter-manager'].filters).then((response) => {
           if(response.status === 200) {
             this.songs = response.data;
           }

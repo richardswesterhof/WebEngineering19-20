@@ -7,20 +7,13 @@ import unnullifier from '../utils/unnullifier.js';
  */
 export default {
 
-  getTestObject() {
-    return new Promise(function(resolve) {
-      resolve({test: 123});
-    });
-  },
-
-
   getArtists(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to artists with: ' + queryParameters);
     return axios.get('/api/artists' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return [];
+      return error;
     });
   },
 
@@ -32,7 +25,7 @@ export default {
     return axios.get('/api/artists/' + artistid).then((response) => {
       return response;
     }, (error) => {
-      return {};
+      return error;
     });
   },
 
@@ -44,7 +37,7 @@ export default {
     return axios.get('/api/artists/' + artistid + '/statistics?year=' + (year ? year : '')).then((response) => {
       return response;
     }, (error) => {
-      return {};
+      return error;
     });
   },
 
@@ -55,7 +48,7 @@ export default {
     return axios.get('/api/songs' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return [];
+      return error;
     });
   },
 
@@ -65,6 +58,16 @@ export default {
       resolve({error: 'no songid given'});
     });
     return axios.get('/api/songs/' + songid).then((response) => {
+      return response;
+    }, (error) => {
+      return error;
+    });
+  },
+
+  getSongsByPopularity(filters) {
+    let queryParameters = this.convertFilterArrayToParametersString(filters);
+    console.log('making query to songs/popularity with ' + queryParameters);
+    return axios.get('/api/songs' + queryParameters).then((response) => {
       return response;
     }, (error) => {
       return error;

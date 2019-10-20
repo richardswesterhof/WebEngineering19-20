@@ -13,6 +13,11 @@
             :active="$props.subpage === 'individual'"
             @click="toggleSubpage('individual')">
           </b-menu-item>
+          <b-menu-item
+            label="Browse songs by popularity"
+            :active="$props.subpage === 'popular'"
+            @click="toggleSubpage('popular')">
+          </b-menu-item>
         </b-menu-list>
 
         <b-menu-list label="Add song">
@@ -41,8 +46,9 @@
     <div class="tile is-6" style="display:inline-block; text-align: center;">
 
       <!-- get requests -->
-      <AllSongs :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllSongs>
+      <AllSongs v-show="$props.subpage === 'all'" ref="all"></AllSongs>
       <IndividualSong v-show="$props.subpage === 'individual'" ref="individual"></IndividualSong>
+      <PopularitySongs v-show="$props.subpage === 'popular'" ref="popular"></PopularitySongs>
 
       <!-- post requests -->
       <AddSong v-show="$props.subpage === 'add'" ref="add"></AddSong>
@@ -59,10 +65,11 @@
   import IndividualSong from "./get/IndividualSong";
   import AddSong from "./post/AddSong";
   import UpdateSong from "./put/UpdateSong";
+  import PopularitySongs from "./get/PopularitySongs";
 
   export default {
     name: "Songs",
-    components: {UpdateSong, AddSong, IndividualSong, AllSongs, FilterManager},
+    components: {PopularitySongs, UpdateSong, AddSong, IndividualSong, AllSongs, FilterManager},
     props: {
       subpage: {
         type: String,
@@ -72,15 +79,9 @@
 
     data() {
       return {
-        availableFilters: [
-          {displayName: 'title', value: 'title', type: 'text'},
-          {displayName: 'artist id', value: 'artistId', type: 'number'},
-          {displayName: 'artist name', value: 'artistName', type: 'text'},
-          {displayName: 'year of release', value: 'year', type: 'number'},
-          {displayName: 'genre', value: 'genre', type: 'text'},
-        ],
 
-        dataContainingRefs: ['all', 'individual'],
+
+        dataContainingRefs: ['all', 'individual', 'popular'],
       }
     },
 

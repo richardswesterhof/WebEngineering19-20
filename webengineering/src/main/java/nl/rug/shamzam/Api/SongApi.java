@@ -175,51 +175,6 @@ public class SongApi {
         return Song.columnNames + '\n' + song.toCsvLine();
     }
 
-    @GetMapping(value = "/popularity")
-    public List<SongPopularity> getArtistsHotness(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
-        response.setHeader("Content-Type", "application/json");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        if(pageRank == null)
-            pageRank = 0;
-
-        if(pageSize == null || pageSize == 0)
-            pageSize = 50;
-
-        List<SongPopularity> songPopularities;
-        if(year == null){
-            songPopularities = songService.getSongPopularity (pageSize,pageRank);
-        }else{
-            songPopularities = songService.getSongPopularityYear (year,pageSize,pageRank);
-        }
-        return songPopularities;
-    }
-
-    @GetMapping(value = "/popularity", consumes = "text/csv")
-    public String getSongsHotnessCsv(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
-        response.setHeader("Content-Type", "text/csv");
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        if(pageRank == null)
-            pageRank = 0;
-
-        if(pageSize == null || pageSize == 0)
-            pageSize = 50;
-
-        String s = SongPopularity.columnames;
-        List<SongPopularity> songPopularities;
-        if(year == null){
-            songPopularities = songService.getSongPopularity (pageSize,pageRank);
-        }else{
-            songPopularities = songService.getSongPopularityYear (year,pageSize,pageRank);
-        }
-
-        for (SongPopularity sp: songPopularities) {
-            s +=  sp.toCsvLine();
-        }
-        return s;
-    }
-
     @PutMapping(value = "/{songId}", consumes = "application/json")
     public Song putSongJson(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
@@ -241,6 +196,55 @@ public class SongApi {
         return song;
     }
 
+
+    @GetMapping(value = "/popularity", consumes = "text/csv")
+    public String getSongsHotnessCsv(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
+                                     @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+        response.setHeader("Content-Type", "text/csv");
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
+        String s = SongPopularity.columnames;
+        List<SongPopularity> songPopularities;
+        if(year == null) {
+            songPopularities = songService.getSongPopularity (pageSize,pageRank);
+        }
+        else {
+            songPopularities = songService.getSongPopularityYear (year,pageSize,pageRank);
+        }
+
+        for(SongPopularity sp: songPopularities) {
+            s += sp.toCsvLine();
+        }
+        return s;
+    }
+
+    @GetMapping(value = "/popularity")
+    public List<SongPopularity> getSongsHotnessJson(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
+                                                      @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+        response.setHeader("Content-Type", "application/json");
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
+        List<SongPopularity> songPopularities;
+        if(year == null) {
+            songPopularities = songService.getSongPopularity(pageSize,pageRank);
+        }
+        else {
+            songPopularities = songService.getSongPopularityYear(year,pageSize,pageRank);
+        }
+        return songPopularities;
+    }
 
     /**
      * used as a helper function for methods that need to replace songs in the database

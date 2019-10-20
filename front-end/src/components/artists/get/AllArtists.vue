@@ -60,10 +60,6 @@
       }
     },
 
-    mounted() {
-      this.refreshArtists();
-    },
-
     methods: {
       refreshArtists() {
         this.isLoading = true;

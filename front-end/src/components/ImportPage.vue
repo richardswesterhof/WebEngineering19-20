@@ -47,7 +47,6 @@
 <script>
   import stringUtils from "../utils/stringUtils";
   import api from "../api/api";
-  import timing from "../utils/timing";
 
   export default {
     name: "ImportPage",
