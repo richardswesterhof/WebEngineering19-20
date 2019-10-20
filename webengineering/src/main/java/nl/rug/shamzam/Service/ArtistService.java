@@ -21,7 +21,16 @@ public class ArtistService {
     }
 
     public Artist save(Artist a){
-        return artistRepository.saveAndFlush(a);
+
+        //Find the artist if it exists
+        List<Artist> queryResults = this.getArtistsByNameAndGenre(a.getName(), a.getTerms());
+        if(!queryResults.isEmpty()) {
+            System.out.println("ARTIST ALREADY EXISTS, RETURNING EXISTING COPY");
+            return queryResults.get(0);
+        }
+        else {
+            return artistRepository.saveAndFlush(a);
+        }
     }
 
     public boolean delete(int i){

@@ -130,7 +130,9 @@
           let songYear = this.fileData[i][songYearInd];
 
           api.postArtist(artistName, artistTerms).then((response) => {
-            if(response.status === 200)
+            if(response.status === 200) {
+              
+            }
           });
         }
       },
