@@ -21,4 +21,12 @@ public interface SongRepository extends JpaRepository<Song,String> {
 
     //gets automatically generated
     boolean existsSongByTitle(String title);
+
+    @Query("select s from Song s order by s.hotness")
+    List<Song> getSongsPopularity();
+
+    @Query("select s from Song s where s.year = :year order by s.hotness DESC")
+    List<Song> getSongsPopularityByYear(int year);
+
+
 }

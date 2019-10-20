@@ -40,6 +40,6 @@ public class ArtistHotness {
         return id + "," +
                 "\"" + name + "\"," +
                 "\"" + term + "\"," +
-                "\"" + pageLink + "\n";
+                "\"" + pageLink + "\"\n";
     }
 }
