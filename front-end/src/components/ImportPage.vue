@@ -8,9 +8,9 @@
         <h2  class=is-subpage-title>Import data from csv</h2>
         <label><b>upload a csv file</b></label>
         <b-field class="file custom-centered">
-          <b-upload v-model="file" class="custom-centered" v-on:input="unwrapFile">
+          <b-upload v-model="file" class="custom-centered" v-on:input="unwrapFile" accept=".csv">
             <a class="button is-primary">
-              <span>upload csv</span>
+              <span>Upload csv</span>
             </a>
           </b-upload>
         </b-field>
@@ -33,9 +33,12 @@
           </template>
         </b-table>
 
-        <p>current status: <b>{{status}}</b></p>
+        <span>current status:</span> <span :class="statusType" style="font-weight:600;">{{status}}</span>
+
+        <b-progress class="is-input" type="is-primary" :value="progress" show-value format="percent" v-show="status.includes('uploading object no.')"></b-progress>
 
         <b-button class="button is-primary is-submit-button" @click="postData" v-if="postPossible">upload data</b-button>
+        <b-button class="button is-danger is-submit-button" @click="abortPost" v-if="abortPossible">abort upload</b-button>
       </div>
     </div>
   </section>
@@ -44,6 +47,7 @@
 <script>
   import stringUtils from "../utils/stringUtils";
   import api from "../api/api";
+  import timing from "../utils/timing";
 
   export default {
     name: "ImportPage",
@@ -56,8 +60,15 @@
         fileData: null,
 
         status: 'waiting for file',
+        progress: 0,
         postPossible: false,
-        units: ['Bytes', 'KB', 'MB', 'GB', 'TB']
+        abortPossible: false,
+        postAborted: false,
+
+        units: ['Bytes', 'KB', 'MB', 'GB', 'TB'],
+
+        failedOperations: [],
+        statusType: '',
       }
     },
 
@@ -76,7 +87,7 @@
 
     methods: {
       unwrapFile() {
-        this.setStatus('loading file');
+        this.setStatus('loading file', '');
         this.file.text().then((unwrapped) => {
           let lines = stringUtils.stringToLines(unwrapped);
           this.fileLines = lines.length - 1;
@@ -87,7 +98,7 @@
       },
 
       verifyValidity() {
-        this.setStatus('verifying format of file');
+        this.setStatus('verifying format of file', '');
         let artistNameInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.name'));
         let artistTermsInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.terms'));
         let songTitleInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.title'));
@@ -97,7 +108,7 @@
         if(artistNameInd > -1 && artistTermsInd > -1 && songTitleInd > -1 && songDurationInd > -1 && songYearInd > -1) {
           console.log('valid file');
           this.postPossible = true;
-          this.setStatus('ready to upload data');
+          this.setStatus('ready to upload data', 'has-text-primary');
         }
         else {
           this.$buefy.toast.open({
@@ -108,20 +119,30 @@
             type: 'is-danger',
             duration: 10000,
           });
-          this.setStatus('unable to upload data');
+          this.setStatus('unable to upload data', 'has-text-danger');
         }
       },
 
-      postData() {
+      async postData() {
         let artistNameInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.name'));
         let artistTermsInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.terms'));
         let songTitleInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.title'));
         let songDurationInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.duration'));
         let songYearInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.year'));
 
-        this.setStatus('starting upload');
+        this.setStatus('starting upload', '');
+        this.postPossible = false;
+        this.abortPossible = true;
         for(let i = 0; i < this.fileLines; i++) {
-          this.setStatus('uploading object ' + i);
+          if(this.postAborted) {
+            this.setStatus('upload aborted', 'has-text-danger');
+            this.postPossible = true;
+            this.abortPossible = false;
+            this.postAborted = false;
+            return;
+          }
+          this.setStatus('uploading object no. ' + (i+1));
+          this.progress = i/this.fileLines * 100;
           //first post the artist
           let artistName = this.fileData[i][artistNameInd];
           let artistTerms = this.fileData[i][artistTermsInd];
@@ -129,18 +150,75 @@
           let songDuration = this.fileData[i][songDurationInd];
           let songYear = this.fileData[i][songYearInd];
 
-          api.postArtist(artistName, artistTerms).then((response) => {
-            if(response.status === 200) {
-              
+          let artistId = -1;
+
+          await api.postArtist(artistName, artistTerms).then((response) => {
+            if(response.status !== 201) {
+              this.failedOperations.push({
+                operation: 'post artist',
+                operationInd: i,
+                values: [
+                  {
+                    name: 'artistName',
+                    value: artistName,
+                  },
+                  {
+                    name: 'artistTerms',
+                    value: artistTerms,
+                  }
+                ],
+                status: response.status,
+              });
+            }
+            else {
+              artistId = response.data.artistId;
+            }
+          });
+
+          await api.postSong(artistId, songTitle, songDuration, songYear).then((response) => {
+            if(response.status !== 201) {
+              this.failedOperations.push({
+                operation: 'post song',
+                operationInd: i,
+                values: [
+                  {
+                    name: 'artistId',
+                    value: artistId,
+                  },
+                  {
+                    name: 'songTitle',
+                    value: songTitle,
+                  },
+                  {
+                    name: 'songDuration',
+                    value: songDuration,
+                  },
+                  {
+                    name: 'songYear',
+                    value: songYear,
+                  },
+                ],
+                status: response.status,
+              });
             }
           });
         }
+
+        if(this.failedOperations.length < 1) {
+          this.$buefy.toast.open({message: 'all objects were successfully added to the database', type: 'is-success'});
+          this.setStatus('upload complete', 'has-text-success');
+        }
+        this.abortPossible = false;
+        this.postPossible = true;
       },
 
+      abortPost() {
+        this.postAborted = true;
+      },
 
-
-      setStatus(status) {
+      setStatus(status, type) {
         this.status = status;
+        this.statusType = type;
       },
     },
   }

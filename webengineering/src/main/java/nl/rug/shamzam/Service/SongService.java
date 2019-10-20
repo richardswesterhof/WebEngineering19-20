@@ -32,7 +32,7 @@ public class SongService {
         //Find the song if it exists
         List<Song> queryResults = songRepository.getSongsByParamsFullMatch(
                 song.getTitle(), intToString(song.getArtistId()), song.getArtistName(),
-                intToString(song.getYear()), song.getArtist().getTerms());
+                intToString(song.getYear()), song.getArtist().getTerms(), song.getId());
         if(!queryResults.isEmpty()) {
             System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
             return queryResults.get(0);

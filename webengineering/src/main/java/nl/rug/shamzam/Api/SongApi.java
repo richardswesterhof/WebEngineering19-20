@@ -3,7 +3,6 @@ package nl.rug.shamzam.Api;
 import nl.rug.shamzam.Model.outsideModels.AddSong;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
-import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
 import nl.rug.shamzam.Model.outsideModels.SongPopularity;
 import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Service.SongService;
@@ -113,7 +112,7 @@ public class SongApi {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        Song song = addSong(addSong);
+        Song song = addSongToDb(addSong);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return "";
@@ -130,9 +129,9 @@ public class SongApi {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_CREATED);
 
-        Song song = addSong(addSong);
+        Song song = addSongToDb(addSong);
         if(song == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         else {
             response.setHeader(HttpHeaders.LOCATION, URI_BASE + song.getSongid());
@@ -147,7 +146,7 @@ public class SongApi {
      * @param addSong the song to be added in a 'raw' state, i.e. the way it gets posted
      * @return the full Song object if it was added successfully, else null
      */
-    private Song addSong(AddSong addSong) {
+    private Song addSongToDb(AddSong addSong) {
         Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
         if(!a.isPresent()) return null;
         return songService.addSong(addSong.toSong(a.get()));
@@ -167,7 +166,7 @@ public class SongApi {
             return "";
         }
 
-        Song song = replaceSong(id, addSong);
+        Song song = replaceSongInDb(id, addSong);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "";
@@ -234,7 +233,7 @@ public class SongApi {
             return null;
         }
 
-        Song song = replaceSong(id, addSong);
+        Song song = replaceSongInDb(id, addSong);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -249,7 +248,7 @@ public class SongApi {
      * @param addSong the new version of the song in a 'raw' format, i.e. the way it is in the request
      * @return the full updated song if it was successfully updated, else null
      */
-    private Song replaceSong(int songId, AddSong addSong) {
+    private Song replaceSongInDb(int songId, AddSong addSong) {
         //find the artist in the database by their given id
         Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
         if(!a.isPresent()) return null;

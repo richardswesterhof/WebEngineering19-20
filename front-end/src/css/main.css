@@ -5,7 +5,7 @@
   --backgroundColor: #f0f0f0;
 }
 
-.is-primaryColor {
+.is-primary-color {
   color: var(--primaryColor)!important;
 }
 
@@ -19,6 +19,7 @@
 
 .is-table {
   max-width: 40em !important;
+  overflow: hidden !important;
 }
 
 .custom-centered {

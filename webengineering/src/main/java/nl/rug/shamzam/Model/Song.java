@@ -48,8 +48,13 @@ public class Song {
     public static final String columnNames = "\"title\", \"artistName\", \"duration\", \"year\", \"id\", \"songid\", \"artistid\", \"link\", \"artistLink\"";
 
 
-    public Song(String title, Artist artist, float duration, int year) {
-        id = null;
+    public Song(String title, Artist artist, float duration, int year, String ...songid) {
+        if(songid.length > 0) {
+            this.id = songid[0];
+        }
+        else {
+            id = "";
+        }
         this.artist = artist;
         artist_mbtags = 0;
         artist_mbtags_count = 0;
@@ -129,10 +134,12 @@ public class Song {
                "\"" + getArtistLink() + "\"";
     }
 
+
     @Override
     public String toString() {
         return title + ", " + duration + ", " + year + ", " + id;
     }
+
 
     public void setTitle(String title) {
         this.title = title;
@@ -144,6 +151,7 @@ public class Song {
         this.duration = s.getDuration();
         this.year = s.getYear();
     }
+
 
     public Artist getArtist() {
         return artist;

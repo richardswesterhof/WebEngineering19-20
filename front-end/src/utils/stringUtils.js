@@ -25,6 +25,6 @@ export default {
   },
 
   unquote(input) {
-    return input.split('').filter(elem => elem !== '\"').join('');
+    return input.split('').filter(elem => elem !== '\"').filter(elem => elem.match(/\S/)).join('');
   },
 }

@@ -13,8 +13,8 @@ public interface SongRepository extends JpaRepository<Song,String> {
     List<Song> getSongsByParams(String title, String artistId, String artistName, String year, String terms);
 
     @Query("select s from Song s where s.title LIKE :title AND cast(s.artist.artistid as string) LIKE :artistId AND s.artist.name LIKE :artistName " +
-            "AND cast(s.year as string) LIKE :year AND s.artist.terms LIKE :terms")
-    List<Song> getSongsByParamsFullMatch(String title, String artistId, String artistName, String year, String terms);
+            "AND cast(s.year as string) LIKE :year AND s.artist.terms LIKE :terms AND s.id LIKE :datasetId")
+    List<Song> getSongsByParamsFullMatch(String title, String artistId, String artistName, String year, String terms, String datasetId);
 
     @Query("select s from Song s where s.songid = :id")
     Song getSongById(int id);

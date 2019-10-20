@@ -1,5 +1,6 @@
 package nl.rug.shamzam.Model.outsideModels;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Utils.Unnullifier;
@@ -10,6 +11,10 @@ import nl.rug.shamzam.Utils.Unnullifier;
 public class AddSong {
 
     private Integer artistid;
+    
+    @JsonProperty(required = false)
+    private String songid;
+
     private String title;
     private Float duration;
     private Integer year;
@@ -17,7 +22,7 @@ public class AddSong {
 
     public Song toSong(Artist artist) {
         return new Song(Unnullifier.unnullify(title), artist,
-                Unnullifier.unnullify(duration), Unnullifier.unnullify(year));
+                Unnullifier.unnullify(duration), Unnullifier.unnullify(year), songid);
     }
 
     @Override
@@ -28,6 +33,10 @@ public class AddSong {
 
     public int getArtistId() {
         return artistid;
+    }
+
+    public String getSongId() {
+        return songid;
     }
 
     public void setDuration(Float duration) {
