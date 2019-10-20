@@ -6,11 +6,11 @@
 
       <div class="tile is-6" style="display:inline-block; text-align: center; overflow: auto;">
         <h2  class=is-subpage-title>Import data from csv</h2>
-        <label><b>upload a csv file</b></label>
+        <label><b>Upload a csv file</b></label>
         <b-field class="file custom-centered">
           <b-upload v-model="file" class="custom-centered" v-on:input="unwrapFile" accept=".csv">
             <a class="button is-primary">
-              <span>Upload csv</span>
+              <span>upload csv</span>
             </a>
           </b-upload>
         </b-field>
