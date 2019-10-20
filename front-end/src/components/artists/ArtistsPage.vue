@@ -101,6 +101,19 @@
       }
     },
 
+    beforeRouteEnter(to, from, next) {
+      let subpage = to.params.subpage;
+      //beforeRouteEnter doesn't have access to 'this' yet due to its place in the lifecycle
+      //to get around this we can use a callback as follows:
+      next(self => {
+        if(!self.dataContainingRefs.includes(subpage)) {
+          return;
+        }
+
+        self.refreshArtists(subpage);
+      });
+    },
+
     beforeRouteUpdate(to, from, next) {
       //if the page we are routing to doesn't contain data, it doesn't need to refresh
       let subpage = to.params.subpage;
@@ -109,14 +122,7 @@
         return;
       }
 
-      //refresh the song list, if possible
-      if(this.$refs[subpage] && this.$refs[subpage].refreshArtists) {
-        this.$refs[subpage].refreshArtists();
-      }
-      //if not give a warning
-      else {
-        console.warn('The following reference could not be found or did not have method refreshArtists: ' + subpage);
-      }
+      this.refreshArtists(subpage);
 
       //always call next in beforeRouteUpdate, otherwise the actual re-routing will never happen
       next();
@@ -131,6 +137,17 @@
         //otherwise we can re-route to the new component
         else {
           this.$router.push('/artists/' + name);
+        }
+      },
+
+      refreshArtists(subpage) {
+        //refresh the artist list, if possible
+        if(this.$refs[subpage] && this.$refs[subpage].refreshArtists) {
+          this.$refs[subpage].refreshArtists();
+        }
+        //if not give a warning
+        else {
+          console.warn('The following reference could not be found or did not have method refreshArtists: ' + subpage);
         }
       },
     },

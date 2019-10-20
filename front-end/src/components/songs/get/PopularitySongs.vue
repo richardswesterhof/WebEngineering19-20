@@ -58,10 +58,6 @@
       }
     },
 
-    mounted() {
-      this.refreshSongs();
-    },
-
     methods: {
       refreshSongs() {
         this.isLoading = true;

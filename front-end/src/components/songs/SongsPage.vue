@@ -79,10 +79,21 @@
 
     data() {
       return {
-
-
         dataContainingRefs: ['all', 'individual', 'popular'],
       }
+    },
+
+    beforeRouteEnter(to, from, next) {
+      //beforeRouteEnter doesn't have access to 'this' yet due to its place in the lifecycle
+      //to get around this we can use a callback as follows:
+      let subpage = to.params.subpage;
+      next(self => {
+        if(!self.dataContainingRefs.includes(subpage)) {
+          return;
+        }
+
+        self.refreshSongs(subpage);
+      });
     },
 
     beforeRouteUpdate(to, from, next) {
@@ -93,30 +104,30 @@
         return;
       }
 
-      //refresh the song list, if possible
-      if(this.$refs[subpage] && this.$refs[subpage].refreshSongs) {
-        this.$refs[subpage].refreshSongs();
-      }
-      //if not give a warning
-      else {
-        console.warn('The following reference could not be found or did not have method refreshSongs: ' + subpage);
-      }
+      this.refreshSongs(subpage);
 
-      //always call next in beforeRouteUpdate, otherwise the actual re-routing will never happen
+      //always call next in beforeRouteEnter, otherwise the actual re-routing will never happen
       next();
     },
 
     methods: {
       toggleSubpage(name) {
-        //if we are already there, do nothing
-        if(this.$route.params.subpage === name) {
-          return;
-        }
-        //otherwise we can re-route to the new component
-        else {
+        //only re-route if we aren't there yet
+        if(this.$route.params.subpage !== name) {
           this.$router.push('/songs/' + name);
         }
       },
+
+      refreshSongs(subpage) {
+        //refresh the song list, if possible
+        if(this.$refs[subpage] && this.$refs[subpage].refreshSongs) {
+          this.$refs[subpage].refreshSongs();
+        }
+        //if not give a warning
+        else {
+          console.warn('The following reference could not be found or did not have method refreshSongs: ' + subpage);
+        }
+      }
     },
   }
 </script>
