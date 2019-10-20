@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from "../components/page-addons/Home";
 import ArtistsPage from "../components/artists/ArtistsPage";
 import SongsPage from "../components/songs/SongsPage";
 import ImportPage from "../components/ImportPage";
@@ -14,8 +13,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HomePage',
-      component: Home,
+      redirect: '/artists/all',
     },
     {
       path: '/artists',
@@ -30,7 +28,6 @@ export default new Router({
     {
       path: '/songs',
       redirect: '/songs/all',
-
     },
     {
       path: '/songs/:subpage',
@@ -47,6 +44,6 @@ export default new Router({
       path: '*',
       name: 'NotFound',
       component: NotFoundPage,
-    }
+    },
   ],
 });

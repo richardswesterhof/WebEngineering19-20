@@ -28,8 +28,7 @@
           </b-menu-item>
           <b-menu-item
             label="Import from csv file"
-            :active="$props.subpage === 'import'"
-            @click="toggleSubpage('import')">
+            @click="$router.push('/import')">
           </b-menu-item>
         </b-menu-list>
 
@@ -39,12 +38,8 @@
             :active="$props.subpage === 'replace'"
             @click="toggleSubpage('replace')">
           </b-menu-item>
-<!--          <b-menu-item-->
-<!--            label="Import from csv file"-->
-<!--            :active="$props.subpage === 'import'"-->
-<!--            @click="toggleSubpage('import')">-->
-<!--          </b-menu-item>-->
         </b-menu-list>
+
         <b-menu-list label="Remove artist">
           <b-menu-item
             label="Remove an artist"

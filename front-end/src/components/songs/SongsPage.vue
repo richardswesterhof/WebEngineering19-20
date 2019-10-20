@@ -23,8 +23,7 @@
           </b-menu-item>
           <b-menu-item
             label="Import from csv file"
-            :active="$props.subpage === 'import'"
-            @click="toggleSubpage('import')">
+            @click="$router.push('/import')">
           </b-menu-item>
         </b-menu-list>
 

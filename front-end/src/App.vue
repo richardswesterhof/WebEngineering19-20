@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <div>
-      <Navigation ref="navigation"></Navigation>
-      <router-view style="text-align:left"/>
-    </div>
+    <Navigation ref="navigation"></Navigation>
+    <router-view style="text-align:left"/>
 
     <div class="spacer"></div>
 
