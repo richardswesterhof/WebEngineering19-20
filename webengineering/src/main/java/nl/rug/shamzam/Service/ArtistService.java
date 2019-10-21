@@ -4,6 +4,8 @@ import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
 import nl.rug.shamzam.Model.outsideModels.ArtistPut;
 import nl.rug.shamzam.Repository.ArtistRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +48,10 @@ public class ArtistService {
     }
 
     public List<ArtistHotness> getArtistsByHotness(int limit, int pagerank){
-        List<Artist> artists = artistRepository.getArtistOrOrderByHotness();
+        List<Artist> artists = artistRepository.getArtistOrOrderByHotness(PageRequest.of (pagerank, limit));
         System.out.println("pageSize=="+limit+"&pageRank=="+pagerank);
         System.err.println("size of artists=="+artists.size());
-        if(artists.size() < limit*pagerank){
+        /*if(artists.size() < limit*pagerank){
             System.err.println("in limiter 1a");
             return new ArrayList<ArtistHotness>();
         }else{
@@ -62,7 +64,7 @@ public class ArtistService {
         if(artists.size() > limit*(pagerank+1)){
             System.err.println("in limiter 2");
             artists = artists.subList(0,limit*(pagerank+1));
-        }
+        }*/
 
         System.err.println("size of artists=="+artists.size());
         ArrayList<ArtistHotness> hotnesses = new ArrayList<>();

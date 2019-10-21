@@ -1,6 +1,7 @@
 package nl.rug.shamzam.Repository;
 
 import nl.rug.shamzam.Model.Artist;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ArtistRepository extends JpaRepository<Artist,Integer> {
     Optional<Artist> getArtistByArtistid(int id);
 
     @Query("SELECT a FROM Artist a ORDER BY a.hotness DESC")
-    List<Artist> getArtistOrOrderByHotness();
+    List<Artist> getArtistOrOrderByHotness(Pageable page);
 
     long deleteByArtistid(int id);
 }
