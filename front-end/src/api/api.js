@@ -42,6 +42,17 @@ export default {
   },
 
 
+  getArtistsByPopularity(filters) {
+    let queryParameters = this.convertFilterArrayToParametersString(filters);
+    console.log('making query to artists/popular');
+    return axios.get('/api/artists/popular' + queryParameters).then((response) => {
+      return response;
+    }, (error) => {
+      return error;
+    });
+  },
+
+
   getSongs(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to songs with: ' + queryParameters);
@@ -67,7 +78,7 @@ export default {
   getSongsByPopularity(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
     console.log('making query to songs/popularity with ' + queryParameters);
-    return axios.get('/api/songs' + queryParameters).then((response) => {
+    return axios.get('/api/songs/popularity' + queryParameters).then((response) => {
       return response;
     }, (error) => {
       return error;
