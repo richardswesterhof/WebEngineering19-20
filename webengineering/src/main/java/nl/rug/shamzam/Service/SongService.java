@@ -67,15 +67,6 @@ public class SongService {
 
     public List<SongPopularity> getSongPopularity(int limit, int pagerank){
         List<Song> songs = songRepository.getSongsPopularity(PageRequest.of(pagerank,limit));
-        /*if(songs.size() < limit*pagerank){
-            return new ArrayList<SongPopularity>();
-        }else{
-            songs = songs.subList(limit*pagerank,songs.size());
-        }
-
-        if(songs.size() > limit*(pagerank+1)){
-            songs = songs.subList(0,limit*(pagerank+1));
-        }*/
 
         ArrayList<SongPopularity> popularities = new ArrayList<>();
         for (Song s: songs) {

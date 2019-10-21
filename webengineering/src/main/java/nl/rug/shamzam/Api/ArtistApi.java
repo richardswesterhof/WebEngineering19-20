@@ -41,7 +41,8 @@ public class ArtistApi {
     }
 
     @GetMapping(value = "")
-    public List<ArtistHotness> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
+    public List<ArtistHotness> getArtists(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre,
+                                          @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(HttpServletResponse.SC_OK);
 
@@ -51,7 +52,13 @@ public class ArtistApi {
         if(genre == null)
             genre = "";
 
-        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre);
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
+        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre,pageSize,pageRank);
         List<ArtistHotness> artistHotnesses = new ArrayList<>();
 
         for (Artist a: artists) {
@@ -182,7 +189,8 @@ public class ArtistApi {
     }
 
     @GetMapping(value = "", produces = "text/csv")
-    public String getArtistsCsv(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre, HttpServletResponse response) {
+    public String getArtistsCsv(@RequestParam(required = false) String artistName, @RequestParam(required = false) String genre,
+                                @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "text/csv");
         response.setStatus(HttpServletResponse.SC_OK);
 
@@ -192,9 +200,15 @@ public class ArtistApi {
         if(genre == null)
             genre = "";
 
+        if(pageRank == null)
+            pageRank = 0;
+
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
+
         String s = ArtistHotness.columnames;
 
-        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre);
+        List<Artist> artists = artistService.getArtistsByNameAndGenre(artistName,genre, pageSize,pageRank);
 
         for (Artist a: artists) {
             s +=  new ArtistHotness(a).toCsvLine();

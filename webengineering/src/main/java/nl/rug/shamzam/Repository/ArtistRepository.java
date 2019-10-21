@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ArtistRepository extends JpaRepository<Artist,Integer> {
     @Query("select a from Artist a where a.name LIKE %?1% AND a.terms LIKE %?2%")
-    List<Artist> getArtistsByNameAndGenre(String name, String terms);
+    List<Artist> getArtistsByNameAndGenre(String name, String terms, Pageable page);
 
     Optional<Artist> getArtistByArtistid(int id);
 
