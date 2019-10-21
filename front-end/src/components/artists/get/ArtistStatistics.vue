@@ -54,7 +54,6 @@
           {displayName: 'year of release', value: 'year', type: 'number', required: false},
         ],
 
-        artistId: null,
         requestedId: -1,
         stats: null,
       }
@@ -67,11 +66,9 @@
       },
 
       refreshStats() {
-        if(!this.artistId || this.artistId < 1) return;
-        this.isLoading = true;
         let filters = this.$refs['filter-manager'].filters;
-        let artistid;
-        let year;
+        let artistid = null;
+        let year = null;
         for(let i = 0; i < filters.length; i++) {
           if(filters[i].filterName === 'artistId') {
             artistid = filters[i].filterValue;
@@ -80,6 +77,9 @@
             year = filters[i].filterValue;
           }
         }
+
+        if(!artistid || artistid < 1) return;
+        this.isLoading = true;
 
         api.getArtistStats(artistid, year).then((response) => {
           if(response.status === 200) {
@@ -95,7 +95,6 @@
       },
 
       filterChanged() {
-        this.$refs['table-pagination'].currentPage = 1;
         this.refreshStats();
       },
     },
