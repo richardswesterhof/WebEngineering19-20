@@ -50,7 +50,8 @@
             this.clearFields();
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status')});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
           }
           this.isLoading = false;
         });

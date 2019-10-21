@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class=is-subpage-title>Browse Individual Artists</h2>
+    <h2 class=is-subpage-title>Browse Artists By ID</h2>
 
     <label><b>Enter ID</b></label>
     <b-field grouped style="width:16em; margin-left: auto; margin-right:auto;">
@@ -74,6 +74,7 @@
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
           }
           this.isLoading = false;
         });

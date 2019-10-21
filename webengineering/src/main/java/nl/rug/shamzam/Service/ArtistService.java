@@ -26,7 +26,7 @@ public class ArtistService {
     public Artist save(Artist a){
 
         //Find the artist if it exists
-        List<Artist> queryResults = this.getArtistsByNameAndGenre(a.getName(), a.getTerms(), 0,2);
+        List<Artist> queryResults = this.getArtistsByNameAndGenre(a.getName(), a.getTerms(), 1,0);
         if(!queryResults.isEmpty()) {
             System.out.println("ARTIST ALREADY EXISTS, RETURNING EXISTING COPY");
             return queryResults.get(0);

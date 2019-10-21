@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class=is-subpage-title>Browse Individual Songs</h2>
+    <h2 class=is-subpage-title>Browse Songs By ID</h2>
 
     <label><b>Enter ID</b></label>
     <b-field grouped style="width:16em; margin-left: auto; margin-right:auto;">
@@ -30,6 +30,14 @@
           <div style="max-width: 20em; word-wrap: break-word;">
             {{ props.row.artistName }}
           </div>
+        </b-table-column>
+
+        <b-table-column field="duration" label="Duration" width="40" numeric>
+          {{ props.row.duration }}
+        </b-table-column>
+
+        <b-table-column field="year" label="Year" width="40" numeric>
+          {{ props.row.year }}
         </b-table-column>
       </template>
     </b-table>
@@ -70,6 +78,7 @@
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
           }
           this.isLoading = false;
         });

@@ -9,7 +9,7 @@
             @click="toggleSubpage('all')">
           </b-menu-item>
           <b-menu-item
-            label="Browse individual artists"
+            label="Browse artists by ID"
             :active="$props.subpage === 'individual'"
             @click="toggleSubpage('individual')">
           </b-menu-item>

@@ -34,11 +34,11 @@
           </div>
         </b-table-column>
 
-        <b-table-column field="duration" label="Duration" numeric>
+        <b-table-column field="duration" label="Duration" width="40" numeric>
           {{ props.row.duration }}
         </b-table-column>
 
-        <b-table-column field="year" label="year" numeric>
+        <b-table-column field="year" label="Year" width="40" numeric>
           {{ props.row.year }}
         </b-table-column>
       </template>
@@ -108,6 +108,7 @@
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
           }
           this.isLoading = false;
         });

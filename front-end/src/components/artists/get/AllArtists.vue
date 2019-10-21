@@ -37,9 +37,9 @@
 
       <template slot="footer">
         <TablePagination
-          :data-length="songs ? songs.length : 0"
-          v-on:page-size-change="refreshSongs"
-          v-on:page-change="refreshSongs"
+          :data-length="artists ? artists.length : 0"
+          v-on:page-size-change="refreshArtists"
+          v-on:page-change="refreshArtists"
           ref="table-pagination">
         </TablePagination>
       </template>
@@ -53,7 +53,7 @@
 
         <template v-else-if="!this.isLoading">
           <div class="has-text-centered">
-            <p>There are no songs matching those filters in the database :(</p>
+            <p>There are no artists matching those filters in the database :(</p>
             <p>Try making your filters more broad and make sure they don't contain any typos</p>
           </div>
         </template>
@@ -99,6 +99,7 @@
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
+            console.error(response);
           }
           this.isLoading= false;
         });

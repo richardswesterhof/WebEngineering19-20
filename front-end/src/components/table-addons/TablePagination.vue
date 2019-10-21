@@ -12,7 +12,7 @@
     </b-dropdown>
 
     <b-button @click="prevPage" :disabled="currentPage === 1" style="margin-right: 1em;">previous</b-button>
-    <b-input v-model="currentPage" v-on:blur="$emit('page-change', currentPage)" type="number" min="1" style="max-width: 4em;"></b-input>
+    <b-input v-model="currentPage" v-on:blur="$emit('page-change', currentPage)" type="number" min="1" style="max-width: 4.5em;"></b-input>
     <b-button @click="nextPage" :disabled="$props.dataLength === 0 || $props.dataLength < pageSize">next</b-button>
   </b-field>
 </template>
