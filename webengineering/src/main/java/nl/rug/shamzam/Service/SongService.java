@@ -5,6 +5,7 @@ import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
 import nl.rug.shamzam.Model.outsideModels.SongPopularity;
 import nl.rug.shamzam.Repository.SongRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,8 +66,8 @@ public class SongService {
     }
 
     public List<SongPopularity> getSongPopularity(int limit, int pagerank){
-        List<Song> songs = songRepository.getSongsPopularity();
-        if(songs.size() < limit*pagerank){
+        List<Song> songs = songRepository.getSongsPopularity(PageRequest.of(pagerank,limit));
+        /*if(songs.size() < limit*pagerank){
             return new ArrayList<SongPopularity>();
         }else{
             songs = songs.subList(limit*pagerank,songs.size());
@@ -74,7 +75,7 @@ public class SongService {
 
         if(songs.size() > limit*(pagerank+1)){
             songs = songs.subList(0,limit*(pagerank+1));
-        }
+        }*/
 
         ArrayList<SongPopularity> popularities = new ArrayList<>();
         for (Song s: songs) {

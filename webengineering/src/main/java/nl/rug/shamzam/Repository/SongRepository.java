@@ -1,6 +1,7 @@
 package nl.rug.shamzam.Repository;
 
 import nl.rug.shamzam.Model.Song;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,7 +24,7 @@ public interface SongRepository extends JpaRepository<Song,String> {
     boolean existsSongByTitle(String title);
 
     @Query("select s from Song s order by s.hotness")
-    List<Song> getSongsPopularity();
+    List<Song> getSongsPopularity(Pageable page);
 
     @Query("select s from Song s where s.year = :year order by s.hotness DESC")
     List<Song> getSongsPopularityByYear(int year);
