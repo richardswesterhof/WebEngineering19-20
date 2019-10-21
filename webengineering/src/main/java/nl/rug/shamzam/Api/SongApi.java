@@ -38,11 +38,12 @@ public class SongApi {
     @GetMapping(value = "", produces = "text/csv")
     public String getSongsCsv(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
                               @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
-                              @RequestParam(required = false) String genre, HttpServletResponse response) {
+                              @RequestParam(required = false) String genre,
+                                @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
 
-        List<Song> queryResults = getSongList(title, artistId, artistName, year, genre);
+        List<Song> queryResults = getSongList(title, artistId, artistName, year, genre,pageSize,pageRank);
         StringBuilder fullCsv = new StringBuilder(Song.columnNames);
         fullCsv.append('\n');
         for(int i = 0; i < queryResults.size(); i++) {
@@ -56,11 +57,12 @@ public class SongApi {
     @GetMapping("") //produces application/json, but we don't specify it so it defaults here even if another representation was requested
     public List<Song> getSongsJson(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
                                    @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
-                                   @RequestParam(required = false) String genre, HttpServletResponse response) {
+                                   @RequestParam(required = false) String genre,
+                                   @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
 
-        return getSongList(title,artistId,artistName,year,genre);
+        return getSongList(title,artistId,artistName,year,genre,pageSize,pageRank);
     }
 
 
@@ -73,14 +75,14 @@ public class SongApi {
      * @param genre the genre of the artist
      * @return the list of songs matching the parameters
      */
-    public List<Song> getSongList(String title, Integer artistId, String artistName, Integer year, String genre) {
+    public List<Song> getSongList(String title, Integer artistId, String artistName, Integer year, String genre, int pageSize, int pageRank) {
         title = Unnullifier.unnullify(title);
         artistId = Unnullifier.unnullify(artistId);
         artistName = Unnullifier.unnullify(artistName);
         year = Unnullifier.unnullify(year);
         genre = Unnullifier.unnullify(genre);
 
-        return songService.getSongsByParams(title, artistId, artistName, year, genre);
+        return songService.getSongsByParams(title, artistId, artistName, year, genre, pageSize,pageRank);
     }
 
 
