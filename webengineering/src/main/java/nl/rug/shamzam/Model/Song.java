@@ -50,7 +50,10 @@ public class Song {
 
     public Song(String title, Artist artist, float duration, int year, String ...songid) {
         if(songid.length > 0) {
-            this.id = songid[0];
+            if(songid[0] == null || songid[0].equals("null") || songid[0].equals("")) {
+                id = "";
+            }
+            else id = songid[0];
         }
         else {
             id = "";

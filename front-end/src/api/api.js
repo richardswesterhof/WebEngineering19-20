@@ -94,8 +94,8 @@ export default {
   },
 
 
-  postSong(artistid, title, duration, year) {
-    let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
+  postSong(artistid, title, duration, year, songid) {
+    let requestBody = {artistid: artistid, title: title, duration: duration, year: year, songid: songid};
     return axios.post('/api/songs', requestBody).then((response) => {
       return response;
     });

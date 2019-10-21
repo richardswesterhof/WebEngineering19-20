@@ -82,7 +82,7 @@ public class SongApi {
         year = Unnullifier.unnullify(year);
         genre = Unnullifier.unnullify(genre);
         pageRank = Unnullifier.unnullify(pageRank);
-        
+
         if(pageSize == null || pageSize == 0)
             pageSize = 50;
 
