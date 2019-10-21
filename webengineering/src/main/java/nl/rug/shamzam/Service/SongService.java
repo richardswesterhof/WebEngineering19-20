@@ -20,8 +20,8 @@ public class SongService {
         songRepository = arp;
     }
 
-    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre){
-        return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre);
+    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre, int pageSize, int pageRank){
+        return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre, PageRequest.of(pageRank,pageSize));
     }
 
     public Song getSongById(int id) {
@@ -33,7 +33,7 @@ public class SongService {
         //Find the song if it exists
         List<Song> queryResults = songRepository.getSongsByParamsFullMatch(
                 song.getTitle(), intToString(song.getArtistId()), song.getArtistName(),
-                intToString(song.getYear()), song.getArtist().getTerms(), song.getId());
+                intToString(song.getYear()), song.getArtist().getTerms(), song.getId(), PageRequest.of(0,2));
         if(!queryResults.isEmpty()) {
             System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
             return queryResults.get(0);
@@ -77,16 +77,8 @@ public class SongService {
     }
 
     public List<SongPopularity> getSongPopularityYear(int year, int limit, int pagerank){
-        List<Song> songs = songRepository.getSongsPopularityByYear(year);
-        if(songs.size() < limit*pagerank){
-            return new ArrayList<SongPopularity>();
-        }else{
-            songs = songs.subList(limit*pagerank,songs.size());
-        }
+        List<Song> songs = songRepository.getSongsPopularityByYear(year, PageRequest.of(pagerank,limit));
 
-        if(songs.size() > limit*(pagerank+1)){
-            songs = songs.subList(0,limit*(pagerank+1));
-        }
 
         ArrayList<SongPopularity> popularities = new ArrayList<>();
         for (Song s: songs) {
