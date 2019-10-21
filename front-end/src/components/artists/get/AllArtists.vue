@@ -40,7 +40,7 @@
 
 <script>
   import api from "../../../api/api";
-  import FilterManager from "../../FilterManager";
+  import FilterManager from "../../table-addons/FilterManager";
 
   export default {
     name: "AllArtists",

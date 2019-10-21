@@ -78,7 +78,7 @@
 </template>
 
 <script>
-  import FilterManager from "../FilterManager";
+  import FilterManager from "../table-addons/FilterManager";
   import AllArtists from "./get/AllArtists";
   import IndividualArtist from "./get/IndividualArtist";
   import AddArtist from "./post/AddArtist";

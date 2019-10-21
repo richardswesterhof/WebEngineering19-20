@@ -28,22 +28,27 @@
           {{ props.row.artistName }}
         </b-table-column>
       </template>
-    </b-table>
 
-    <template v-if="!this.isLoading && songs.length === 0">
-      <p>There are no songs matching those filters in the database :(</p>
-      <p>Try making your filters more broad and make sure they don't contain any typos</p>
-    </template>
+      <template slot="footer">
+        <TablePagination :data-length="songs ? songs.length : 0"></TablePagination>
+      </template>
+
+      <template v-if="!this.isLoading" slot="empty">
+        <p>There are no songs matching those filters in the database :(</p>
+        <p>Try making your filters more broad and make sure they don't contain any typos</p>
+      </template>
+    </b-table>
   </section>
 </template>
 
 <script>
   import api from "../../../api/api";
-  import FilterManager from "../../FilterManager";
+  import FilterManager from "../../table-addons/FilterManager";
+  import TablePagination from "../../table-addons/TablePagination";
 
   export default {
     name: "PopularitySongs",
-    components: {FilterManager},
+    components: {TablePagination, FilterManager},
 
     data() {
       return {

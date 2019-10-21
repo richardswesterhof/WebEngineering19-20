@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import FilterManager from "../FilterManager";
+  import FilterManager from "../table-addons/FilterManager";
   import AllSongs from "./get/AllSongs";
   import IndividualSong from "./get/IndividualSong";
   import AddSong from "./post/AddSong";
@@ -127,7 +127,7 @@
         else {
           console.warn('The following reference could not be found or did not have method refreshSongs: ' + subpage);
         }
-      }
+      },
     },
   }
 </script>

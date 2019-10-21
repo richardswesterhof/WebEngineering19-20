@@ -109,7 +109,7 @@ public class ArtistApi {
         return as;
     }
 
-    @GetMapping(value = "/hotness")
+    @GetMapping(value = "/popularity")
     public List<ArtistHotness> getArtistsHotness(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -262,8 +262,8 @@ public class ArtistApi {
         return ArtistStatistics.columnames +  as.toCsvLine();
     }
 
-    @GetMapping(value = "/hotness", consumes = "text/csv")
-    public String getArtistsHotnessCsv(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+    @GetMapping(value = "/popularity", consumes = "text/csv")
+    public String getArtistsPopularityCsv(@RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "text/csv");
         response.setStatus(HttpServletResponse.SC_OK);
 

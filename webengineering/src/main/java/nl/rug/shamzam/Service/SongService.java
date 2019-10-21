@@ -20,7 +20,7 @@ public class SongService {
         songRepository = arp;
     }
 
-    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre, int pageSize, int pageRank){
+    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre, Integer pageSize, Integer pageRank){
         return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre, PageRequest.of(pageRank,pageSize));
     }
 

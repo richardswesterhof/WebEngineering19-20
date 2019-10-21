@@ -39,7 +39,7 @@ public class SongApi {
     public String getSongsCsv(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
                               @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
                               @RequestParam(required = false) String genre,
-                                @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
+                              @RequestParam(required = false) Integer pageSize, @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_OK);
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
 
@@ -75,12 +75,16 @@ public class SongApi {
      * @param genre the genre of the artist
      * @return the list of songs matching the parameters
      */
-    public List<Song> getSongList(String title, Integer artistId, String artistName, Integer year, String genre, int pageSize, int pageRank) {
+    public List<Song> getSongList(String title, Integer artistId, String artistName, Integer year, String genre, Integer pageSize, Integer pageRank) {
         title = Unnullifier.unnullify(title);
         artistId = Unnullifier.unnullify(artistId);
         artistName = Unnullifier.unnullify(artistName);
         year = Unnullifier.unnullify(year);
         genre = Unnullifier.unnullify(genre);
+        pageRank = Unnullifier.unnullify(pageRank);
+        
+        if(pageSize == null || pageSize == 0)
+            pageSize = 50;
 
         return songService.getSongsByParams(title, artistId, artistName, year, genre, pageSize,pageRank);
     }
@@ -200,7 +204,7 @@ public class SongApi {
 
 
     @GetMapping(value = "/popularity", consumes = "text/csv")
-    public String getSongsHotnessCsv(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
+    public String getSongsPopularityCsv(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
                                      @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "text/csv");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -227,7 +231,7 @@ public class SongApi {
     }
 
     @GetMapping(value = "/popularity")
-    public List<SongPopularity> getSongsHotnessJson(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
+    public List<SongPopularity> getSongsPopularityJson(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
                                                       @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
         response.setHeader("Content-Type", "application/json");
         response.setStatus(HttpServletResponse.SC_OK);

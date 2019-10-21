@@ -44,8 +44,8 @@ export default {
 
   getArtistsByPopularity(filters) {
     let queryParameters = this.convertFilterArrayToParametersString(filters);
-    console.log('making query to artists/popular');
-    return axios.get('/api/artists/popular' + queryParameters).then((response) => {
+    console.log('making query to artists/popularity with ' + queryParameters);
+    return axios.get('/api/artists/popularity' + queryParameters).then((response) => {
       return response;
     }, (error) => {
       return error;
