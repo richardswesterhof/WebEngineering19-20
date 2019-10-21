@@ -4,7 +4,7 @@
 
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:requirements-met="refreshSongs()"
+                   v-on:requirements-met="filterChanged"
                    style="margin-bottom:0.5em;">
     </FilterManager>
 
@@ -16,26 +16,51 @@
 
     <b-table :data="songs" class="is-table custom-centered">
       <template slot-scope="props">
-        <b-table-column field="id" label="ID" width="40" numeric>
-          {{ props.row.songid }}
-        </b-table-column>
-
         <b-table-column field="title" label="Title">
-          {{ props.row.title }}
+          <!-- prevent the text from being too long on one line -->
+          <div style="max-width: 10em; word-wrap: break-word;">
+            {{ props.row.title }}
+          </div>
         </b-table-column>
 
         <b-table-column field="artistName" label="Artist Name">
-          {{ props.row.artistName }}
+          <!-- prevent the text from being too long on one line -->
+          <div style="max-width: 20em; word-wrap: break-word;">
+            {{ props.row.artistName }}
+          </div>
+        </b-table-column>
+
+        <b-table-column field="duration" label="Duration" numeric>
+          {{ props.row.duration }}
+        </b-table-column>
+
+        <b-table-column field="year" label="year" numeric>
+          {{ props.row.year }}
         </b-table-column>
       </template>
 
       <template slot="footer">
-        <TablePagination :data-length="songs ? songs.length : 0"></TablePagination>
+        <TablePagination
+          :data-length="songs ? songs.length : 0"
+          v-on:page-size-change="refreshSongs"
+          v-on:page-change="refreshSongs"
+          ref="table-pagination">
+        </TablePagination>
       </template>
 
-      <template v-if="!this.isLoading" slot="empty">
-        <p>There are no songs matching those filters in the database :(</p>
-        <p>Try making your filters more broad and make sure they don't contain any typos</p>
+      <template slot="empty">
+        <template v-if="$refs && $refs['table-pagination'] ? $refs['table-pagination'].currentPage > 1 : false" class="has-text-centered">
+          <div class="has-text-centered">
+            <p>Oops, it looks like that was the last page</p>
+          </div>
+        </template>
+
+        <template v-else-if="!this.isLoading">
+          <div class="has-text-centered">
+            <p>There are no songs matching those filters in the database :(</p>
+            <p>Try making your filters more broad and make sure they don't contain any typos</p>
+          </div>
+        </template>
       </template>
     </b-table>
   </section>
@@ -57,8 +82,6 @@
 
         availableFilters: [
           {displayName: 'year', value: 'year', type: 'number', required: false},
-          {displayName: 'page size', value: 'pageSize', type: 'number', required: false},
-          {displayName: 'page rank', value: 'pageRank', type: 'number', required: false},
         ],
       }
     },
@@ -66,15 +89,25 @@
     methods: {
       refreshSongs() {
         this.isLoading = true;
-        api.getSongsByPopularity(this.$refs['filter-manager'].filters).then((response) => {
+        let tableFilters = [
+          {filterName: 'pageSize', filterValue: this.$refs['table-pagination'].pageSize, displayName: 'page size'},
+          {filterName: 'pageRank', filterValue: this.$refs['table-pagination'].currentPage - 1, displayName: 'page number'},
+        ];
+        let filters = this.$refs['filter-manager'].filters.concat(tableFilters);
+        api.getSongsByPopularity(filters).then((response) => {
           if(response.status === 200) {
             this.songs = response.data;
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
           }
           this.isLoading = false;
         });
+      },
+
+      filterChanged() {
+        this.$refs['table-pagination'].currentPage = 1;
+        this.refreshSongs();
       },
     },
   }

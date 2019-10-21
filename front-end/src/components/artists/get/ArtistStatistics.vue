@@ -4,7 +4,7 @@
 
     <FilterManager ref="filter-manager"
                    :available-filters="availableFilters"
-                   v-on:requirements-met="refreshStats"
+                   v-on:requirements-met="filterChanged"
                    style="margin-bottom:0.5em;"
     ></FilterManager>
 
@@ -87,10 +87,15 @@
             this.stats = response.data;
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
           }
           this.isLoading = false;
         });
+      },
+
+      filterChanged() {
+        this.$refs['table-pagination'].currentPage = 1;
+        this.refreshStats();
       },
     },
   }

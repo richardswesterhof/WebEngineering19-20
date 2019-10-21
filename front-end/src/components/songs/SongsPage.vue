@@ -2,7 +2,7 @@
   <div class="tile is-ancestor">
     <div class="tile is-3" style="display: block;">
       <b-menu style="margin-left: 2em; max-width:12.5em;">
-        <b-menu-list label="Songs">
+        <b-menu-list label="Browse">
           <b-menu-item
             label="Browse all songs"
             :active="$props.subpage === 'all'"

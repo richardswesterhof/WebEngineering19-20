@@ -19,11 +19,17 @@
         </b-table-column>
 
         <b-table-column field="title" label="Title">
-          {{ props.row.title }}
+          <!-- prevent the text from being too long on one line -->
+          <div style="max-width: 10em; word-wrap: break-word;">
+            {{ props.row.title }}
+          </div>
         </b-table-column>
 
         <b-table-column field="artistName" label="Artist Name">
-          {{ props.row.artistName }}
+          <!-- prevent the text from being too long on one line -->
+          <div style="max-width: 20em; word-wrap: break-word;">
+            {{ props.row.artistName }}
+          </div>
         </b-table-column>
       </template>
     </b-table>
@@ -63,7 +69,7 @@
             this.song = response.data;
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
           }
           this.isLoading = false;
         });

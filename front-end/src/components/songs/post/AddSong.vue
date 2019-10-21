@@ -62,7 +62,7 @@
             this.clearFields();
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
           }
           this.isLoading = false;
         });

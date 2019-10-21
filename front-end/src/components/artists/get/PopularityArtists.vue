@@ -19,13 +19,21 @@
         </b-table-column>
 
         <b-table-column field="term" label="Genre">
-          {{ props.row.term }}
+          <!-- prevent the text from being too long on one line -->
+          <div style="max-width: 10em; word-wrap: break-word;">
+            {{ props.row.term }}
+          </div>
         </b-table-column>
       </template>
 
 
       <template slot="footer">
-        <TablePagination :data-length="artists ? artists.length : 0"></TablePagination>
+        <TablePagination
+          :data-length="artists ? artists.length : 0"
+          v-on:page-size-change="refreshArtists"
+          v-on:page-change="refreshArtists"
+          ref="table-pagination">
+        </TablePagination>
       </template>
 
       <template v-if="!this.isLoading" slot="empty">
@@ -49,11 +57,6 @@
       return {
         isLoading: false,
         artists: [],
-
-        pageSize: 5,
-        currentPage: 1,
-
-        pageSizeOptions: [5, 10, 15, 20, 25, 50],
       }
     },
 
@@ -61,15 +64,15 @@
       refreshArtists() {
         this.isLoading = true;
         let tableFilters = [
-          {filterName: 'pageSize', filterValue: this.pageSize, displayName: 'page size'},
-          {filterName: 'pageRank', filterValue: this.currentPage - 1, displayName: 'page number'},
+          {filterName: 'pageSize', filterValue: this.$refs['table-pagination'].pageSize, displayName: 'page size'},
+          {filterName: 'pageRank', filterValue: this.$refs['table-pagination'].currentPage - 1, displayName: 'page number'},
         ];
         api.getArtistsByPopularity(tableFilters).then((response) => {
           if(response.status === 200) {
             this.artists = response.data;
           }
           else {
-            this.$buefy.toast.open({message: 'request failed with status code: ' + response.status, type: 'is-danger'});
+            this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
           }
           this.isLoading = false;
         });
