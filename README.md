@@ -16,7 +16,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + [Get All Artists](#getArtists)
 + [Get Artist](#getArtist)
 + [Get Artist Statistics](#getArtistStats)
-+ [Get Artist Hotness](#getArtistHotness)
++ [Get Artist Popularity](#getArtistPopularity)
 + [Add Artist](#addArtist)
 + [Remove Artist](#removeArtist)
 + [Update Artist](#updateArtist)
