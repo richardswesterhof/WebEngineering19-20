@@ -18,6 +18,11 @@
             :active="$props.subpage === 'stats'"
             @click="toggleSubpage('stats')">
           </b-menu-item>
+          <b-menu-item
+            label="Browse artists by popularity"
+            :active="$props.subpage === 'popular'"
+            @click="toggleSubpage('popular')">
+          </b-menu-item>
         </b-menu-list>
 
         <b-menu-list label="Add artist">
@@ -57,6 +62,7 @@
       <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllArtists>
       <IndividualArtist v-show="$props.subpage === 'individual'" ref="individual"></IndividualArtist>
       <ArtistStatistics v-show="$props.subpage === 'stats'" ref="stats"></ArtistStatistics>
+      <PopularityArtists v-show="$props.subpage === 'popular'" ref="popular"></PopularityArtists>
 
       <!-- post requests -->
       <AddArtist v-show="$props.subpage === 'add'" ref="add"></AddArtist>
@@ -79,9 +85,12 @@
   import ArtistStatistics from "./get/ArtistStatistics";
   import UpdateArtist from "./put/UpdateArtist";
   import RemoveArtist from "./delete/RemoveArtist";
+  import PopularityArtists from "./get/PopularityArtists";
   export default {
     name: "Artists",
-    components: {RemoveArtist, UpdateArtist, ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
+    components: {
+      PopularityArtists,
+      RemoveArtist, UpdateArtist, ArtistStatistics, AddArtist, IndividualArtist, AllArtists, FilterManager},
 
     props: {
       subpage: {
@@ -97,7 +106,7 @@
           {displayName: 'genre', value: 'genre', type: 'text'},
         ],
 
-        dataContainingRefs: ['all', 'individual', 'stats'],
+        dataContainingRefs: ['all', 'individual', 'stats', 'popular'],
       }
     },
 
