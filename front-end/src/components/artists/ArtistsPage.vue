@@ -59,7 +59,7 @@
     <div class="tile is-6" style="display:inline-block; text-align: center;">
 
       <!-- get requests -->
-      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"></AllArtists>
+      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all" v-on:check-stats="checkStats($event)"></AllArtists>
       <IndividualArtist v-show="$props.subpage === 'individual'" ref="individual"></IndividualArtist>
       <ArtistStatistics v-show="$props.subpage === 'stats'" ref="stats"></ArtistStatistics>
       <PopularityArtists v-show="$props.subpage === 'popular'" ref="popular"></PopularityArtists>
@@ -158,6 +158,12 @@
         else {
           console.warn('The following reference could not be found or did not have method refreshArtists: ' + subpage);
         }
+      },
+
+      //due to queries not working well when vue serves cached pages, we do this to force an update
+      checkStats(id) {
+        this.$refs['stats'].checkArtist(id);
+        this.$router.push('/artists/stats');
       },
     },
   }

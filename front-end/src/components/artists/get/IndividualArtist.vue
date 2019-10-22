@@ -25,14 +25,14 @@
 
         <b-table-column field="name" label="Name">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 20em; word-wrap: break-word;">
+          <div style="max-width: 25em; word-wrap: break-word;">
             {{ props.row.name }}
           </div>
         </b-table-column>
 
         <b-table-column field="term" label="Genre">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 10em; word-wrap: break-word;">
+          <div style="max-width: 15em; word-wrap: break-word;">
             {{ props.row.term }}
           </div>
         </b-table-column>

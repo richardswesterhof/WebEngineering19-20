@@ -1,7 +1,7 @@
 <template>
   <div>
     <label><b>Add a filter</b></label>
-    <b-field grouped style="width: 40em; margin-left: auto; margin-right: auto;">
+    <b-field grouped style="max-width: 50em; margin-left: auto; margin-right: auto;">
       <b-dropdown v-model="selectedFilter" @input="updateFieldType">
         <button class="button" slot="trigger">
           <span>{{selectedFilter ? selectedFilter.displayName : '(select filter)'}}</span>
@@ -20,7 +20,7 @@
                ref="filterValueInput"
                expanded>
       </b-input>
-      <b-button class="button is-primary" @click="addFilter">add filter</b-button>
+      <b-button class="button is-primary" @click="addFilter(selectedFilter)">add filter</b-button>
     </b-field>
 
 
@@ -53,17 +53,18 @@
     },
 
     methods: {
-      addFilter() {
-        if(!this.selectedFilter){
+      addFilter(filter) {
+        if(!filter){
           this.$buefy.toast.open({
             message: 'filter could not be added: please select a filter first',
             type: 'is-danger',
           });
           return;
         }
-        let newFilter = {filterName: this.selectedFilter.value, filterValue: this.filterValue, displayName: this.selectedFilter.displayName};
+        let newFilter = {filterName: filter.value, filterValue: filter.filterValue ? filter.filterValue : this.filterValue, displayName: filter.displayName};
+        //get rid of the old value for this filter if it exists
         for(let i = 0; i < this.filters.length; i++) {
-          if(this.filters[i].filterName === this.selectedFilter.value) {
+          if(this.filters[i].filterName === filter.value) {
             this.filters.splice(i, 1);
             i--;
           }

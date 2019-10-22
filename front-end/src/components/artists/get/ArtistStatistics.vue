@@ -97,6 +97,12 @@
       filterChanged() {
         this.refreshStats();
       },
+
+      checkArtist(artistid) {
+        if(!artistid) return;
+        let idFilter = {value: 'artistId', filterValue: artistid, displayName: 'artist id'};
+        this.$refs['filter-manager'].addFilter(idFilter);
+      }
     },
   }
 </script>

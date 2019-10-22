@@ -18,14 +18,14 @@
       <template slot-scope="props">
         <b-table-column field="title" label="Title">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 10em; word-wrap: break-word;">
+          <div style="max-width: 15em; word-wrap: break-word;">
             {{ props.row.title }}
           </div>
         </b-table-column>
 
         <b-table-column field="artistName" label="Artist Name">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 20em; word-wrap: break-word;">
+          <div style="max-width: 25em; word-wrap: break-word;">
             {{ props.row.artistName }}
           </div>
         </b-table-column>

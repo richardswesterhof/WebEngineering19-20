@@ -29,9 +29,13 @@
 
         <b-table-column field="term" label="Genre">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 10em; word-wrap: break-word;">
+          <div style="max-width: 15em; word-wrap: break-word;">
             {{ props.row.term }}
           </div>
+        </b-table-column>
+
+        <b-table-column label="Statistics">
+          <b-button @click="$emit('check-stats', props.row.id)">check statistics</b-button>
         </b-table-column>
       </template>
 
