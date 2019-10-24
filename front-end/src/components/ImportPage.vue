@@ -100,11 +100,15 @@
         this.setStatus('verifying format of file', '');
         let artistNameInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.name'));
         let artistTermsInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.terms'));
+        let artistHotnessInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.hotttnesss'));
         let songTitleInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.title'));
         let songDurationInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.duration'));
         let songYearInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.year'));
+        let songHotnessInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.hotttnesss'));
+        let songIdInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.id'));
 
-        if(artistNameInd > -1 && artistTermsInd > -1 && songTitleInd > -1 && songDurationInd > -1 && songYearInd > -1) {
+        if(artistNameInd > -1 && artistTermsInd > -1 && artistHotnessInd > -1 && songTitleInd > -1
+          && songDurationInd > -1 && songYearInd > -1 && songHotnessInd > -1 && songIdInd > -1) {
           console.log('valid file');
           this.postPossible = true;
           this.setStatus('ready to upload data', 'has-text-primary');
@@ -112,9 +116,10 @@
         else {
           this.$buefy.toast.open({
             message: 'not all required fields could be found in the file, missing fields are:\n' +
-              (artistNameInd < 0 ? 'artist.name ' : '') + (artistTermsInd < 0 ? 'artist.terms ' : '') +
-              (songTitleInd < 0 ? 'song.title ' : '') + (songDurationInd < 0 ? 'song.duration ' : '') +
-              (songYearInd < 0 ? 'song.year' : ''),
+              (artistNameInd < 0 ? 'artist.name, ' : '') + (artistTermsInd < 0 ? 'artist.terms, ' : '') +
+              (artistHotnessInd < 0 ? 'artist.hotttnesss, ' : '') + (songTitleInd < 0 ? 'song.title, ' : '') +
+              (songDurationInd < 0 ? 'song.duration, ' : '') + (songYearInd < 0 ? 'song.year, ' : '') +
+              (songHotnessInd < 0 ? 'song.hotttnesss, ' : '') + (songIdInd < 0 ? 'song.id' : ''),
             type: 'is-danger',
             duration: 10000,
           });
@@ -125,9 +130,12 @@
       async postData() {
         let artistNameInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.name'));
         let artistTermsInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.terms'));
+        let artistHotnessInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'artist.hotttnesss'));
         let songTitleInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.title'));
         let songDurationInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.duration'));
         let songYearInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.year'));
+        let songHotnessInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.hotttnesss'));
+        let songIdInd = this.headers.findIndex(elem => stringUtils.stringCompIC(elem, 'song.id'));
 
         this.setStatus('starting upload', '');
         this.postPossible = false;
@@ -145,13 +153,16 @@
           //first post the artist
           let artistName = this.fileData[i][artistNameInd];
           let artistTerms = this.fileData[i][artistTermsInd];
+          let artistHotness = this.fileData[i][artistHotnessInd];
           let songTitle = this.fileData[i][songTitleInd];
           let songDuration = this.fileData[i][songDurationInd];
           let songYear = this.fileData[i][songYearInd];
+          let songHotness = this.fileData[i][songHotnessInd];
+          let songId = this.fileData[i][songIdInd];
 
           let artistId = -1;
 
-          await api.postArtist(artistName, artistTerms).then((response) => {
+          await api.postArtist(artistName, artistTerms, artistHotness).then((response) => {
             if(response.status !== 201) {
               this.failedOperations.push({
                 operation: 'post artist',
@@ -164,17 +175,21 @@
                   {
                     name: 'artistTerms',
                     value: artistTerms,
-                  }
+                  },
+                  {
+                    name: 'artistHotness',
+                    value: artistHotness,
+                  },
                 ],
                 status: response.status,
               });
             }
             else {
-              artistId = response.data.artistId;
+              artistId = response.data.artistid;
             }
           });
 
-          await api.postSong(artistId, songTitle, songDuration, songYear).then((response) => {
+          await api.postSong(artistId, songTitle, songDuration, songYear, songHotness, songId).then((response) => {
             if(response.status !== 201) {
               this.failedOperations.push({
                 operation: 'post song',
@@ -196,6 +211,14 @@
                     name: 'songYear',
                     value: songYear,
                   },
+                  {
+                    name: 'songHotness',
+                    value: songHotness,
+                  },
+                  {
+                    name: 'songId',
+                    value: songId,
+                  },
                 ],
                 status: response.status,
               });
@@ -206,6 +229,10 @@
         if(this.failedOperations.length < 1) {
           this.$buefy.toast.open({message: 'all objects were successfully added to the database', type: 'is-success'});
           this.setStatus('upload complete', 'has-text-success');
+        }
+        else {
+          this.setStatus('upload finished with errors', 'has-text-danger');
+          console.log(this.failedOperations);
         }
         this.abortPossible = false;
         this.postPossible = true;
