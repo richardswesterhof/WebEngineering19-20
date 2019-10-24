@@ -68,31 +68,31 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 + Response 200 (application/json)
 
-        [
-            {
+		[
+			{
 				"artistid": 1,
-                "id": "",
+				"id": "",
 				"hotness": 0.0,
-                "name": "Casual",
-                "terms": "hiphop",
-                "link": "/api/artists/1",
+				"name": "Casual",
+				"terms": "hiphop",
+				"link": "/api/artists/1",
 				"songs": [
 					(an array of songs, left out for brevity, see the song section for examples)
 				]
-            },
-            {
+			},
+			{
 				"artistid": 2,
-                "id": "",
+				"id": "",
 				"hotness": 0.0,
-                "name": "TheBoxTops",
-                "term": "blue-eyedsoul",
-                "link": "/api/artists/2",
+				"name": "TheBoxTops",
+				"term": "blue-eyedsoul",
+				"link": "/api/artists/2",
 				"songs": [
 					(an array of songs, left out for brevity, see the song section for examples)
 				]
-            },
-            etc.
-        ]
+			},
+			etc.
+		]
         
 + Response 200 (text/csv)
 
@@ -137,12 +137,12 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     
 + Response 200 (application/json)
 
-        {
+		{
 			"artistid": 1,
 			"mean": 0.5,
 			"median": 0.5,
 			"standardDeviation": 0.5
-        }
+		}
         
 + Response 200 (text/csv)
 
@@ -154,31 +154,31 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     
 + Response 200 (application/json)
 
-        [
-            {
+		[
+			{
 				"artistid": 1,
-                "id": "",
+				"id": "",
 				"hotness": 0.0,
-                "name": "Casual",
-                "terms": "hiphop",
-                "link": "/api/artists/1",
+				"name": "Casual",
+				"terms": "hiphop",
+				"link": "/api/artists/1",
 				"songs": [
 					(an array of songs, left out for brevity, see the song section for examples)
 				]
-            },
-            {
+			},
+			{
 				"artistid": 2,
-                "id": "",
+				"id": "",
 				"hotness": 0.0,
-                "name": "TheBoxTops",
-                "term": "blue-eyedsoul",
-                "link": "/api/artists/2",
+				"name": "TheBoxTops",
+				"term": "blue-eyedsoul",
+				"link": "/api/artists/2",
 				"songs": [
 					(an array of songs, left out for brevity, see the song section for examples)
 				]
-            },
-            etc.
-        ]
+			},
+			etc.
+		]
         
         
 + Response 200 (text/csv)
@@ -209,13 +209,13 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 			{
 				"artistid": 2,
-                "id": "",
+				"id": "",
 				"hotness": 0.0,
-                "name": "TheBoxTops",
-                "term": "blue-eyedsoul",
-                "link": "/api/artists/2",
+				"name": "TheBoxTops",
+				"term": "blue-eyedsoul",
+				"link": "/api/artists/2",
 				"songs": []
-            }
+			}
             
                  
 + Response 201 (text/csv)
@@ -257,21 +257,21 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + Response 200 (application/json)
 
 		{
-				"artistid": 1,
-                "id": "",
-				"hotness": 0.5,
-                "name": "Casual",
-                "term": "hiphop",
-                "link": "/api/artists/1",
-				"songs": [
-					(an array of songs, left out for brevity, see the song section for examples)
-				]
-            }
+			"artistid": 1,
+			"id": "",
+			"hotness": 0.5,
+			"name": "Casual",
+			"term": "hiphop",
+			"link": "/api/artists/1",
+			"songs": [
+				(an array of songs, left out for brevity, see the song section for examples)
+			]
+		}
         
         
 + Response 200 (text/csv)
 
-        "artistid", "id", "name", "term", "link"
+		"artistid", "id", "name", "term", "link"
 		"1", "", "Casual", "hiphop", "/api/artists/1"
         
         
@@ -287,7 +287,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 
 + Parameters 
-	+ title (string) - title of the song
+    + title (string) - title of the song
     + artistId (string) - id of the artist
     + artistName (string) - name of the artist
     + year (number) - The year of release
@@ -326,10 +326,10 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
 + Response 200 (text/csv)
 
-        "songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
-        "1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
+		"songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
+		"1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
 		"1", "", "259.448", "0", "0.0", "0", "1", "/api/songs/2", "/api/artists/1"
-        etc.
+		etc.
 
 
 ### <a name="getSong"></a> Get Information About Song By Id [GET /{songId}]
@@ -355,8 +355,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
 + Response 200 (text/csv)
 
-        "songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
-        "1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
+		"songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
+		"1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
                
         
 ### <a name="songsByPopularity"></a> Get songs by popularity [GET /popularity?year={year}&pageSize={pageSize}&pageRank={pageRank}]
@@ -367,8 +367,8 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
     + pageRank (number) - the number of page queried
 
 + Response 200 (application/json)
-
-        [
+		
+		[
 			{
 				"songid": 1,
 				"id": "",
@@ -398,23 +398,23 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
         
 + Response 200 (text/csv)
 
-        "songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
-        "1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
+		"songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
+		"1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
 		"1", "", "259.448", "0", "0.0", "0", "1", "/api/songs/2", "/api/artists/1"
-        etc.
+		etc.
      
         
  ### <a name="addSong"></a> Add Song [POST]
 
 + Request (application/json)
 
-        {
-            "title": "0",
-            "duration": 218.932,
+		{
+			"title": "0",
+			"duration": 218.932,
 			"artistsId": 1,
-            "year": 0,
+			"year": 0,
 			"hotness": 0.0
-        }
+		}
 
 + Response 201 (application/json)
 
@@ -424,7 +424,7 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 
     + Body
 
-            {
+			{
 				"songid": 1,
 				"id": "",
 				"duration": 218.932,
@@ -445,9 +445,9 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
             Location: /api/songs/1
             
     + Body
-    
-            "songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
-        	"1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
+
+			"songid", "id", "duration", "title", "hotness", "year", "artistName", "artistid", "link", "artistLink"
+			"1", "", "218.932", "0", "0.0", "0", "Casual", "1", "/api/songs/1", "/api/artists/1"
 
 
 ### <a name="updateSong"></a> Update Song [PUT /{songId}]
@@ -455,16 +455,16 @@ Web Engineering project 19-20 by Cornelis Zwart and Richard Westerhof.
 + Request (application/json)
 		
 		{
-            "title": "0",
-            "duration": 218.932,
+			"title": "0",
+			"duration": 218.932,
 			"artistsId": 1,
-            "year": 0,
+			"year": 0,
 			"hotness": 0.0
-        }
+		}
         
 + Response 200 (application/json)
 
-       {
+		{
 			"songid": 1,
 			"id": "",
 			"duration": 218.932,
