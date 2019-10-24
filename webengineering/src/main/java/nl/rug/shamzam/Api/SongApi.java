@@ -79,10 +79,14 @@ public class SongApi {
         artistName = Unnullifier.unnullify(artistName);
         year = Unnullifier.unnullify(year);
         genre = Unnullifier.unnullify(genre);
-        pageRank = Unnullifier.unnullify(pageRank);
+
+        if(pageRank == null || pageRank < 0) {
+            pageRank = 0;
+        }
         
-        if(pageSize == null || pageSize == 0)
+        if(pageSize == null || pageSize <= 0) {
             pageSize = 50;
+        }
 
         return songService.getSongsByParams(title, artistId, artistName, year, genre, pageSize,pageRank);
     }
@@ -233,10 +237,13 @@ public class SongApi {
         response.setHeader("Content-Type", json);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        pageRank = Unnullifier.unnullify(pageRank);
+        if(pageRank == null || pageRank < 0) {
+            pageRank = 0;
+        }
 
-        if(pageSize == null || pageSize == 0)
+        if(pageSize == null || pageSize <= 0) {
             pageSize = 50;
+        }
 
         return songService.getSongsByPopularityYear(year,pageSize,pageRank);
     }

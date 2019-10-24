@@ -47,7 +47,7 @@ public class Song {
     private String title;
     private int year;
 
-    public static final String columnNames = "\"title\", \"artistName\", \"duration\", \"year\", \"id\", \"songid\", \"artistid\", \"link\", \"artistLink\"";
+    public static final String columnNames = "\"songid\", \"id\", \"duration\", \"title\", \"hotness\", \"year\", \"artistName\", \"artistid\", \"link\", \"artistLink\"";
 
 
     public Song(String title, @NotNull Artist artist, Float duration, Integer year, Float hotness, String ...songid) {
@@ -90,7 +90,7 @@ public class Song {
     }
 
     public String getLink() {
-        return "/" + songid;
+        return "/api/songs/" + songid;
     }
 
     public int getArtistId() {
@@ -112,12 +112,13 @@ public class Song {
     }
 
     public String toCsvLine() {
-        return "\"" + title + "\"," +
-               "\"" + getArtistName() + "\"," +
-               "\"" + duration + "\"," +
-               "\"" + year + "\"," +
+        return "\"" + songid + "\"," +
                "\"" + id + "\"," +
-               "\"" + songid + "\"," +
+               "\"" + duration + "\"," +
+               "\"" + title + "\"," +
+               "\"" + hotness + "\"," +
+               "\"" + year + "\"," +
+               "\"" + getArtistName() + "\"," +
                "\"" + getArtistId() + "\"," +
                "\"" + getLink() + "\"," +
                "\"" + getArtistLink() + "\"";

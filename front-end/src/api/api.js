@@ -90,6 +90,8 @@ export default {
     let requestBody = {name: name, terms: terms, hotness: hotness};
     return axios.post('/api/artists', requestBody).then((response) => {
       return response;
+    }, (error) => {
+      return error.response;
     });
   },
 
@@ -98,6 +100,8 @@ export default {
     let requestBody = {artistid: artistid, title: title, duration: duration, year: year, songid: datasetid, hotness: hotness};
     return axios.post('/api/songs', requestBody).then((response) => {
       return response;
+    }, (error) => {
+      return error.response;
     });
   },
 

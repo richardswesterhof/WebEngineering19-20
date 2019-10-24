@@ -21,7 +21,7 @@ public class Artist {
     private float similar;
     private String terms;
 
-    public static String columnNames = "\"artistid\", \"name\", \"terms\", \"hotness\", \"pageLink\"\n";
+    public static String columnNames = "\"artistid\", \"name\", \"terms\", \"hotness\", \"link\"\n";
 
     @OneToMany(mappedBy="artist")
     private List<Song> songs;
@@ -32,6 +32,9 @@ public class Artist {
     public String getId(){return this.id;}
     public int getArtistid() {
         return artistid;
+    }
+    public String getLink() {
+        return "/api/artists/" + artistid;
     }
     public List<Song> getSongs(){return this.songs;}
 
@@ -54,6 +57,6 @@ public class Artist {
                 "\"" + name + "\"," +
                 "\"" + terms + "\"," +
                 "\"" + hotness + "\"," +
-                "\"/api/artists/" + artistid + "\"";
+                "\"" + getLink() + "\"";
     }
 }

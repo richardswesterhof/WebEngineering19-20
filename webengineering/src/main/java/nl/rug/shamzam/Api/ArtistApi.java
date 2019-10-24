@@ -55,10 +55,14 @@ public class ArtistApi {
 
         artistName = Unnullifier.unnullify(artistName);
         genre = Unnullifier.unnullify(genre);
-        pageRank = Unnullifier.unnullify(pageRank);
 
-        if(pageSize == null || pageSize == 0)
+        if (pageRank == null || pageRank < 0) {
+            pageRank = 0;
+        }
+
+        if(pageSize == null || pageSize <= 0) {
             pageSize = 50;
+        }
 
         return artistService.getArtistsByNameAndGenre(artistName,genre,pageSize,pageRank);
     }
@@ -113,9 +117,11 @@ public class ArtistApi {
         response.setHeader(CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        pageRank = Unnullifier.unnullify(pageRank);
+        if(pageRank == null || pageRank < 0) {
+            pageRank = 0;
+        }
 
-        if(pageSize == null || pageSize == 0)
+        if(pageSize == null || pageSize <= 0)
             pageSize = 50;
 
         return artistService.getArtistsByHotness(pageSize,pageRank);

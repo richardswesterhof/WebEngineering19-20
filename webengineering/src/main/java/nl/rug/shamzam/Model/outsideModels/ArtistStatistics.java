@@ -6,7 +6,7 @@ public class ArtistStatistics {
     private float median;
     private float std;
 
-    public static String columnNames = "\"artistid\", \"mean\", \"median\", \"standarddeviation\"";
+    public static String columnNames = "\"artistid\", \"mean\", \"median\", \"standardDeviation\"";
 
     public int getArtistid() {
         return this.artistid;
