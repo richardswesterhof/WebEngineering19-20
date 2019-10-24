@@ -4,7 +4,7 @@
 
 ## Build Setup
 
-# make sure to have npm installed
+### make sure to have npm installed
 https://www.npmjs.com/get-npm
 
 ``` bash
@@ -17,6 +17,6 @@ npm install
 npm run dev
 ```
 
-# open your favorite browser and navigate to localhost:9090
+### open your favorite browser and navigate to localhost:9090
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
