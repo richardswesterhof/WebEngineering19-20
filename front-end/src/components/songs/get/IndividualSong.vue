@@ -35,11 +35,15 @@
         </b-table-column>
 
         <b-table-column field="duration" label="Duration" width="40" numeric>
-          {{ props.row.duration }}
+          {{ song ? props.row.duration.toFixed(3) : null }}
         </b-table-column>
 
         <b-table-column field="year" label="Year" width="40" numeric>
           {{ props.row.year }}
+        </b-table-column>
+
+        <b-table-column field="hotness" label="Hotness" width="20" numeric>
+          {{ song ? props.row.hotness.toFixed(3) : null }}
         </b-table-column>
       </template>
     </b-table>
@@ -82,8 +86,14 @@
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
           }
-          this.isLoading = false;
         });
+        this.isLoading = false;
+      },
+
+      checkSong(songid) {
+        if(!songid) return;
+        this.songId = songid;
+        this.getSongById();
       },
     },
   }

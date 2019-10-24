@@ -26,11 +26,13 @@
     </b-field>
 
     <b-field class="is-input" label="Hotness" horizontal>
-      <b-input v-model="hotness" type="number" min="0" max="1" placeholder="hotness...">
+      <b-input v-model="hotness" type="number" min="0" max="1" step="0.001" placeholder="hotness...">
       </b-input>
     </b-field>
 
     <b-button class="button is-primary is-submit-button" @click="submitSong">submit song</b-button>
+
+    <b-button v-show="assignedId" class="button is-primary is-medium" @click="checkSong(assignedId)">Check out new song</b-button>
   </section>
 </template>
 
@@ -49,6 +51,8 @@
         duration: null,
         year: null,
         hotness: null,
+
+        assignedId: null,
       }
     },
 
@@ -62,17 +66,18 @@
         api.postSong(this.artistId, this.title, this.duration, this.year, this.hotness).then((response) => {
           if(response.status === 201) {
             this.$buefy.toast.open({
-              message: 'song is now in the database',
+              message: 'song is now in the database, it has been assigned id: ' + response.data.songid,
               type: 'is-success',
             });
             this.clearFields();
+            this.assignedId = response.data.songid;
           }
           else {
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
           }
-          this.isLoading = false;
         });
+        this.isLoading = false;
       },
 
       clearFields() {
@@ -81,7 +86,11 @@
         this.duration = null;
         this.year = null;
         this.hotness = null;
-      }
+      },
+
+      checkSong(songid) {
+        this.$emit('check-song', songid);
+      },
     },
   }
 </script>

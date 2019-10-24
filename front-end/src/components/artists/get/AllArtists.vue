@@ -17,25 +17,30 @@
     <b-table :data="artists" class="is-table custom-centered">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>
-          {{ props.row.id }}
+          {{ props.row.artistid }}
         </b-table-column>
 
         <b-table-column field="name" label="Name">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 20em; word-wrap: break-word;">
+          <div style="max-width: 16em; word-wrap: break-word;">
             {{ props.row.name }}
           </div>
         </b-table-column>
 
-        <b-table-column field="term" label="Genre">
+        <b-table-column field="terms" label="Genre">
           <!-- prevent the text from being too long on one line -->
-          <div style="max-width: 15em; word-wrap: break-word;">
-            {{ props.row.term }}
+          <div style="max-width: 10em; word-wrap: break-word;">
+            {{ props.row.terms }}
           </div>
         </b-table-column>
 
-        <b-table-column label="Statistics">
-          <b-button @click="$emit('check-stats', props.row.id)">check statistics</b-button>
+        <b-table-column field="hotness" label="Hotness" width="20" numeric>
+          {{ props.row.hotness.toFixed(3) }}
+        </b-table-column>
+
+        <b-table-column label="Details" numeric>
+          <b-button @click="$emit('check-songs', props.row.artistid)" class="button is-small">songs</b-button>
+          <b-button @click="$emit('check-stats', props.row.artistid)" class="button is-small">statistics</b-button>
         </b-table-column>
       </template>
 
@@ -105,8 +110,8 @@
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
           }
-          this.isLoading= false;
         });
+        this.isLoading= false;
       },
 
       filterChanged() {

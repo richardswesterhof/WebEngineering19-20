@@ -37,8 +37,8 @@
 
         <b-progress class="is-input" type="is-primary" :value="progress" show-value format="percent" v-show="status.includes('uploading object no.')"></b-progress>
 
-        <b-button class="button is-primary is-submit-button" @click="postData" v-if="postPossible">upload data</b-button>
-        <b-button class="button is-danger is-submit-button" @click="abortPost" v-if="abortPossible">abort upload</b-button>
+        <b-button class="button is-primary" @click="postData" v-if="postPossible" style="margin-left:43em;">upload data</b-button>
+        <b-button class="button is-danger" @click="abortPost" v-if="abortPossible" style="margin-left:43em;">abort upload</b-button>
       </div>
     </div>
   </section>

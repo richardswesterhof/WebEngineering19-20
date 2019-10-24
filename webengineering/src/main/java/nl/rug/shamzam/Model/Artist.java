@@ -35,15 +35,16 @@ public class Artist {
     }
     public List<Song> getSongs(){return this.songs;}
 
-    public Artist(ArtistRequestBody ap){
-        this.name = ap.getName();
-        this.terms = ap.getTerms();
+    public Artist(ArtistRequestBody arb){
+        this.name = arb.getName();
+        this.terms = arb.getTerms();
+        this.hotness = arb.getHotness();
     }
 
-    public void update(ArtistRequestBody artistRequestBody){
-        this.name = artistRequestBody.getName();
-        this.hotness = artistRequestBody.getHotness();
-        this.terms = artistRequestBody.getTerms();
+    public void update(ArtistRequestBody arb){
+        this.name = arb.getName();
+        this.hotness = arb.getHotness();
+        this.terms = arb.getTerms();
     }
 
     public Artist(){}

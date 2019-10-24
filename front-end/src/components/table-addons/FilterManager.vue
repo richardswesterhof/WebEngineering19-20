@@ -24,7 +24,7 @@
     </b-field>
 
 
-    <b-taglist class="custom-centered" style="width:40em;">
+    <b-taglist class="custom-centered" style="width:50em;">
       <template v-for="filter in filters">
         <b-tag type="is-primary" closable @close="removeFilter(filter)">
           {{filter.displayName}} = {{filter.filterValue}}</b-tag>

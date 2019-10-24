@@ -13,7 +13,7 @@ export default {
     return axios.get('/api/artists' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -25,7 +25,7 @@ export default {
     return axios.get('/api/artists/' + artistid).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -37,7 +37,7 @@ export default {
     return axios.get('/api/artists/' + artistid + '/statistics?year=' + (year ? year : '')).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -48,7 +48,7 @@ export default {
     return axios.get('/api/artists/popularity' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -59,7 +59,7 @@ export default {
     return axios.get('/api/songs' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -71,7 +71,7 @@ export default {
     return axios.get('/api/songs/' + songid).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -81,43 +81,43 @@ export default {
     return axios.get('/api/songs/popularity' + queryParameters).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
 
-  postArtist(name, terms) {
-    let requestBody = {name: name, terms: terms};
+  postArtist(name, terms, hotness) {
+    let requestBody = {name: name, terms: terms, hotness: hotness};
     return axios.post('/api/artists', requestBody).then((response) => {
       return response;
     });
   },
 
 
-  postSong(artistid, title, duration, year, hotness, songid) {
-    let requestBody = {artistid: artistid, title: title, duration: duration, year: year, songid: songid, hotness: hotness};
+  postSong(artistid, title, duration, year, hotness, datasetid) {
+    let requestBody = {artistid: artistid, title: title, duration: duration, year: year, songid: datasetid, hotness: hotness};
     return axios.post('/api/songs', requestBody).then((response) => {
       return response;
     });
   },
 
 
-  putArtist(artistid, name, terms) {
-    let requestBody = {name: name, terms: terms};
+  putArtist(artistid, name, terms, hotness) {
+    let requestBody = {name: name, terms: terms, hotness: hotness};
     return axios.put('/api/artists/' + artistid, requestBody).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
 
-  putSong(songid, artistid, title, duration, year) {
-    let requestBody = {artistid: artistid, title: title, duration: duration, year: year};
+  putSong(songid, artistid, title, duration, year, hotness, datasetid) {
+    let requestBody = {artistid: artistid, title: title, duration: duration, year: year, hotness: hotness, songid: datasetid};
     return axios.put('/api/songs/' + songid, requestBody).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 
@@ -126,7 +126,7 @@ export default {
     return axios.delete('/api/artists/' + artistid).then((response) => {
       return response;
     }, (error) => {
-      return error;
+      return error.response;
     });
   },
 

@@ -59,16 +59,22 @@
     <div class="tile is-6" style="display:inline-block; text-align: center;">
 
       <!-- get requests -->
-      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all" v-on:check-stats="checkStats($event)"></AllArtists>
+      <AllArtists :available-filters="availableFilters" v-show="$props.subpage === 'all'" ref="all"
+                  v-on:check-stats="checkStats($event)"
+                  v-on:check-songs="checkSongs($event)">
+      </AllArtists>
       <IndividualArtist v-show="$props.subpage === 'individual'" ref="individual"></IndividualArtist>
       <ArtistStatistics v-show="$props.subpage === 'stats'" ref="stats"></ArtistStatistics>
-      <PopularityArtists v-show="$props.subpage === 'popular'" ref="popular"></PopularityArtists>
+      <PopularityArtists v-show="$props.subpage === 'popular'" ref="popular"
+                         v-on:check-stats="checkStats($event)"
+                         v-on:check-songs="checkSongs($event)">
+      </PopularityArtists>
 
       <!-- post requests -->
-      <AddArtist v-show="$props.subpage === 'add'" ref="add"></AddArtist>
+      <AddArtist v-show="$props.subpage === 'add'" ref="add" v-on:check-artist="checkSongs($event)"></AddArtist>
 
       <!-- put requests -->
-      <UpdateArtist v-show="$props.subpage === 'replace'" ref="replace"></UpdateArtist>
+      <UpdateArtist v-show="$props.subpage === 'replace'" ref="replace" v-on:check-artist="checkSongs($event)"></UpdateArtist>
 
       <!-- delete requests -->
       <RemoveArtist v-show="$props.subpage === 'remove'" ref="remove"></RemoveArtist>
@@ -164,6 +170,11 @@
       checkStats(id) {
         this.$refs['stats'].checkArtist(id);
         this.$router.push('/artists/stats');
+      },
+
+      checkSongs(id) {
+        this.$refs['individual'].checkArtist(id);
+        this.$router.push('/artists/individual');
       },
     },
   }

@@ -49,11 +49,20 @@ h1 {
 
 h2 {
   font-size: 2em !important;
-  font-weight: 200 !important;
   color: var(--primaryColor);
 }
 
 h2.is-subpage-title {
+  text-align: left !important;
+}
+
+h3 {
+  font-size: 1.6em !important;
+  color: var(--primaryColor)
+}
+
+h3.is-subpage-subtitle {
+  margin-left: 0.1em;
   text-align: left !important;
 }
 

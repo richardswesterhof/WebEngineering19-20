@@ -51,10 +51,10 @@
       <PopularitySongs v-show="$props.subpage === 'popular'" ref="popular"></PopularitySongs>
 
       <!-- post requests -->
-      <AddSong v-show="$props.subpage === 'add'" ref="add"></AddSong>
+      <AddSong v-show="$props.subpage === 'add'" ref="add" v-on:check-song="checkSong($event)"></AddSong>
 
       <!-- put requests -->
-      <UpdateSong v-show="$props.subpage === 'replace'" ref="replace"></UpdateSong>
+      <UpdateSong v-show="$props.subpage === 'replace'" ref="replace" v-on:check-song="checkSong($event)"></UpdateSong>
     </div>
   </div>
 </template>
@@ -127,6 +127,11 @@
         else {
           console.warn('The following reference could not be found or did not have method refreshSongs: ' + subpage);
         }
+      },
+
+      checkSong(id) {
+        this.$refs['individual'].checkSong(id);
+        this.$router.push('/songs/individual');
       },
     },
   }

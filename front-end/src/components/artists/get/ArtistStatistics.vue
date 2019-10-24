@@ -20,15 +20,15 @@
         </b-table-column>
 
         <b-table-column field="mean" label="Mean" numeric>
-          {{ props.row.mean }}
+          {{ stats ? props.row.mean.toFixed(3) : null }}
         </b-table-column>
 
         <b-table-column field="median" label="Median" numeric>
-          {{ props.row.median }}
+          {{ stats ? props.row.median.toFixed(3) : null }}
         </b-table-column>
 
-        <b-table-column field="standardDeveation" label="Standard Deviation" numeric>
-          {{ props.row.standardDeveation }}
+        <b-table-column field="standardDeviation" label="Standard Deviation" numeric>
+          {{ stats ? props.row.standardDeviation.toFixed(3) : null }}
         </b-table-column>
       </template>
     </b-table>
@@ -90,8 +90,8 @@
             this.$buefy.toast.open({message: 'request failed with status code: ' + (response.status ? response.status : 'unknown status'), type: 'is-danger'});
             console.error(response);
           }
-          this.isLoading = false;
         });
+        this.isLoading = false;
       },
 
       filterChanged() {
