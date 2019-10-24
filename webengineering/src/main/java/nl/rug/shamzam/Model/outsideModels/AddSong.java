@@ -1,28 +1,31 @@
 package nl.rug.shamzam.Model.outsideModels;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Utils.Unnullifier;
 
+import javax.validation.constraints.NotBlank;
+
 /**
- * this class is used for the format of the body of an add song request
+ * this class is used for the format of the body of an add or post song request
  */
 public class AddSong {
 
+    @NotBlank(message = "artistid is mandatory")
     private Integer artistid;
-    
-    @JsonProperty(required = false)
-    private String songid;
 
+
+    private String songid;
     private String title;
     private Float duration;
     private Integer year;
+    private Float hotness;
 
 
     public Song toSong(Artist artist) {
         return new Song(Unnullifier.unnullify(title), artist,
-                Unnullifier.unnullify(duration), Unnullifier.unnullify(year), songid);
+                Unnullifier.unnullify(duration), Unnullifier.unnullify(year),
+                Unnullifier.unnullify(hotness), songid);
     }
 
     @Override
@@ -31,7 +34,7 @@ public class AddSong {
     }
 
 
-    public int getArtistId() {
+    public Integer getArtistId() {
         return artistid;
     }
 
@@ -53,5 +56,13 @@ public class AddSong {
 
     public void setArtistid(Integer artistid) {
         this.artistid = artistid;
+    }
+
+    public void setSongid(String songid) {
+        this.songid = songid;
+    }
+
+    public void setHotness(Float hotness) {
+        this.hotness = hotness;
     }
 }

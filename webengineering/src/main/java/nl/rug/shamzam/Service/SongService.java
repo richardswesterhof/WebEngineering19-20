@@ -1,14 +1,10 @@
 package nl.rug.shamzam.Service;
 
-import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
-import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
-import nl.rug.shamzam.Model.outsideModels.SongPopularity;
 import nl.rug.shamzam.Repository.SongRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,8 +28,8 @@ public class SongService {
     public Song addSong(Song song) {
         //Find the song if it exists
         List<Song> queryResults = songRepository.getSongsByParamsFullMatch(
-                song.getTitle(), intToString(song.getArtistId()), song.getArtistName(),
-                intToString(song.getYear()), song.getArtist().getTerms(), song.getId(), PageRequest.of(0,2));
+                song.getTitle(), Integer.toString(song.getArtistId()), song.getArtistName(),
+                Integer.toString(song.getYear()), song.getArtist().getTerms(), song.getId(), PageRequest.of(0,1));
         if(!queryResults.isEmpty()) {
             System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
             return queryResults.get(0);
@@ -65,26 +61,7 @@ public class SongService {
         return i.toString();
     }
 
-    public List<SongPopularity> getSongPopularity(int limit, int pagerank){
-        List<Song> songs = songRepository.getSongsPopularity(PageRequest.of(pagerank,limit));
-
-        ArrayList<SongPopularity> popularities = new ArrayList<>();
-        for (Song s: songs) {
-            popularities.add(new SongPopularity(s));
-        }
-
-        return popularities;
-    }
-
-    public List<SongPopularity> getSongPopularityYear(int year, int limit, int pagerank){
-        List<Song> songs = songRepository.getSongsPopularityByYear(year, PageRequest.of(pagerank,limit));
-
-
-        ArrayList<SongPopularity> popularities = new ArrayList<>();
-        for (Song s: songs) {
-            popularities.add(new SongPopularity(s));
-        }
-
-        return popularities;
+    public List<Song> getSongsByPopularityYear(Integer year, int limit, int pagerank){
+        return songRepository.getSongsByPopularityYear(year == null ? "" : year.toString(), PageRequest.of(pagerank,limit));
     }
 }

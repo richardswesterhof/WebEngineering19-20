@@ -1,10 +1,12 @@
 package nl.rug.shamzam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.rug.shamzam.Utils.Unnullifier;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Song {
@@ -48,7 +50,7 @@ public class Song {
     public static final String columnNames = "\"title\", \"artistName\", \"duration\", \"year\", \"id\", \"songid\", \"artistid\", \"link\", \"artistLink\"";
 
 
-    public Song(String title, Artist artist, float duration, int year, String ...songid) {
+    public Song(String title, @NotNull Artist artist, Float duration, Integer year, Float hotness, String ...songid) {
         if(songid.length > 0) {
             if(songid[0] == null || songid[0].equals("null") || songid[0].equals("")) {
                 id = "";
@@ -58,16 +60,21 @@ public class Song {
         else {
             id = "";
         }
+        //setting the variables given as parameters
         this.artist = artist;
+        this.duration = Unnullifier.unnullify(duration);
+        this.hotness = Unnullifier.unnullify(hotness);
+        this.title = Unnullifier.unnullify(title);
+        this.year = Unnullifier.unnullify(year);
+
+        //setting the rest to default values
         artist_mbtags = 0;
         artist_mbtags_count = 0;
         bars_confidence = 0;
         bars_start = 0;
         beats_confidence = 0;
         beats_start = 0;
-        this.duration = duration;
         end_of_fade_in = 0;
-        hotness = 0;
         key = 0;
         key_confidence = 0;
         loudness = 0;
@@ -79,8 +86,6 @@ public class Song {
         tempo = 0;
         time_signature = 0;
         time_signature_confidence = 0;
-        this.title = title;
-        this.year = year;
     }
 
     //default constructor is needed by spring
@@ -125,6 +130,10 @@ public class Song {
 
     public float getHotness(){return this.hotness;}
 
+    public Artist getArtist() {
+        return artist;
+    }
+
     public String toCsvLine() {
         return "\"" + title + "\"," +
                "\"" + getArtistName() + "\"," +
@@ -153,10 +162,8 @@ public class Song {
         this.title = s.getTitle();
         this.duration = s.getDuration();
         this.year = s.getYear();
+        this.artist = s.getArtist();
+        this.hotness = s.getHotness();
     }
 
-
-    public Artist getArtist() {
-        return artist;
-    }
 }

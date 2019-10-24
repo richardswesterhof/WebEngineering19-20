@@ -3,7 +3,6 @@ package nl.rug.shamzam.Api;
 import nl.rug.shamzam.Model.outsideModels.AddSong;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
-import nl.rug.shamzam.Model.outsideModels.SongPopularity;
 import nl.rug.shamzam.Service.ArtistService;
 import nl.rug.shamzam.Service.SongService;
 import nl.rug.shamzam.Utils.Unnullifier;
@@ -35,7 +34,7 @@ public class SongApi {
     }
 
 
-    @GetMapping(value = "", produces = "text/csv")
+    @GetMapping(value = "", produces = csv)
     public String getSongsCsv(@RequestParam(required = false) String title, @RequestParam(required = false) Integer artistId,
                               @RequestParam(required = false) String artistName, @RequestParam(required = false) Integer year,
                               @RequestParam(required = false) String genre,
@@ -45,10 +44,9 @@ public class SongApi {
 
         List<Song> queryResults = getSongList(title, artistId, artistName, year, genre,pageSize,pageRank);
         StringBuilder fullCsv = new StringBuilder(Song.columnNames);
-        fullCsv.append('\n');
         for(int i = 0; i < queryResults.size(); i++) {
-            fullCsv.append(queryResults.get(i).toCsvLine());
             fullCsv.append('\n');
+            fullCsv.append(queryResults.get(i).toCsvLine());
         }
         return fullCsv.toString();
     }
@@ -90,7 +88,7 @@ public class SongApi {
     }
 
 
-    @GetMapping(value = "/{songId}", produces = "text/csv")
+    @GetMapping(value = "/{songId}", produces = csv)
     public String getSongByIdCsv(@PathVariable("songId") int songId, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_OK);
@@ -113,14 +111,14 @@ public class SongApi {
     }
 
 
-    @PostMapping(value = "", consumes = "application/json", produces = "text/csv")
+    @PostMapping(value = "", consumes = json, produces = csv)
     public String postSongCsv(@RequestBody AddSong addSong, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_CREATED);
 
         Song song = addSongToDb(addSong);
         if(song == null) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "";
         }
         else {
@@ -130,11 +128,15 @@ public class SongApi {
     }
 
 
-    @PostMapping(value = "", consumes = "application/json")
+    @PostMapping(value = "", consumes = json)
     public Song postSongJson(@RequestBody AddSong addSong, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_CREATED);
 
+        if(addSong.getArtistId() == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
+        }
         Song song = addSongToDb(addSong);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -159,7 +161,7 @@ public class SongApi {
     }
 
 
-    @PutMapping(value = "/{songId}", consumes = "application/json", produces = "text/csv")
+    @PutMapping(value = "/{songId}", consumes = json, produces = csv)
     public String putSongCsv(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_OK);
@@ -181,7 +183,7 @@ public class SongApi {
         return Song.columnNames + '\n' + song.toCsvLine();
     }
 
-    @PutMapping(value = "/{songId}", consumes = "application/json")
+    @PutMapping(value = "/{songId}", consumes = json)
     public Song putSongJson(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_OK);
@@ -203,10 +205,10 @@ public class SongApi {
     }
 
 
-    @GetMapping(value = "/popularity", consumes = "text/csv")
+    @GetMapping(value = "/popularity", produces = csv)
     public String getSongsPopularityCsv(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
                                      @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
-        response.setHeader("Content-Type", "text/csv");
+        response.setHeader("Content-Type", csv);
         response.setStatus(HttpServletResponse.SC_OK);
 
         if(pageRank == null)
@@ -215,41 +217,28 @@ public class SongApi {
         if(pageSize == null || pageSize == 0)
             pageSize = 50;
 
-        String s = SongPopularity.columnames;
-        List<SongPopularity> songPopularities;
-        if(year == null) {
-            songPopularities = songService.getSongPopularity (pageSize,pageRank);
-        }
-        else {
-            songPopularities = songService.getSongPopularityYear (year,pageSize,pageRank);
-        }
+        StringBuilder sb = new StringBuilder(Song.columnNames);
+        List<Song> songPopularities = songService.getSongsByPopularityYear(year,pageSize,pageRank);
 
-        for(SongPopularity sp: songPopularities) {
-            s += sp.toCsvLine();
+        for(Song sp: songPopularities) {
+            sb.append('\n');
+            sb.append(sp.toCsvLine());
         }
-        return s;
+        return sb.toString();
     }
 
     @GetMapping(value = "/popularity")
-    public List<SongPopularity> getSongsPopularityJson(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
+    public List<Song> getSongsPopularityJson(@RequestParam(required = false) Integer year, @RequestParam(required = false) Integer pageSize,
                                                       @RequestParam(required = false) Integer pageRank, HttpServletResponse response) {
-        response.setHeader("Content-Type", "application/json");
+        response.setHeader("Content-Type", json);
         response.setStatus(HttpServletResponse.SC_OK);
 
-        if(pageRank == null)
-            pageRank = 0;
+        pageRank = Unnullifier.unnullify(pageRank);
 
         if(pageSize == null || pageSize == 0)
             pageSize = 50;
 
-        List<SongPopularity> songPopularities;
-        if(year == null) {
-            songPopularities = songService.getSongPopularity(pageSize,pageRank);
-        }
-        else {
-            songPopularities = songService.getSongPopularityYear(year,pageSize,pageRank);
-        }
-        return songPopularities;
+        return songService.getSongsByPopularityYear(year,pageSize,pageRank);
     }
 
     /**
