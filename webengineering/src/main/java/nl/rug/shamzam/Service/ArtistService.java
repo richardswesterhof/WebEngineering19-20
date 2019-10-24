@@ -1,16 +1,11 @@
 package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Artist;
-import nl.rug.shamzam.Model.outsideModels.ArtistHotness;
-import nl.rug.shamzam.Model.outsideModels.ArtistPut;
 import nl.rug.shamzam.Repository.ArtistRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,15 +43,8 @@ public class ArtistService {
         return artistRepository.getArtistByArtistid(id);
     }
 
-    public List<ArtistHotness> getArtistsByHotness(int limit, int pagerank){
-        List<Artist> artists = artistRepository.getArtistOrOrderByHotness(PageRequest.of (pagerank, limit));
-
-        ArrayList<ArtistHotness> hotnesses = new ArrayList<>();
-        for (Artist a: artists) {
-            hotnesses.add(new ArtistHotness(a.getArtistid(),a.getName(),a.getTerms()));
-        }
-
-        return hotnesses;
+    public List<Artist> getArtistsByHotness(int limit, int pagerank){
+        return artistRepository.getArtistOrOrderByHotness(PageRequest.of (pagerank, limit));
     }
 
 }

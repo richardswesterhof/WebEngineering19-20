@@ -1,7 +1,6 @@
 package nl.rug.shamzam.Model;
 
-import nl.rug.shamzam.Model.outsideModels.ArtistPost;
-import nl.rug.shamzam.Model.outsideModels.ArtistPut;
+import nl.rug.shamzam.Model.outsideModels.ArtistRequestBody;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +21,7 @@ public class Artist {
     private float similar;
     private String terms;
 
-    public static String columnames = "\"artistid\", \"id\", \"familiarity\", \"hotness\", \"latitude\", \"location\", \"longitude\", \"link\"";
+    public static String columnNames = "\"artistid\", \"name\", \"terms\", \"hotness\", \"pageLink\"\n";
 
     @OneToMany(mappedBy="artist")
     private List<Song> songs;
@@ -36,16 +35,24 @@ public class Artist {
     }
     public List<Song> getSongs(){return this.songs;}
 
-    public Artist(ArtistPost ap){
+    public Artist(ArtistRequestBody ap){
         this.name = ap.getName();
         this.terms = ap.getTerms();
     }
 
-    public void update(ArtistPut artistPut){
-        this.name = artistPut.getName();
-        this.hotness = artistPut.getHotness();
-        this.terms = artistPut.getTerms();
+    public void update(ArtistRequestBody artistRequestBody){
+        this.name = artistRequestBody.getName();
+        this.hotness = artistRequestBody.getHotness();
+        this.terms = artistRequestBody.getTerms();
     }
 
     public Artist(){}
+
+    public String toCsvLine(){
+        return  "\"" + artistid + "\"," +
+                "\"" + name + "\"," +
+                "\"" + terms + "\"," +
+                "\"" + hotness + "\"," +
+                "\"/api/artists/" + artistid + "\"";
+    }
 }

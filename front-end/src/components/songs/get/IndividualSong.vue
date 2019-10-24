@@ -12,6 +12,8 @@
       <b-button class="button is-primary" @click="getSongById">retrieve</b-button>
     </b-field>
 
+    <div class="separator-line"></div>
+
     <b-table :data="song ? [song] : [{}]" class="is-table custom-centered">
       <template slot-scope="props">
         <b-table-column field="id" label="ID" width="40" numeric>

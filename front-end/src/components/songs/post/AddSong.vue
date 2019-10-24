@@ -25,6 +25,11 @@
       </b-input>
     </b-field>
 
+    <b-field class="is-input" label="Hotness" horizontal>
+      <b-input v-model="hotness" type="number" min="0" max="1" placeholder="hotness...">
+      </b-input>
+    </b-field>
+
     <b-button class="button is-primary is-submit-button" @click="submitSong">submit song</b-button>
   </section>
 </template>
@@ -43,6 +48,7 @@
         title: null,
         duration: null,
         year: null,
+        hotness: null,
       }
     },
 
@@ -53,7 +59,7 @@
           return;
         }
         this.isLoading = true;
-        api.postSong(this.artistId, this.title, this.duration, this.year).then((response) => {
+        api.postSong(this.artistId, this.title, this.duration, this.year, this.hotness).then((response) => {
           if(response.status === 201) {
             this.$buefy.toast.open({
               message: 'song is now in the database',
@@ -74,6 +80,7 @@
         this.title = null;
         this.duration = null;
         this.year = null;
+        this.hotness = null;
       }
     },
   }

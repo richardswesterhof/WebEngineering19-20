@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * this class is used for the format of the body of an add or post song request
  */
-public class AddSong {
+public class SongRequestBody {
 
     @NotBlank(message = "artistid is mandatory")
     private Integer artistid;
@@ -28,18 +28,9 @@ public class AddSong {
                 Unnullifier.unnullify(hotness), songid);
     }
 
-    @Override
-    public String toString() {
-        return title + artistid + duration + year;
-    }
-
 
     public Integer getArtistId() {
         return artistid;
-    }
-
-    public String getSongId() {
-        return songid;
     }
 
     public void setDuration(Float duration) {

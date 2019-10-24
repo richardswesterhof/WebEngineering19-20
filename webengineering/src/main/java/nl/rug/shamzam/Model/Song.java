@@ -51,41 +51,18 @@ public class Song {
 
 
     public Song(String title, @NotNull Artist artist, Float duration, Integer year, Float hotness, String ...songid) {
-        if(songid.length > 0) {
-            if(songid[0] == null || songid[0].equals("null") || songid[0].equals("")) {
-                id = "";
-            }
-            else id = songid[0];
-        }
-        else {
+        if(songid.length == 0 || songid[0] == null || songid[0].equals("null")) {
             id = "";
         }
-        //setting the variables given as parameters
+        else {
+            id = songid[0];
+        }
+
         this.artist = artist;
         this.duration = Unnullifier.unnullify(duration);
         this.hotness = Unnullifier.unnullify(hotness);
         this.title = Unnullifier.unnullify(title);
         this.year = Unnullifier.unnullify(year);
-
-        //setting the rest to default values
-        artist_mbtags = 0;
-        artist_mbtags_count = 0;
-        bars_confidence = 0;
-        bars_start = 0;
-        beats_confidence = 0;
-        beats_start = 0;
-        end_of_fade_in = 0;
-        key = 0;
-        key_confidence = 0;
-        loudness = 0;
-        mode = 0;
-        mode_confidence = 0;
-        start_of_fade_out = 0;
-        tatums_confidence = 0;
-        tatums_start = 0;
-        tempo = 0;
-        time_signature = 0;
-        time_signature_confidence = 0;
     }
 
     //default constructor is needed by spring
@@ -146,18 +123,7 @@ public class Song {
                "\"" + getArtistLink() + "\"";
     }
 
-
-    @Override
-    public String toString() {
-        return title + ", " + duration + ", " + year + ", " + id;
-    }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
+    //copies all important fields from a given song into this song
     public void update(Song s) {
         this.title = s.getTitle();
         this.duration = s.getDuration();

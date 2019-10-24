@@ -16,6 +16,10 @@
 
     <b-table :data="songs" class="is-table custom-centered">
       <template slot-scope="props">
+        <b-table-column field="songid" label="ID" width="40" numeric>
+          {{ props.row.songid }}
+        </b-table-column>
+
         <b-table-column field="title" label="Title">
           <!-- prevent the text from being too long on one line -->
           <div style="max-width: 15em; word-wrap: break-word;">

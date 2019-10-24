@@ -1,6 +1,6 @@
 package nl.rug.shamzam.Api;
 
-import nl.rug.shamzam.Model.outsideModels.AddSong;
+import nl.rug.shamzam.Model.outsideModels.SongRequestBody;
 import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Service.ArtistService;
@@ -112,11 +112,11 @@ public class SongApi {
 
 
     @PostMapping(value = "", consumes = json, produces = csv)
-    public String postSongCsv(@RequestBody AddSong addSong, HttpServletResponse response) {
+    public String postSongCsv(@RequestBody SongRequestBody songRequestBody, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_CREATED);
 
-        Song song = addSongToDb(addSong);
+        Song song = addSongToDb(songRequestBody);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "";
@@ -129,15 +129,15 @@ public class SongApi {
 
 
     @PostMapping(value = "", consumes = json)
-    public Song postSongJson(@RequestBody AddSong addSong, HttpServletResponse response) {
+    public Song postSongJson(@RequestBody SongRequestBody songRequestBody, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_CREATED);
 
-        if(addSong.getArtistId() == null) {
+        if(songRequestBody.getArtistId() == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
-        Song song = addSongToDb(addSong);
+        Song song = addSongToDb(songRequestBody);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -151,18 +151,18 @@ public class SongApi {
 
     /**
      * used as a helper function for the methods that need to add a song
-     * @param addSong the song to be added in a 'raw' state, i.e. the way it gets posted
+     * @param songRequestBody the song to be added in a 'raw' state, i.e. the way it gets posted
      * @return the full Song object if it was added successfully, else null
      */
-    private Song addSongToDb(AddSong addSong) {
-        Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
+    private Song addSongToDb(SongRequestBody songRequestBody) {
+        Optional<Artist> a = artistService.getArtistById(songRequestBody.getArtistId());
         if(!a.isPresent()) return null;
-        return songService.addSong(addSong.toSong(a.get()));
+        return songService.addSong(songRequestBody.toSong(a.get()));
     }
 
 
     @PutMapping(value = "/{songId}", consumes = json, produces = csv)
-    public String putSongCsv(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
+    public String putSongCsv(@PathVariable("songId") String songId, @RequestBody SongRequestBody songRequestBody, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, csv);
         response.setStatus(HttpServletResponse.SC_OK);
         int id;
@@ -174,7 +174,7 @@ public class SongApi {
             return "";
         }
 
-        Song song = replaceSongInDb(id, addSong);
+        Song song = replaceSongInDb(id, songRequestBody);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "";
@@ -184,7 +184,7 @@ public class SongApi {
     }
 
     @PutMapping(value = "/{songId}", consumes = json)
-    public Song putSongJson(@PathVariable("songId") String songId, @RequestBody AddSong addSong, HttpServletResponse response) {
+    public Song putSongJson(@PathVariable("songId") String songId, @RequestBody SongRequestBody songRequestBody, HttpServletResponse response) {
         response.setHeader(HttpHeaders.CONTENT_TYPE, json);
         response.setStatus(HttpServletResponse.SC_OK);
         int id;
@@ -196,7 +196,7 @@ public class SongApi {
             return null;
         }
 
-        Song song = replaceSongInDb(id, addSong);
+        Song song = replaceSongInDb(id, songRequestBody);
         if(song == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -244,13 +244,13 @@ public class SongApi {
     /**
      * used as a helper function for methods that need to replace songs in the database
      * @param songId the id of the song to be replaced
-     * @param addSong the new version of the song in a 'raw' format, i.e. the way it is in the request
+     * @param songRequestBody the new version of the song in a 'raw' format, i.e. the way it is in the request
      * @return the full updated song if it was successfully updated, else null
      */
-    private Song replaceSongInDb(int songId, AddSong addSong) {
+    private Song replaceSongInDb(int songId, SongRequestBody songRequestBody) {
         //find the artist in the database by their given id
-        Optional<Artist> a = artistService.getArtistById(addSong.getArtistId());
+        Optional<Artist> a = artistService.getArtistById(songRequestBody.getArtistId());
         if(!a.isPresent()) return null;
-        return songService.replaceSong(songId, addSong.toSong(a.get()));
+        return songService.replaceSong(songId, songRequestBody.toSong(a.get()));
     }
 }
