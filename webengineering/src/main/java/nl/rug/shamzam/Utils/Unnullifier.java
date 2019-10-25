@@ -15,6 +15,6 @@ public class Unnullifier {
     }
 
     public static Float unnullify(Float input) {
-        return input == null ? new Float(0) : input;
+        return input == null ? new Float(0.0) : input;
     }
 }

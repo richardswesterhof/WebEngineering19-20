@@ -1,8 +1,9 @@
 package nl.rug.shamzam.Model.outsideModels;
 
-public class ArtistPost {
+public class ArtistRequestBody {
     private String name;
     private String terms;
+    private float hotness;
 
     public String getName() {
         return name;
@@ -10,11 +11,6 @@ public class ArtistPost {
     public String getTerms() {
         return terms;
     }
+    public float getHotness(){return this.hotness; }
 
-    public ArtistPost(String n, String t){
-        this.name = n;
-        this.terms = t;
-    }
-
-    public ArtistPost(){}
 }

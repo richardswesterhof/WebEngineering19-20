@@ -1,10 +1,12 @@
 package nl.rug.shamzam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import nl.rug.shamzam.Utils.Unnullifier;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Song {
@@ -45,34 +47,22 @@ public class Song {
     private String title;
     private int year;
 
-    public static final String columnNames = "\"title\", \"artistName\", \"duration\", \"year\", \"id\", \"songid\", \"artistid\", \"link\", \"artistLink\"";
+    public static final String columnNames = "\"songid\", \"id\", \"duration\", \"title\", \"hotness\", \"year\", \"artistName\", \"artistid\", \"link\", \"artistLink\"";
 
 
-    public Song(String title, Artist artist, float duration, int year) {
-        id = null;
+    public Song(String title, @NotNull Artist artist, Float duration, Integer year, Float hotness, String ...songid) {
+        if(songid.length == 0 || songid[0] == null || songid[0].equals("null")) {
+            id = "";
+        }
+        else {
+            id = songid[0];
+        }
+
         this.artist = artist;
-        artist_mbtags = 0;
-        artist_mbtags_count = 0;
-        bars_confidence = 0;
-        bars_start = 0;
-        beats_confidence = 0;
-        beats_start = 0;
-        this.duration = duration;
-        end_of_fade_in = 0;
-        hotness = 0;
-        key = 0;
-        key_confidence = 0;
-        loudness = 0;
-        mode = 0;
-        mode_confidence = 0;
-        start_of_fade_out = 0;
-        tatums_confidence = 0;
-        tatums_start = 0;
-        tempo = 0;
-        time_signature = 0;
-        time_signature_confidence = 0;
-        this.title = title;
-        this.year = year;
+        this.duration = Unnullifier.unnullify(duration);
+        this.hotness = Unnullifier.unnullify(hotness);
+        this.title = Unnullifier.unnullify(title);
+        this.year = Unnullifier.unnullify(year);
     }
 
     //default constructor is needed by spring
@@ -100,7 +90,7 @@ public class Song {
     }
 
     public String getLink() {
-        return "/" + songid;
+        return "/api/songs/" + songid;
     }
 
     public int getArtistId() {
@@ -117,35 +107,30 @@ public class Song {
 
     public float getHotness(){return this.hotness;}
 
+    public Artist getArtist() {
+        return artist;
+    }
+
     public String toCsvLine() {
-        return "\"" + title + "\"," +
-               "\"" + getArtistName() + "\"," +
-               "\"" + duration + "\"," +
-               "\"" + year + "\"," +
+        return "\"" + songid + "\"," +
                "\"" + id + "\"," +
-               "\"" + songid + "\"," +
+               "\"" + duration + "\"," +
+               "\"" + title + "\"," +
+               "\"" + hotness + "\"," +
+               "\"" + year + "\"," +
+               "\"" + getArtistName() + "\"," +
                "\"" + getArtistId() + "\"," +
                "\"" + getLink() + "\"," +
                "\"" + getArtistLink() + "\"";
     }
 
-    @Override
-    public String toString() {
-        return title + ", " + duration + ", " + year + ", " + id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
+    //copies all important fields from a given song into this song
     public void update(Song s) {
         this.title = s.getTitle();
         this.duration = s.getDuration();
         this.year = s.getYear();
+        this.artist = s.getArtist();
+        this.hotness = s.getHotness();
     }
 
-    public Artist getArtist() {
-        return artist;
-    }
 }

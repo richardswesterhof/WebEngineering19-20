@@ -4,29 +4,32 @@ import nl.rug.shamzam.Model.Artist;
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Utils.Unnullifier;
 
-/**
- * this class is used for the format of the body of an add song request
- */
-public class AddSong {
+import javax.validation.constraints.NotBlank;
 
+/**
+ * this class is used for the format of the body of an add or post song request
+ */
+public class SongRequestBody {
+
+    @NotBlank(message = "artistid is mandatory")
     private Integer artistid;
+
+
+    private String songid;
     private String title;
     private Float duration;
     private Integer year;
+    private Float hotness;
 
 
     public Song toSong(Artist artist) {
         return new Song(Unnullifier.unnullify(title), artist,
-                Unnullifier.unnullify(duration), Unnullifier.unnullify(year));
-    }
-
-    @Override
-    public String toString() {
-        return title + artistid + duration + year;
+                Unnullifier.unnullify(duration), Unnullifier.unnullify(year),
+                Unnullifier.unnullify(hotness), songid);
     }
 
 
-    public int getArtistId() {
+    public Integer getArtistId() {
         return artistid;
     }
 
@@ -44,5 +47,13 @@ public class AddSong {
 
     public void setArtistid(Integer artistid) {
         this.artistid = artistid;
+    }
+
+    public void setSongid(String songid) {
+        this.songid = songid;
+    }
+
+    public void setHotness(Float hotness) {
+        this.hotness = hotness;
     }
 }

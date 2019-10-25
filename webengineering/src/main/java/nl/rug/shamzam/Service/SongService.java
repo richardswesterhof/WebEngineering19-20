@@ -2,6 +2,7 @@ package nl.rug.shamzam.Service;
 
 import nl.rug.shamzam.Model.Song;
 import nl.rug.shamzam.Repository.SongRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class SongService {
         songRepository = arp;
     }
 
-    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre){
-        return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre);
+    public List<Song> getSongsByParams(String title, Integer aId, String aName, Integer year, String genre, Integer pageSize, Integer pageRank){
+        return songRepository.getSongsByParams(title, intToString(aId), aName, intToString(year),genre, PageRequest.of(pageRank,pageSize));
     }
 
     public Song getSongById(int id) {
@@ -27,8 +28,8 @@ public class SongService {
     public Song addSong(Song song) {
         //Find the song if it exists
         List<Song> queryResults = songRepository.getSongsByParamsFullMatch(
-                song.getTitle(), intToString(song.getArtistId()), song.getArtistName(),
-                intToString(song.getYear()), song.getArtist().getTerms());
+                song.getTitle(), Integer.toString(song.getArtistId()), song.getArtistName(),
+                Integer.toString(song.getYear()), song.getArtist().getTerms(), song.getId(), PageRequest.of(0,1));
         if(!queryResults.isEmpty()) {
             System.out.println("SONG ALREADY EXISTS, RETURNING EXISTING COPY");
             return queryResults.get(0);
@@ -41,6 +42,9 @@ public class SongService {
 
     public Song replaceSong(int songId, Song replacement) {
         Song oldSong = songRepository.getSongById(songId);
+        if(oldSong == null) {
+            return null;
+        }
         oldSong.update(replacement);
         return songRepository.save(oldSong);
     }
@@ -55,5 +59,9 @@ public class SongService {
     private static String intToString(Integer i) {
         if(i == 0) return "";
         return i.toString();
+    }
+
+    public List<Song> getSongsByPopularityYear(Integer year, int limit, int pagerank){
+        return songRepository.getSongsByPopularityYear(year == null ? "" : year.toString(), PageRequest.of(pagerank,limit));
     }
 }

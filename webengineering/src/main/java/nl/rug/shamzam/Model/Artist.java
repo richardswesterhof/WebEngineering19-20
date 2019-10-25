@@ -1,7 +1,6 @@
 package nl.rug.shamzam.Model;
 
-import nl.rug.shamzam.Model.outsideModels.ArtistPost;
-import nl.rug.shamzam.Model.outsideModels.ArtistPut;
+import nl.rug.shamzam.Model.outsideModels.ArtistRequestBody;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +21,7 @@ public class Artist {
     private float similar;
     private String terms;
 
-    public static String columnames = "\"artistid\", \"id\", \"familiarity\", \"hotness\", \"latitude\", \"location\", \"longitude\", \"link\"";
+    public static String columnNames = "\"artistid\", \"name\", \"terms\", \"hotness\", \"link\"\n";
 
     @OneToMany(mappedBy="artist")
     private List<Song> songs;
@@ -34,18 +33,30 @@ public class Artist {
     public int getArtistid() {
         return artistid;
     }
+    public String getLink() {
+        return "/api/artists/" + artistid;
+    }
     public List<Song> getSongs(){return this.songs;}
 
-    public Artist(ArtistPost ap){
-        this.name = ap.getName();
-        this.terms = ap.getTerms();
+    public Artist(ArtistRequestBody arb){
+        this.name = arb.getName();
+        this.terms = arb.getTerms();
+        this.hotness = arb.getHotness();
     }
 
-    public void update(ArtistPut artistPut){
-        this.name = artistPut.getName();
-        this.hotness = artistPut.getHotness();
-        this.terms = artistPut.getTerms();
+    public void update(ArtistRequestBody arb){
+        this.name = arb.getName();
+        this.hotness = arb.getHotness();
+        this.terms = arb.getTerms();
     }
 
     public Artist(){}
+
+    public String toCsvLine(){
+        return  "\"" + artistid + "\"," +
+                "\"" + name + "\"," +
+                "\"" + terms + "\"," +
+                "\"" + hotness + "\"," +
+                "\"" + getLink() + "\"";
+    }
 }
